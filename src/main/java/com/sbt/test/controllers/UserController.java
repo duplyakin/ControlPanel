@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping("/getUser/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public User get(@PathVariable("id") int id) {
-        return User.builder().name("123").build();
+        return User.builder().username("123").build();
     }
 
     @PutMapping("/addUser")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public User add(@RequestBody User user) {
         return user;
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public User delete(@PathVariable("id") int id) {
-        return User.builder().name("123").build();
+        return User.builder().username("123").build();
     }
 
 
