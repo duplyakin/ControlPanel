@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,13 +32,13 @@ public class UserService implements UserDetailsService {
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .enabled(true)
-                .authorities(Arrays.asList(Role.USER))
+                .authorities(Collections.singleton(Role.USER))
                 .build());
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repo.getByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User "+username+" is missing"));
+        return repo.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " is missing"));
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -26,7 +26,7 @@ public class User implements UserDetails, Serializable {
     private long id;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
-    private List<Role> authorities;
+    private Set<Role> authorities;
 
     private String username;
 
