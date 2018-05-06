@@ -44,11 +44,16 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete/{username}")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<User> delete(@PathVariable("username") String username) {
-        repo.deleteByUsername(username);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<User> delete(@RequestAttribute("username") String username) {
+        try {
+            repo.deleteByUsername(username);
+            return ResponseEntity.ok(null);
+        } catch (RuntimeException e) {
+            log.error("Something really bad happened on addUser operation:", e);
+            return ResponseEntity.status(412).build();
+        }
     }
 
 
