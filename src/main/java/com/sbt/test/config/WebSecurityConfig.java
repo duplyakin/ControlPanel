@@ -9,41 +9,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("password")
-//                        .roles("ADMIN")
-//                        .build();
-//
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("pass")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(admin, user);
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureAutentication(AuthenticationManagerBuilder auth) throws Exception {
-//    auth.inMemoryAuthentication().withUser("user").password("pass").roles("USER");
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 }

@@ -1,20 +1,36 @@
 package com.sbt.test.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Builder
-public class User implements UserDetails {
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users",
+        indexes = {@Index(name = "userName", columnList = "username")},
+        uniqueConstraints = {@UniqueConstraint(name = "uniqueUsername", columnNames = {"username"})}
+)
+public class User implements UserDetails, Serializable {
 
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     private List<Role> authorities;
 
-    private String password;
-
     private String username;
+
+    private String password;
 
     private boolean accountNonExpired;
 
