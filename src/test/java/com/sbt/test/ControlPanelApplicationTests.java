@@ -1,4 +1,4 @@
-package com.sbt.test.ControlPanel;
+package com.sbt.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
