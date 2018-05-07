@@ -4,6 +4,7 @@ import com.sbt.test.entities.User;
 import com.sbt.test.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,10 @@ public class UserController {
         try {
             return repo.getByUsername(username)
                     .map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.status(404).build());
+                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         } catch (RuntimeException e) {
             log.error("Something really bad happened on getUser operation:", e);
-            return ResponseEntity.status(412).build();
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
     }
 
@@ -40,7 +41,7 @@ public class UserController {
             return ResponseEntity.ok(repo.saveAndFlush(user));
         } catch (RuntimeException e) {
             log.error("Something really bad happened on addUser operation:", e);
-            return ResponseEntity.status(412).build();
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
     }
 
@@ -49,10 +50,10 @@ public class UserController {
     public ResponseEntity<User> delete(@RequestAttribute("username") String username) {
         try {
             repo.deleteByUsername(username);
-            return ResponseEntity.ok(null);
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (RuntimeException e) {
             log.error("Something really bad happened on addUser operation:", e);
-            return ResponseEntity.status(412).build();
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
     }
 
