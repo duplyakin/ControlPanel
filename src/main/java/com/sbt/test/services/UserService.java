@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        repo.save(User.builder()
+        repo.saveAndFlush(User.builder()
                 .username("user")
                 .password(new BCryptPasswordEncoder().encode("pass"))
                 .accountNonExpired(true)
