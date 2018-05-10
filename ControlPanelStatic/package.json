@@ -1,0 +1,39 @@
+{
+  "name": "control-panel-static",
+  "main": "./src/main/js/index.js",
+  "version": "1.0.0",
+  "description": "React-JS static for ControlPanel project",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "rest",
+    "hateoas",
+    "spring",
+    "data",
+    "react"
+  ],
+  "author": "Gleb Zaborovskiy",
+  "homepage": "",
+  "dependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "webpack": "^4.8.1"
+  },
+  "scripts": {
+    "watch": "webpack --watch -d",
+    "start:dev": "webpack-dev-server --mode development --progress",
+    "start": "webpack-dev-server --mode production --progress",
+    "webpack-build": "webpack --mode production --progress"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
