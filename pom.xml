@@ -6,10 +6,6 @@
 	<groupId>com.sbt.test</groupId>
 	<artifactId>ControlPanel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<modules>
-		<module>ControlPanelStatic</module>
-		<module>ControlPanelDynamic</module>
-	</modules>
 	<packaging>pom</packaging>
 
 	<name>ControlPanel</name>
@@ -27,5 +23,30 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>build-all</id>
+			<modules>
+				<module>ControlPanelStatic</module>
+				<module>ControlPanelDynamic</module>
+			</modules>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>client</id>
+			<modules>
+				<module>ControlPanelStatic</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>server</id>
+			<modules>
+				<module>ControlPanelDynamic</module>
+			</modules>
+		</profile>
+	</profiles>
 
 </project>
