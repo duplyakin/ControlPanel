@@ -12,7 +12,7 @@ module.exports = {
     ],
     output: {
         filename: 'main.js',
-        path: __dirname + "/src/main/resources/static/built",
+        path: __dirname + "/src/main/resources/js",
     },
     module: {
         rules: [
@@ -29,7 +29,7 @@ module.exports = {
         ],
     },
     devServer: {
-        contentBase: __dirname + "/src/main/resources/",
+        contentBase: __dirname + "/src/main/resources/templates/",
         inline: true,
         port: 9090
     },
