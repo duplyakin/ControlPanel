@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.sbt.test</groupId>
-	<artifactId>ControlPanel</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.sbt.test</groupId>
+    <artifactId>ControlPanel</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>ControlPanel</name>
-	<description>Demo project with Spring Boot, Spring Secutiry &amp; React</description>
+    <name>ControlPanel</name>
+    <description>Demo project with Spring Boot, Spring Secutiry &amp; React</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
 
-	<profiles>
-		<profile>
-			<id>build-all</id>
-			<modules>
-				<module>ControlPanelStatic</module>
-				<module>ControlPanelDynamic</module>
-			</modules>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>client</id>
-			<modules>
-				<module>ControlPanelStatic</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>server</id>
-			<modules>
-				<module>ControlPanelDynamic</module>
-			</modules>
-		</profile>
-	</profiles>
-
+    <profiles>
+        <profile>
+            <id>build-all</id>
+            <modules>
+                <module>ControlPanelStatic</module>
+                <module>ControlPanelDynamic</module>
+            </modules>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dynamic</id>
+            <modules>
+                <module>ControlPanelDynamic</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>static</id>
+            <modules>
+                <module>ControlPanelStatic</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
