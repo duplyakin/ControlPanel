@@ -44,22 +44,22 @@ public class UserRepositorySmokeTest {
     @Test
     @DirtiesContext
     public void putsClientSuccessfully() {
-        assertEquals("User has changed", MOCK_USER_1, repo.saveAndFlush(MOCK_USER_1));
+        assertEquals("User has changed", MOCK_USER_1, repo.update(MOCK_USER_1));
     }
 
     @Test
     @DirtiesContext
     public void putsTwoClientSuccessfully_differentUsername() {
-        User savedUser1 = repo.saveAndFlush(MOCK_USER_1);
-        User savedUser2 = repo.saveAndFlush(MOCK_USER_2);
+        User savedUser1 = repo.update(MOCK_USER_1);
+        User savedUser2 = repo.update(MOCK_USER_2);
         assertTrue("Ids are equal: save is corrupted", savedUser1.getId() != savedUser2.getId());
     }
 
     @Test
     @DirtiesContext
     public void putIsIdempotent() {
-        User savedUser1 = repo.saveAndFlush(MOCK_USER_1);
-        User savedUser2 = repo.saveAndFlush(MOCK_USER_1);
+        User savedUser1 = repo.update(MOCK_USER_1);
+        User savedUser2 = repo.update(MOCK_USER_1);
         assertEquals("Operation is no more idempotent", savedUser1, savedUser2);
         assertEquals("Ids are different: usernames in db are not unique!", savedUser1.getId(), savedUser2.getId());
     }
@@ -67,15 +67,15 @@ public class UserRepositorySmokeTest {
     @Test(expected = DataIntegrityViolationException.class)
     @DirtiesContext
     public void failsToSaveTwoUsers_sameUsernames() {
-        User savedUser1 = repo.saveAndFlush(MOCK_USER_1);
+        User savedUser1 = repo.update(MOCK_USER_1);
         User userWithSameUsername = User.builder().username(MOCK_USER_1.getUsername()).build();
         assertNotEquals("Equals contract violated", userWithSameUsername, MOCK_USER_1);
-        User savedUser2 = repo.saveAndFlush(userWithSameUsername);
+        User savedUser2 = repo.update(userWithSameUsername);
     }
 
     @Test
     public void findsAClient_ifItIsPresent() {
-        repo.saveAndFlush(MOCK_USER_1);
+        repo.update(MOCK_USER_1);
         assertTrue("Fails to find existing user", repo.getByUsername(MOCK_USER_1.getUsername()).isPresent());
     }
 

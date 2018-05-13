@@ -67,18 +67,18 @@ public class UserControllerLogicTest {
 
     @Test
     public void returnsSuccessOnAdd_ifAddSucceed() {
-        when(repo.saveAndFlush(any(User.class))).thenReturn(MOCK_USER);
+        when(repo.update(any(User.class))).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.add(MOCK_USER);
-        verify(repo).saveAndFlush(any(User.class));
+        verify(repo).update(any(User.class));
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
         assertEquals("User has changed", MOCK_USER, response.getBody());
     }
 
     @Test
     public void returnsFailOnAdd_ifAddThrowsException() {
-        when(repo.saveAndFlush(any(User.class))).thenThrow(new RuntimeException(MESSAGE));
+        when(repo.update(any(User.class))).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.add(MOCK_USER);
-        verify(repo).saveAndFlush(any(User.class));
+        verify(repo).update(any(User.class));
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("User has changed", response.getBody());
     }

@@ -55,7 +55,7 @@ public class UserControllerSecurityTest {
     @Before
     public void initMocks() {
         when(repository.getByUsername(any(String.class))).thenReturn(Optional.of(STUB_USER));
-        when(repository.saveAndFlush(any(User.class))).thenReturn(STUB_USER);
+        when(repository.update(any(User.class))).thenReturn(STUB_USER);
         when(service.loadUserByUsername(any(String.class))).thenReturn(STUB_USER);
     }
 

@@ -14,6 +14,6 @@ public interface UserRepository {
 
     void deleteByUsername(String username);
 
-    User saveAndFlush(User user);
+    User update(User user);
 
 }

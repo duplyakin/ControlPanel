@@ -32,7 +32,7 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
     }
 
     @Override
-    public User saveAndFlush(User user) {
+    public User update(User user) {
         return repo.saveAndFlush(user);
     }
 }
