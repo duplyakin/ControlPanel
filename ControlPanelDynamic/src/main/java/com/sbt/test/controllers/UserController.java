@@ -58,8 +58,7 @@ public class UserController extends AbstractRestController {
                     }
                     User user = userOpt.get();
                     user.setRoles(usernameAndRoles.getRoles());
-                    repo.update(user);
-                    return ok();
+                    return ok(repo.update(user));
                 }
         );
     }
@@ -74,8 +73,7 @@ public class UserController extends AbstractRestController {
             }
             User user = userOpt.get();
             user.setPrivileges(usernameAndPrivileges.getRoles());
-            repo.update(user);
-            return ok();
+            return ok(repo.update(user));
         });
     }
 
