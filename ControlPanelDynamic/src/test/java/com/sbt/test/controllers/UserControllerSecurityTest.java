@@ -1,6 +1,7 @@
 package com.sbt.test.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbt.test.dto.NameWithAuthorities;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
@@ -8,6 +9,7 @@ import com.sbt.test.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -73,7 +75,7 @@ public class UserControllerSecurityTest {
     @Test
     public void shouldFailOnGetUser_IfUnauthorized() throws Exception {
         mockMvc.perform(get("/users/get/test"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -98,7 +100,7 @@ public class UserControllerSecurityTest {
                         .characterEncoding("utf-8")
                         .content(new ObjectMapper().writeValueAsString(STUB_USER))
         )
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -120,7 +122,61 @@ public class UserControllerSecurityTest {
                         .with(csrf().asHeader())
                         .requestAttr("username", "user")
         )
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void shouldSuccessfullySetRoles_IfAuthorized() throws Exception {
+        mockMvc.perform(
+                post("/users/setRoles")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Role>(STUB_USER.getUsername(),
+                                Sets.newSet(Role.ADMIN))))
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldFailOnSetRoles_IfUnauthorized() throws Exception {
+        mockMvc.perform(
+                post("/users/setRoles")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Role>(STUB_USER.getUsername(),
+                                Sets.newSet(Role.ADMIN))))
+        )
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void shouldSuccessfullySetPrivileges_IfAuthorized() throws Exception {
+        mockMvc.perform(
+                post("/users/setPrivileges")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Privilege>(STUB_USER.getUsername(),
+                                Sets.newSet(Privilege.WRITE))))
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldFailOnSetPrivileges_IfUnauthorized() throws Exception {
+        mockMvc.perform(
+                post("/users/setPrivileges")
+                        .with(csrf().asHeader())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Privilege>(STUB_USER.getUsername(),
+                                Sets.newSet(Privilege.WRITE))))
+        )
+                .andExpect(status().isUnauthorized());
     }
 
 }
