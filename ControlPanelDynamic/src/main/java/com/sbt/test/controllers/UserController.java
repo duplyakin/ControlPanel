@@ -1,5 +1,6 @@
 package com.sbt.test.controllers;
 
+import com.sbt.test.dto.NameWithAuthorities;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
@@ -10,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -50,32 +50,30 @@ public class UserController extends AbstractRestController {
 
     @PostMapping("/setRoles")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> setRoles(@RequestParam("username") String username,
-                                         @RequestParam("roles") Set<Role> roles) {
+    public ResponseEntity<User> setRoles(@RequestBody NameWithAuthorities<Role> usernameAndRoles) {
         return process(() -> {
-                    Optional<User> userOpt = repo.getByUsername(username);
+                    Optional<User> userOpt = repo.getByUsername(usernameAndRoles.getName());
                     if (!userOpt.isPresent()) {
                         return notFound();
                     }
                     User user = userOpt.get();
-                    user.setRoles(roles);
+                    user.setRoles(usernameAndRoles.getRoles());
                     repo.update(user);
                     return ok();
                 }
         );
     }
 
-    @PostMapping("/setAuthorities")
+    @PostMapping("/setPrivileges")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> setPrivileges(@RequestParam("username") String username,
-                                              @RequestParam("privileges") Set<Privilege> privileges) {
+    public ResponseEntity<User> setPrivileges(@RequestBody NameWithAuthorities<Privilege> usernameAndPrivileges) {
         return process(() -> {
-            Optional<User> userOpt = repo.getByUsername(username);
+            Optional<User> userOpt = repo.getByUsername(usernameAndPrivileges.getName());
             if (!userOpt.isPresent()) {
                 return notFound();
             }
             User user = userOpt.get();
-            user.setPrivileges(privileges);
+            user.setPrivileges(usernameAndPrivileges.getRoles());
             repo.update(user);
             return ok();
         });

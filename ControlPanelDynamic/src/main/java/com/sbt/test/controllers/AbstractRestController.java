@@ -23,12 +23,16 @@ public class AbstractRestController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    static<T> ResponseEntity<T> preconditionFailed() {
+        return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
+    }
+
     protected ResponseEntity<User> process(Supplier<ResponseEntity<User>> responseSupplier){
         try {
             return responseSupplier.get();
         } catch (RuntimeException e) {
             log.error("Something really bad happened on getUser operation:", e);
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
+            return preconditionFailed();
         }
     }
 
