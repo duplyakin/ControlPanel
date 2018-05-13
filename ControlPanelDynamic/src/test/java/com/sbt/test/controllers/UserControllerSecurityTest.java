@@ -1,6 +1,7 @@
 package com.sbt.test.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
 import com.sbt.test.repository.UserRepository;
@@ -38,7 +39,8 @@ public class UserControllerSecurityTest {
             .credentialsNonExpired(true)
             .username("test user")
             .password(PASS)
-            .authorities(Collections.singleton(Role.USER))
+            .roles(Collections.singleton(Role.USER))
+            .privileges(Collections.singleton(Privilege.READ))
             .build();
 
     @Autowired
