@@ -28,9 +28,14 @@ module.exports = {
             }
         ],
     },
+    devtool: 'inline-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, "build"),
-        inline: true,
-        port: 9090
-    },
+        port: 9090,
+        publicPath: '/public/',
+        proxy: {
+            secure: true,
+            target: "http://localhost:8090",
+        }
+    }
 };
