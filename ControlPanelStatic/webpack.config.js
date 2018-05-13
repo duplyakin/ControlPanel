@@ -11,8 +11,8 @@ module.exports = {
         })
     ],
     output: {
+        path: path.resolve(__dirname, "build/public"),
         filename: 'main.js',
-        path: __dirname + "/src/main/resources/public",
     },
     module: {
         rules: [
@@ -29,7 +29,7 @@ module.exports = {
         ],
     },
     devServer: {
-        contentBase: __dirname + "/src/main/resources/templates/",
+        contentBase: path.resolve(__dirname, "build"),
         inline: true,
         port: 9090
     },

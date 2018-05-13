@@ -37,6 +37,43 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>build/public</directory>
+                                    <targetPath>public</targetPath>
+                                    <includes>
+                                        <include>*.js</include>
+                                        <include>*.jsx</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>build</directory>
+                                    <targetPath>templates</targetPath>
+                                    <includes>
+                                        <include>*.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
