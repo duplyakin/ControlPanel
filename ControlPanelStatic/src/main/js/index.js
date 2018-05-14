@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {MainForm} from "./components/MainForm";
 
 export default ReactDOM.render(
-<div>HAYYYYYYYYYYYYYYYY</div>,
+    <MainForm/>,
     document.getElementById('react')
 );

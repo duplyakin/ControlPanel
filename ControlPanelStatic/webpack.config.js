@@ -33,6 +33,7 @@ module.exports = {
         contentBase: path.resolve(__dirname, "build"),
         port: 9090,
         publicPath: '/public/',
+        historyApiFallback: true,
         proxy: {
             secure: true,
             target: "http://localhost:8090",
