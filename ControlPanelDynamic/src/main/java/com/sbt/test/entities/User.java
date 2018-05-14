@@ -11,11 +11,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(exclude = {"id", "password"})
+@ToString(exclude = {"password"})
 @Entity
 @Table(name = "users",
         indexes = {@Index(name = "userName", columnList = "username")},
