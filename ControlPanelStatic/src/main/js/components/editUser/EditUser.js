@@ -8,24 +8,24 @@ export class EditUser extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: 'empty',
-        }
+            user: {},
+        };
+        this.getUser = this.getUser.bind(this);
     }
 
     componentDidMount() {
+        this.getUser()
+    }
+
+    getUser() {
         fetch('http://localhost:8090/users/get/user', {
             method: "GET",
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-            mode: "no-cors",
+            credentials:"include",
             redirect: "follow",
-        }).then(response => {
-            console.log(response);
-            this.setState({user: response})});
+            mode: "cors"
+        }).then(response => response.json())
+            .then(responseJson => {
+                this.setState({user: responseJson})});
     }
 
     render() {
