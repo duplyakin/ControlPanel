@@ -27,7 +27,7 @@ public class AbstractRestController {
         return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
     }
 
-    protected ResponseEntity<User> process(Supplier<ResponseEntity<User>> responseSupplier){
+    protected<T> ResponseEntity<T> process(Supplier<ResponseEntity<T>> responseSupplier){
         try {
             return responseSupplier.get();
         } catch (RuntimeException e) {
