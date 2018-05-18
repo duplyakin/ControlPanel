@@ -1,18 +1,15 @@
 import React from 'react';
-import app from './mainReducer'
+import {mainReducer} from './mainReducer'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {combineReducers, createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 import {AdminConsole} from "./adminConsole/AdminConsole";
-import {CreateUser} from "./createUser/CreateUser";
+import CreateUser from "./createUser/CreateUser";
 import {EditUser} from "./editUser/EditUser";
 
-const mainReducer = combineReducers({
-    main: app
-});
-
-const store = createStore(mainReducer);
+const store = createStore(mainReducer, applyMiddleware(thunk));
 
 export const MainForm = (props) =>
     <Provider store={store}>
@@ -32,7 +29,6 @@ export const MainForm = (props) =>
                         </li>
                     </ul>
                     <Route path="/create" component={CreateUser}/>
-                    {/*<Route path="/edit" component={EditUser}/>*/}
                     <Route path="/edit/:username?" component={EditUser}/>
                 </div>
             </Router>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {MainForm} from "./components/MainForm";
+import {MainForm} from "./forms/MainForm";
 
 export default ReactDOM.render(
     <MainForm/>,
