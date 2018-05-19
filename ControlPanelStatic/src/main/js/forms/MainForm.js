@@ -6,8 +6,8 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
 import {AdminConsole} from "./adminConsole/AdminConsole";
-import CreateUser from "./createUser/CreateUser";
-import {EditUser} from "./editUser/EditUser";
+import {CreateUser} from "../forms/createUser/CreateUser";
+import {EditUser} from "../forms/editUser/EditUser";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 
