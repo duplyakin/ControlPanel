@@ -1,5 +1,5 @@
 import React from 'react';
-import {mainReducer} from './mainReducer'
+import {mainReducer} from './mainReducer';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';

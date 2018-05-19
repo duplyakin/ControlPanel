@@ -52,6 +52,6 @@ export const executeRequest = ({
         : constructModifyingRequest({method, body});
     fetch(`http://localhost:8090/${endpoint}`, request)
         .then(response => response.json())
-        .then(responseJson => postprocess(responseJson)
-        )
+        .then(responseJson => postprocess(responseJson))
+        .catch(e => console.log(e))
 };

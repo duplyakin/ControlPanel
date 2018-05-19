@@ -58,8 +58,8 @@ class User extends React.Component {
         const {onSubmit} = this.props;
         const {user} = this.state;
         const {username, password, roles, privileges, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled} = user;
-        return <Grid container>
-            <Grid container>
+        return <div style={{marginLeft:"10px"}}>
+            <Grid container spacing = {16}>
                 <Grid item xs={2}>
                     <TextInput label={'Имя пользователя'}
                                value={username}
@@ -117,7 +117,7 @@ class User extends React.Component {
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </div>
     }
 }
 

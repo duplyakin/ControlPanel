@@ -43,9 +43,11 @@ export class EditUser extends React.Component {
         const {user, name} = this.state;
         return <div>
             <Well>Hi! It's user edit form!</Well>
-            <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
-            <Button onClick={this.getUser}>Get user</Button>
-            {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
+            <div style={{marginLeft: "10px"}}>
+                < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
+                <Button onClick={this.getUser}>Get user</Button>
+                {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
+            </div>
         </div>
     }
 

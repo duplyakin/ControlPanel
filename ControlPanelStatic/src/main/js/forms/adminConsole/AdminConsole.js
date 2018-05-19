@@ -4,5 +4,5 @@ import PermissionsCache from '../../components/permissions/PermissionCache'
 export const AdminConsole = (props) =>
     <div>
         <PermissionsCache/>
-        <Well>Hi! It's control panel!</Well>;
+        <Well>Hi! It's control panel!</Well>
     </div>;
