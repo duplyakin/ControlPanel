@@ -15,10 +15,10 @@ const getUserOrEmpty = (user) => {
             password: "",
             roles: [],
             privileges: [],
-            accountNonExpired: false,
-            accountNonLocked: false,
-            credentialsNonExpired: false,
-            enabled: false
+            accountNonExpired: true,
+            accountNonLocked: true,
+            credentialsNonExpired: true,
+            enabled: true
         }
         : user
 };
@@ -56,7 +56,8 @@ class User extends React.Component {
 
     render() {
         const {onSubmit} = this.props;
-        const {username, password, roles, privileges, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled} = this.state.user;
+        const {user} = this.state;
+        const {username, password, roles, privileges, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled} = user;
         return <Grid container>
             <Grid container>
                 <Grid item xs={2}>
@@ -112,7 +113,7 @@ class User extends React.Component {
                 </Grid>
                 <Grid container>
                     <Grid item xs={2}>
-                        <Button onClick={onSubmit}>Create user</Button>
+                        <Button onClick={() => onSubmit(user)}>Create user</Button>
                     </Grid>
                 </Grid>
             </Grid>
