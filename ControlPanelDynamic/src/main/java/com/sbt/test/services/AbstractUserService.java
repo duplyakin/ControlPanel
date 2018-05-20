@@ -1,6 +1,7 @@
 package com.sbt.test.services;
 
 import com.sbt.test.entities.User;
+import com.sbt.test.services.exceptions.UserNotFoundException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,8 @@ import java.util.function.Supplier;
 public class AbstractUserService {
 
     private final PasswordEncoder encoder;
+
+    private String NO_ENTITY_MESSAGE = "No users had been found";
 
     public AbstractUserService(PasswordEncoder encoder) {
         this.encoder = encoder;
@@ -33,8 +36,9 @@ public class AbstractUserService {
     }
 
     <T> T supplyUserOrThrow(Supplier<T> userSupplier, Function<? super PersistenceException, ? extends UserServiceException> exceptionSupplier) {
+        T entity = null;
         try {
-            return userSupplier.get();
+            entity = userSupplier.get();
         } catch (PersistenceException pex) {
             log.info("Persistence exception: " + pex.getMessage());
             throw exceptionSupplier.apply(pex);
@@ -42,6 +46,10 @@ public class AbstractUserService {
             log.info("Runtime exception: " + rex.getMessage());
             throw new UserServiceException(rex);
         }
+        if (entity == null) {
+            throw new UserNotFoundException(NO_ENTITY_MESSAGE);
+        }
+        return entity;
     }
 
     <T> T supplyUser(Supplier<T> userSupplier) {
