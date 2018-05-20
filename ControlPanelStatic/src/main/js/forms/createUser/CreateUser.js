@@ -21,7 +21,7 @@ export class CreateUser extends React.Component {
     render() {
         return <div>
             <Well>Hi! It's user create form!</Well>
-            <User onSubmit={this.addUser}/>
+            <User onSubmit={this.addUser} mode="CREATE"/>
         </div>
     }
 

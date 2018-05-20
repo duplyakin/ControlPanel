@@ -55,22 +55,27 @@ class User extends React.Component {
 
 
     render() {
-        const {onSubmit} = this.props;
+        const {onSubmit, mode} = this.props;
         const {user} = this.state;
         const {username, password, roles, privileges, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled} = user;
-        return <div style={{marginLeft:"10px"}}>
-            <Grid container spacing = {16}>
+        return <div style={{marginLeft: "10px"}}>
+            <Grid container spacing={16}>
                 <Grid item xs={2}>
                     <TextInput label={'Имя пользователя'}
                                value={username}
-                               onChange={this.handleInputChange.bind(this, 'username')}/>
+                               onChange={ mode === "CREATE"
+                                  ? this.handleInputChange.bind(this, 'username')
+                                  : undefined}
+
+
+                    />
                 </Grid>
-                <Grid item xs={2}>
+                {mode === "CREATE" && <Grid item xs={2}>
                     <TextInput label={'Пароль'}
                                type={"password"}
                                value={password}
                                onChange={this.handleInputChange.bind(this, 'password')}/>
-                </Grid>
+                </Grid>}
             </Grid>
             <Grid container>
                 <Grid item xs={2}>
@@ -113,7 +118,10 @@ class User extends React.Component {
                 </Grid>
                 <Grid container>
                     <Grid item xs={2}>
-                        <Button onClick={() => onSubmit(user)}>Create user</Button>
+                        <Button onClick={() => onSubmit(user)}>{mode === "CREATE"
+                            ? "Create user"
+                            : "Update user"
+                        }</Button>
                     </Grid>
                 </Grid>
             </Grid>
@@ -126,6 +134,7 @@ User.propTypes = {
     onSubmit: PropTypes.func,
     allPrivileges: PropTypes.array,
     allRoles: PropTypes.array,
+    mode: PropTypes.string.isRequired,
 };
 
 User.defaultProps = {
@@ -133,7 +142,8 @@ User.defaultProps = {
     allPrivileges: [],
     allRoles: [],
     onSubmit: (e) => {
-    }
+    },
+    mode: "EDIT",
 };
 
 const mapStateToProps = (store) => {

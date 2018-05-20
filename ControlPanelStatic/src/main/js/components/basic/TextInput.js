@@ -10,12 +10,14 @@ export const TextInput = (props) => {
 
     return <FormControl className={styles.formControl}>
         <InputLabel htmlFor="select-multiple-checkbox">{label}</InputLabel>
-        <Input value={value} onChange={onChange}/>
+        <Input value={value}
+               disabled = {onChange === undefined}
+               onChange={onChange}/>
     </FormControl>
 };
 
 TextInput.propTypes = {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     label: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
@@ -23,6 +25,5 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
     value: "",
     label: "",
-    onChange: (e) => {
-    }
+    // onChange: (e) => {};
 };
