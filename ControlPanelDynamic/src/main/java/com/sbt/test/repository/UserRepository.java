@@ -10,10 +10,12 @@ import java.util.Optional;
  */
 public interface UserRepository {
 
-    Optional<User> getByUsername(String userName);
+    User get(String userName);
 
-    void deleteByUsername(String username);
+    User add(User user);
 
     User update(User user);
+
+    void delete(String username);
 
 }

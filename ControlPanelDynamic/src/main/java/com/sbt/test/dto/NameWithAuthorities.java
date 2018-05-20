@@ -8,5 +8,5 @@ import java.util.Set;
 @Data
 public class NameWithAuthorities<T extends GrantedAuthority> {
     private final String name;
-    private final Set<T> roles;
+    private final Set<T> authorities;
 }

@@ -19,7 +19,7 @@ public class RolesControler extends AbstractRestController {
     @GetMapping("/getAll")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Role>> getAllRoles() {
-        return process(() -> ok(Arrays.asList(Role.values())));
+        return process(() -> Arrays.asList(Role.values()));
     }
 
 }

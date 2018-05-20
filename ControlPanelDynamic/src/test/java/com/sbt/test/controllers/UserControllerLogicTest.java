@@ -4,7 +4,9 @@ import com.sbt.test.dto.NameWithAuthorities;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
-import com.sbt.test.repository.UserRepository;
+import com.sbt.test.services.UserService;
+import com.sbt.test.services.exceptions.UserNotFoundException;
+import com.sbt.test.services.exceptions.UserServiceException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -26,8 +27,8 @@ public class UserControllerLogicTest {
     private static User MOCK_USER;
     private static NameWithAuthorities<Role> NAME_WITH_ROLES;
     private static NameWithAuthorities<Privilege> NAME_WITH_PRIVILEGES;
-    private UserRepository repo = mock(UserRepository.class);
-    private UserController controller = new UserController(repo);
+    private UserService service = mock(UserService.class);
+    private UserController controller = new UserController(service);
 
     private static User createMockUser() {
         return User.builder()
@@ -53,148 +54,180 @@ public class UserControllerLogicTest {
                 Collections.singleton(Privilege.WRITE));
     }
 
+    // tests on get
     @Test
-    public void returnsSuccessOnGet_ifRepositoryReturnsClient() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.of(MOCK_USER));
+    public void returnsSuccessOnGet_ifServiceReturnsClient() {
+        when(service.get(any(String.class))).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.get(MOCK_USER.getUsername());
-        verify(repo).getByUsername(any(String.class));
+        verify(service).get(any(String.class));
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
         assertEquals("User has changed", MOCK_USER, response.getBody());
     }
 
     @Test
-    public void returnsFailOnGet_ifRepositoryThrowsException() {
-        when(repo.getByUsername(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnGet_ifServiceThrowsRuntimeException() {
+        when(service.get(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.get(MOCK_USER.getUsername());
-        verify(repo).getByUsername(any(String.class));
+        verify(service).get(any(String.class));
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
-    public void returnsFailOnGet_ifRepositoryFoundNothing() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.empty());
+    public void returnsFailOnGet_ifServiceThrowsUserServiceException() {
+        when(service.get(any(String.class))).thenThrow(new UserServiceException(MESSAGE));
         ResponseEntity<User> response = controller.get(MOCK_USER.getUsername());
-        verify(repo).getByUsername(any(String.class));
+        verify(service).get(any(String.class));
+        assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertNull("Body is not empty", response.getBody());
+    }
+
+    @Test
+    public void returnsFailOnGet_ifServiceFoundNothing() {
+        // emulate "found nothing" case
+        when(service.get(any(String.class))).thenThrow(new UserNotFoundException(MESSAGE));
+        ResponseEntity<User> response = controller.get(MOCK_USER.getUsername());
+        verify(service).get(any(String.class));
         assertEquals("Status is invalid", HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
+    // tests on add
     @Test
-    public void returnsSuccessOnAdd_ifAddSucceed() {
-        when(repo.update(any(User.class))).thenReturn(MOCK_USER);
+    public void returnsSuccessOnAdd_ifSucceed() {
+        when(service.add(any(User.class))).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.add(MOCK_USER);
-        verify(repo).update(any(User.class));
+        verify(service).add(any(User.class));
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
         assertEquals("User has changed", MOCK_USER, response.getBody());
     }
 
     @Test
-    public void returnsFailOnAdd_ifAddThrowsException() {
-        when(repo.update(any(User.class))).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnAdd_ifAddThrowsUserServiceException() {
+        when(service.add(any(User.class))).thenThrow(new UserServiceException(MESSAGE));
         ResponseEntity<User> response = controller.add(MOCK_USER);
-        verify(repo).update(any(User.class));
+        verify(service).add(any(User.class));
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
+    @Test
+    public void returnsFailOnAdd_ifAddThrowsRuntimeException() {
+        when(service.add(any(User.class))).thenThrow(new RuntimeException(MESSAGE));
+        ResponseEntity<User> response = controller.add(MOCK_USER);
+        verify(service).add(any(User.class));
+        assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertNull("Body is not empty", response.getBody());
+    }
+
+    // tests on update
+    @Test
+    public void returnsSuccessOnUpdate_ifSucceed() {
+        when(service.update(any(User.class))).thenReturn(MOCK_USER);
+        ResponseEntity<User> response = controller.update(MOCK_USER);
+        verify(service).update(any(User.class));
+        assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
+        assertEquals("User has changed", MOCK_USER, response.getBody());
+    }
+
+    @Test
+    public void returnsFailOnUpdate_ifUpdateThrowsUserServiceException() {
+        when(service.update(any(User.class))).thenThrow(new UserServiceException(MESSAGE));
+        ResponseEntity<User> response = controller.update(MOCK_USER);
+        verify(service).update(any(User.class));
+        assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertNull("Body is not empty", response.getBody());
+    }
+
+    @Test
+    public void returnsFailOnAdd_ifUpdateThrowsRuntimeException() {
+        when(service.update(any(User.class))).thenThrow(new RuntimeException(MESSAGE));
+        ResponseEntity<User> response = controller.update(MOCK_USER);
+        verify(service).update(any(User.class));
+        assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertNull("Body is not empty", response.getBody());
+    }
+
+    // tests on delete
     @Test
     public void returnsSuccessOnDelete_ifDeleteByUsernameSucceed() {
         ResponseEntity<User> response = controller.delete(MOCK_USER.getUsername());
-        verify(repo).deleteByUsername(any(String.class));
+        verify(service).delete(any(String.class));
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
-    public void returnsFailOnDelete_ifDeleteByUsernameThrowsException() {
-        doThrow(new RuntimeException(MESSAGE)).when(repo).deleteByUsername(any(String.class));
+    public void returnsFailOnDelete_ifDeleteByUsernameThrowsRuntimeException() {
+        when(service.delete(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.delete(MOCK_USER.getUsername());
-        verify(repo).deleteByUsername(any(String.class));
+        verify(service).delete(any(String.class));
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
-    public void returnsNotFoundOnSetRoles_ifCantFindUser() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.empty());
-        ResponseEntity<User> response = controller.setRoles(NAME_WITH_ROLES);
-        verify(repo).getByUsername(any(String.class));
-        assertEquals("Status is invalid", HttpStatus.NOT_FOUND, response.getStatusCode());
+    public void returnsFailOnDelete_ifDeleteByUsernameThrowsUserServiceException() {
+        when(service.delete(any(String.class))).thenThrow(new UserServiceException(MESSAGE));
+        ResponseEntity<User> response = controller.delete(MOCK_USER.getUsername());
+        verify(service).delete(any(String.class));
+        assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
+
+    // tests on setRoles
     @Test
     public void returnsSuccessOnSetRoles_ifSuccessfullySetsNewRoles() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.of(MOCK_USER));
-        when(repo.update(MOCK_USER)).thenReturn(MOCK_USER);
+        when(service.setRoles(anyString(), anyCollection())).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.setRoles(NAME_WITH_ROLES);
-        verify(repo).getByUsername(any(String.class));
-        verify(repo).update(any(User.class));
-        User expectedUser = createMockUser();
-        expectedUser.setRoles(NAME_WITH_ROLES.getRoles());
+        verify(service).setRoles(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
-        assertEquals("Roles are wrong", expectedUser, response.getBody());
+        assertEquals("Roles are wrong", MOCK_USER, response.getBody());
     }
 
     @Test
-    public void returnsFailOnSetRoles_ifGetByUsernameThrowsException() {
-        when(repo.getByUsername(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnSetRoles_ifSetRolesThrowsRuntimeException() {
+        when(service.setRoles(anyString(), anyCollection())).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.setRoles(NAME_WITH_ROLES);
-        verify(repo).getByUsername(any(String.class));
+        verify(service).setRoles(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
-    public void returnsSuccessOnSetRoles_ifUpdateFails() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.of(MOCK_USER));
-        when(repo.update(MOCK_USER)).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnSetRoles_ifSetRolesThrowsUserServiceException() {
+        when(service.setRoles(anyString(), anyCollection())).thenThrow(new UserServiceException(MESSAGE));
         ResponseEntity<User> response = controller.setRoles(NAME_WITH_ROLES);
-        verify(repo).getByUsername(any(String.class));
-        verify(repo).update(any(User.class));
+        verify(service).setRoles(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
-    @Test
-    public void returnsNotFoundOnSetPrivileges_ifCantFindUser() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.empty());
-        ResponseEntity<User> response = controller.setPrivileges(NAME_WITH_PRIVILEGES);
-        verify(repo).getByUsername(any(String.class));
-        assertEquals("Status is invalid", HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNull("Body is not empty", response.getBody());
-    }
-
+    // tests on setPrivileges
     @Test
     public void returnsSuccessOnSetPrivileges_ifSuccessfullySetsNewPrivileges() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.of(MOCK_USER));
-        when(repo.update(MOCK_USER)).thenReturn(MOCK_USER);
+        when(service.setPrivileges(anyString(), anyCollection())).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.setPrivileges(NAME_WITH_PRIVILEGES);
-        verify(repo).getByUsername(any(String.class));
-        verify(repo).update(any(User.class));
-        User expectedUser = createMockUser();
-        expectedUser.setPrivileges(NAME_WITH_PRIVILEGES.getRoles());
+        verify(service).setPrivileges(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
-        assertEquals("Privileges are wrong", expectedUser, response.getBody());
+        assertEquals("Privileges are wrong", MOCK_USER, response.getBody());
     }
 
     @Test
-    public void returnsFailOnSetPrivileges_ifGetByUsernameThrowsException() {
-        when(repo.getByUsername(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnSetPrivileges_ifSetPrivilegesThrowsRuntimeException() {
+        when(service.setPrivileges(anyString(), anyCollection())).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.setPrivileges(NAME_WITH_PRIVILEGES);
-        verify(repo).getByUsername(any(String.class));
+        verify(service).setPrivileges(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
-    public void returnsSuccessOnSetPrivileges_ifUpdateFails() {
-        when(repo.getByUsername(any(String.class))).thenReturn(Optional.of(MOCK_USER));
-        when(repo.update(MOCK_USER)).thenThrow(new RuntimeException(MESSAGE));
+    public void returnsFailOnSetPrivileges_ifSetPrivilegesThrowsUserServiceException() {
+        when(service.setPrivileges(anyString(), anyCollection())).thenThrow(new UserServiceException(MESSAGE));
         ResponseEntity<User> response = controller.setPrivileges(NAME_WITH_PRIVILEGES);
-        verify(repo).getByUsername(any(String.class));
-        verify(repo).update(any(User.class));
+        verify(service).setPrivileges(anyString(), anyCollection());
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }

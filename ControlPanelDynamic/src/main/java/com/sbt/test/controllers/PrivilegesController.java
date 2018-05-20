@@ -19,7 +19,7 @@ public class PrivilegesController extends AbstractRestController {
     @GetMapping("/getAll")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Privilege>> getAllPrivileges() {
-        return process(() -> ok(Arrays.asList(Privilege.values())));
+        return process(() -> Arrays.asList(Privilege.values()));
     }
 
 }

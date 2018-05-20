@@ -29,9 +29,11 @@ public class User implements UserDetails, Serializable {
     private long id;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @Singular
     private Set<Role> roles;
 
     @ElementCollection(targetClass = Privilege.class, fetch = FetchType.EAGER)
+    @Singular
     private Set<Privilege> privileges;
 
     private String username;
