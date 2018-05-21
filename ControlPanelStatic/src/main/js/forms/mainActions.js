@@ -1,3 +1,12 @@
+export const endpoints = {
+    GET: "users/get",
+    ADD: "/add",
+    DELETE: "/delete",
+    UPDATE: "/update",
+    SET_ROLES: "/setRoles",
+    SET_PRIVILEGES: "/setPrivileges"
+};
+
 function getCookie(name) {
     if (!document.cookie) {
         return null;

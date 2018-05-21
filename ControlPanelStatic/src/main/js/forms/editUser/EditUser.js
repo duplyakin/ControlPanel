@@ -32,8 +32,8 @@ export class EditUser extends React.Component {
 
     updateUser(user) {
         executeRequest({
-            endpoint: "users/add",
-            method: "PUT",
+            endpoint: "users/update",
+            method: "POST",
             body: user,
             postprocess: (e) => this.setState({user: e})
         })
