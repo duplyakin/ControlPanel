@@ -31,19 +31,15 @@ public class AbstractRestController {
         try {
             return ok(responseSupplier.get());
         } catch (UserNotFoundException e) {
-            log.error("User was not found:", e);
+            log.error("User was not found: ", e.getMessage());
             return notFound();
         } catch (UserServiceException e) {
-            log.error("Exception on service layer:", e);
+            log.error("Exception on service layer: ", e.getMessage());
             return preconditionFailed();
         } catch (RuntimeException e) {
-            log.error("Something really bad happened:", e);
+            log.error("Something really bad happened: ", e.getMessage());
             return preconditionFailed();
         }
-    }
-
-    interface Procedure {
-        void run();
     }
 
 }

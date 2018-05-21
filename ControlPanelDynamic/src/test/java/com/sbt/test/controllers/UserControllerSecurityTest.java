@@ -142,7 +142,7 @@ public class UserControllerSecurityTest {
     @WithMockUser(roles = "USER")
     public void shouldSuccessfullyDeleteUser_IfAuthorized() throws Exception {
         mockMvc.perform(
-                delete("/users/delete")
+                delete("/users/delete/test")
                         .with(csrf().asHeader())
                         .characterEncoding("utf-8")
                         .requestAttr("username", "user")
@@ -154,7 +154,7 @@ public class UserControllerSecurityTest {
     @Test
     public void shouldFailOnDeleteUser_IfUnauthorized() throws Exception {
         mockMvc.perform(
-                delete("/users/delete")
+                delete("/users/delete/test")
                         .with(csrf().asHeader())
                         .requestAttr("username", "user")
         )

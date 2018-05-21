@@ -40,9 +40,9 @@ public class UserController extends AbstractRestController {
         return process(() -> service.update(user));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{username}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<User> delete(@RequestAttribute("username") String username) {
+    public ResponseEntity<User> delete(@PathVariable("username") String username) {
         return process(() -> service.delete(username));
     }
 
