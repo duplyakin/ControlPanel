@@ -1,12 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
-import {Button} from "react-bootstrap";
 import {TextInput} from "../basic/TextInput";
 import {MultiTagSelector} from "../basic/MultiTagSelector";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {CheckBox} from "../basic/CheckBox";
 import Grid from "@material-ui/core/es/Grid/Grid";
+import Button from "@material-ui/core/es/Button/Button";
 
 const getUserOrEmpty = (user) => {
     return _.isEmpty(user)
@@ -61,11 +61,11 @@ class User extends React.Component {
         return <div style={{marginLeft: "10px"}}>
             <Grid container spacing={16}>
                 <Grid item xs={2}>
-                    <TextInput label={'Имя пользователя'}
+                    <TextInput label={'Имя'}
                                value={username}
-                               onChange={ mode === "CREATE"
-                                  ? this.handleInputChange.bind(this, 'username')
-                                  : undefined}
+                               onChange={mode === "CREATE"
+                                   ? this.handleInputChange.bind(this, 'username')
+                                   : undefined}
 
 
                     />
@@ -119,8 +119,8 @@ class User extends React.Component {
                 <Grid container>
                     <Grid item xs={2}>
                         <Button onClick={() => onSubmit(user)}>{mode === "CREATE"
-                            ? "Create user"
-                            : "Update user"
+                            ? "Создать"
+                            : "Обновить"
                         }</Button>
                     </Grid>
                 </Grid>

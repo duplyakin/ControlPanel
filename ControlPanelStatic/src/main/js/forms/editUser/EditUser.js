@@ -4,8 +4,16 @@ import Well from "react-bootstrap/es/Well";
 import {TextInput} from "../../components/basic/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../mainActions";
+import Grid from "@material-ui/core/es/Grid/Grid";
 
 export class EditUser extends React.Component {
+
+    deleteUser() {
+        executeRequest({
+            endpoint: `users/delete/${this.state.user.username}`,
+            method: "DELETE",
+        })
+    }
 
     constructor(props) {
         super(props);
@@ -16,6 +24,7 @@ export class EditUser extends React.Component {
         this.getUser = this.getUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.updateUser = this.updateUser.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     handleChange(event) {
@@ -44,9 +53,25 @@ export class EditUser extends React.Component {
         return <div>
             <Well>Hi! It's user edit form!</Well>
             <div style={{marginLeft: "10px"}}>
-                < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
-                <Button onClick={this.getUser}>Get user</Button>
+                <div style={{marginLeft: "10px"}}>
+                    <Grid container spacing={16}>
+                        <Grid item xs={2}>
+                            < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button onClick={this.getUser}>Найти</Button>
+                        </Grid>
+                    </Grid>
+                </div>
                 {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
+                {!_.isEmpty(user) &&
+                <div style={{marginLeft: "10px"}}>
+                    <Grid container spacing={16}>
+                        <Grid item xs={2}>
+                            <Button onClick={this.deleteUser}>Удалить</Button>
+                        </Grid>
+                    </Grid>
+                </div>}
             </div>
         </div>
     }
