@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import PermissionsCache from "../components/permissions/PermissionCache"
 import {CreateUser} from "../forms/createUser/CreateUser";
 import {EditUser} from "../forms/editUser/EditUser";
+import Rights from "../forms/modifyPermissions/Rights";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 
@@ -27,9 +28,13 @@ export const MainForm = (props) =>
                         <li>
                             <Link to="/edit">Edit</Link>
                         </li>
+                        <li>
+                            <Link to="/modify">Modify rights</Link>
+                        </li>
                     </ul>
                     <Route path="/create" component={CreateUser}/>
                     <Route path="/edit/:username?" component={EditUser}/>
+                    <Route path="/modify" component={Rights}/>
                 </div>
             </Router>
         </div>
