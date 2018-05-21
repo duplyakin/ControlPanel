@@ -54,7 +54,8 @@ export const executeRequest = ({
                                    postprocess = (e) => {
                                    },
                                    method = "GET",
-                                   body = {}
+                                   body = {},
+                                   handleError = e => console.log(e)
                                }) => {
     const request = method === "GET"
         ? constructGetRequest()
@@ -62,5 +63,5 @@ export const executeRequest = ({
     fetch(`http://localhost:8090/${endpoint}`, request)
         .then(response => response.json())
         .then(responseJson => postprocess(responseJson))
-        .catch(e => console.log(e))
+        .catch(handleError)
 };
