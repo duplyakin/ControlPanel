@@ -2,10 +2,10 @@ import React from 'react';
 import {mainReducer} from './mainReducer';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
 
-import {AdminConsole} from "./adminConsole/AdminConsole";
+import PermissionsCache from "../components/permissions/PermissionCache"
 import {CreateUser} from "../forms/createUser/CreateUser";
 import {EditUser} from "../forms/editUser/EditUser";
 import {DeleteUser} from "../forms/deleteUser/DeleteUser";
@@ -15,7 +15,7 @@ const store = createStore(mainReducer, applyMiddleware(thunk));
 export const MainForm = (props) =>
     <Provider store={store}>
         <div>
-            <AdminConsole/>
+            <PermissionsCache/>
             <Router>
                 <div>
                     <ul>
