@@ -5,8 +5,7 @@ import {TextInput} from "../../components/basic/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../mainActions";
 import Grid from "@material-ui/core/es/Grid/Grid";
-import DialogTitle from "@material-ui/core/es/DialogTitle/DialogTitle";
-import Dialog from "@material-ui/core/es/Dialog/Dialog";
+import {DialogWithConfirmation} from "../../components/basic/DialogWithConfirmation";
 
 export class EditUser extends React.Component {
 
@@ -15,7 +14,7 @@ export class EditUser extends React.Component {
             endpoint: `users/delete/${this.state.user.username}`,
             method: "DELETE",
             handleError: e => {
-                this.setState({hasError: true, errorMessage: "Failed to delete user"})
+                this.setState({hasError: true, errorMessage: "Не удалось удалить пользователя"})
             }
         })
     }
@@ -49,7 +48,7 @@ export class EditUser extends React.Component {
             endpoint: `users/get/${this.state.name}`,
             postprocess: (e) => this.setState({user: e}),
             handleError: e => {
-                this.setState({hasError: true, errorMessage: "Failed to get user"})
+                this.setState({hasError: true, errorMessage: "Не удалось найти пользователя"})
             }
         })
     }
@@ -61,7 +60,7 @@ export class EditUser extends React.Component {
             body: user,
             postprocess: (e) => this.setState({user: e}),
             handleError: e => {
-                this.setState({hasError: true, errorMessage: "Failed to update user"})
+                this.setState({hasError: true, errorMessage: "Не удалось обновить пользователя"})
             }
         })
     }
@@ -70,31 +69,30 @@ export class EditUser extends React.Component {
         const {user, name, hasError, errorMessage} = this.state;
         return <div>
             <Well>Hi! It's user edit form!</Well>
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={hasError}>
-                <DialogTitle id="simple-dialog-title">{errorMessage}</DialogTitle>
-                <Button onClick={this.handleClose}>Ok</Button>
-            </Dialog>
+            <DialogWithConfirmation errorMessage={errorMessage}
+                                    handleClose={this.handleClose}
+                                    handleRetry={this.getUser}
+                                    isOpen={hasError}
+                                    title="Ошибка на форме редактирования пользователя"/>
             <div style={{marginLeft: "10px"}}>
-                <div style={{marginLeft: "10px"}}>
-                    <Grid container spacing={16}>
-                        <Grid item xs={2}>
-                            < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button onClick={this.getUser}>Найти</Button>
-                        </Grid>
+                <Grid container spacing={16}>
+                    <Grid item xs={2}>
+                        < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
                     </Grid>
-                </div>
-                {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
-                {!_.isEmpty(user) &&
-                <div style={{marginLeft: "10px"}}>
-                    <Grid container spacing={16}>
-                        <Grid item xs={2}>
-                            <Button onClick={this.deleteUser}>Удалить</Button>
-                        </Grid>
+                    <Grid item xs={2}>
+                        <Button onClick={this.getUser}>Найти</Button>
                     </Grid>
-                </div>}
+                </Grid>
             </div>
+            {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
+            {!_.isEmpty(user) &&
+            <div style={{marginLeft: "10px"}}>
+                <Grid container spacing={16}>
+                    <Grid item xs={2}>
+                        <Button onClick={this.deleteUser}>Удалить</Button>
+                    </Grid>
+                </Grid>
+            </div>}
         </div>
     }
 

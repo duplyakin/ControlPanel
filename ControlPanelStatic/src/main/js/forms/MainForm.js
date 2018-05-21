@@ -20,16 +20,16 @@ export const MainForm = (props) =>
                 <div>
                     <ul>
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/">Домашняя страница</Link>
                         </li>
                         <li>
-                            <Link to="/create">Create</Link>
+                            <Link to="/create">Форма создания</Link>
                         </li>
                         <li>
-                            <Link to="/edit">Edit</Link>
+                            <Link to="/edit">Форма редактирования</Link>
                         </li>
                         <li>
-                            <Link to="/modify">Modify rights</Link>
+                            <Link to="/modify">Форма изменения прав</Link>
                         </li>
                     </ul>
                     <Route path="/create" component={CreateUser}/>
