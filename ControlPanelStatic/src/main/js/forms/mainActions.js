@@ -58,7 +58,8 @@ export const executeRequest = ({
                                    },
                                    method = "GET",
                                    body = {},
-                                   errorMessage
+                                   errorMessage,
+                                   popupIfSuccess = true
                                }) => {
     const request = method === "GET"
         ? constructGetRequest()
@@ -67,13 +68,9 @@ export const executeRequest = ({
         .then(response => response.json())
         .then(responseJson => postprocess(responseJson))
         .then(e => {
-            console.log("BBBBBBBB");
-            console.log(e);
-            dispatch(actions.merge("callStatus", {success: true}))
+            popupIfSuccess && dispatch(actions.merge("callStatus", {success: true}))
         })
         .catch(e => {
-            console.log("AAAAAAAAAAAA");
-            console.log(e);
             dispatch(actions.merge("callStatus", {error: true, errorMessage}))
         })
 };

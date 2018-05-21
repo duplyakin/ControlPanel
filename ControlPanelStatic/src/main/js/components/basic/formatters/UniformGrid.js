@@ -7,10 +7,10 @@ export const UniformGrid = ({children}) => {
     const arrayChildren = _.isArray(children)
         ? children
         : [children];
-    return <div style={{marginLeft: "10px"}}>
+    return <div style={{marginLeft: "10px", marginRight: "10px"}}>
         <Grid container spacing={16}>
             {
-                arrayChildren.map(item => <Grid item xs={2}>{item}</Grid>)
+                arrayChildren.map((item, index) => <Grid item xs={2} key={index}>{item}</Grid>)
             }
         </Grid>
     </div>

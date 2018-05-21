@@ -20,7 +20,7 @@ export const StatelessPopup = ({handleClose, handleRetry, isOpen, title, errorMe
         TransitionComponent={Transition}>
         <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
         <DialogContentText id="alert-dialog-slide-description"
-                           style={{marginLeft: "10px"}}>
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
             {errorMessage}
         </DialogContentText>
         <DialogActions>

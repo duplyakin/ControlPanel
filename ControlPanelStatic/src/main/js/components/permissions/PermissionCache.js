@@ -14,6 +14,7 @@ class PermissionCache extends React.Component {
     loadRoles() {
         const {dispatch} = this.props;
         return executeRequest({
+            popupIfSuccess: false,
             endpoint: "roles/getAll",
             postprocess: roles => dispatch(actions.merge("permissionsCache.roles", roles)),
             errorMessage: "Не удалось загрузить роли",
@@ -24,6 +25,7 @@ class PermissionCache extends React.Component {
     loadPrivileges() {
         const {dispatch} = this.props;
         return executeRequest({
+            popupIfSuccess: false,
             endpoint: "privileges/getAll",
             postprocess: privileges => dispatch(actions.merge("permissionsCache.privileges", privileges)),
             errorMessage: "Не удалось загрузить права",
