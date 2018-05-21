@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import {TextInput} from "../basic/TextInput";
-import {MultiTagSelector} from "../basic/MultiTagSelector";
+import {TextInput} from "../basic/inputs/TextInput";
+import {MultiTagSelector} from "../basic/inputs/MultiTagSelector";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {CheckBox} from "../basic/CheckBox";
+import {CheckBox} from "../basic/inputs/CheckBox";
 import Grid from "@material-ui/core/es/Grid/Grid";
 import Button from "@material-ui/core/es/Button/Button";
 
