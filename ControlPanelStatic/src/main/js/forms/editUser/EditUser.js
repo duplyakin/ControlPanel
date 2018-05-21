@@ -4,8 +4,8 @@ import Well from "react-bootstrap/es/Well";
 import {TextInput} from "../../components/basic/inputs/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../mainActions";
-import Grid from "@material-ui/core/es/Grid/Grid";
 import {connect} from "react-redux";
+import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 
 export class EditUser extends React.Component {
 
@@ -62,25 +62,16 @@ export class EditUser extends React.Component {
         const {user, name} = this.state;
         return <div>
             <Well>Hi! It's user edit form!</Well>
-            <div style={{marginLeft: "10px"}}>
-                <Grid container spacing={16}>
-                    <Grid item xs={2}>
-                        < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button onClick={this.getUser}>Найти</Button>
-                    </Grid>
-                </Grid>
-            </div>
+            <UniformGrid>
+                < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
+                <Button onClick={this.getUser}>Найти</Button>
+            </UniformGrid>
             {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
             {!_.isEmpty(user) &&
-            <div style={{marginLeft: "10px"}}>
-                <Grid container spacing={16}>
-                    <Grid item xs={2}>
-                        <Button onClick={this.deleteUser}>Удалить</Button>
-                    </Grid>
-                </Grid>
-            </div>}
+            <UniformGrid>
+                <Button onClick={this.deleteUser}>Удалить</Button>
+            </UniformGrid>
+            }
         </div>
     }
 }

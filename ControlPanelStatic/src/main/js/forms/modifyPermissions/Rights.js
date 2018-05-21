@@ -3,11 +3,11 @@ import {TextInput} from "../../components/basic/inputs/TextInput";
 import {MultiTagSelector} from "../../components/basic/inputs/MultiTagSelector";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import Grid from "@material-ui/core/es/Grid/Grid";
 import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../../forms/mainActions";
 import _ from 'lodash';
 import Well from "react-bootstrap/es/Well";
+import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 
 class Rights extends React.Component {
 
@@ -81,42 +81,28 @@ class Rights extends React.Component {
         const {user, username, roles, privileges} = this.state;
         return <div>
             <Well>Hi! It's user modify rights form!</Well>
-            <div style={{marginLeft: "10px"}}>
-                <Grid container>
-                    <Grid item xs={2}>
-                        < TextInput value={username} onChange={this.handleInputChange} label="Имя пользователя"/>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Button onClick={this.getUser}>Найти</Button>
-                    </Grid>
-                </Grid>
-                {!_.isEmpty(user) &&
-                <div>
-                    <Grid container>
-                        <Grid item xs={2}>
-                            <MultiTagSelector label={"Роли"}
-                                              options={this.props.allRoles}
-                                              value={roles}
-                                              onChange={this.handleSelectorChange.bind(this, 'roles')}/>
-                        </Grid>
-                        <Grid item xs={1}>
-                            <Button onClick={this.updateRoles}>Применить роли</Button>
-                        </Grid>
-                    </Grid>
-                    <Grid container>
-                        <Grid item xs={2}>
-                            <MultiTagSelector label={"Права"}
-                                              options={this.props.allPrivileges}
-                                              value={privileges}
-                                              onChange={this.handleSelectorChange.bind(this, 'privileges')}/>
-                        </Grid>
-                        <Grid item xs={1}>
-                            <Button onClick={this.updateAuthorities}>Применить права</Button>
-                        </Grid>
-                    </Grid>
-                </div>
-                }
+            <UniformGrid>
+                <TextInput value={username} onChange={this.handleInputChange} label="Имя пользователя"/>
+                <Button onClick={this.getUser}>Найти</Button>
+            </UniformGrid>
+            {!_.isEmpty(user) &&
+            <div>
+                <UniformGrid>
+                    <MultiTagSelector label={"Роли"}
+                                      options={this.props.allRoles}
+                                      value={roles}
+                                      onChange={this.handleSelectorChange.bind(this, 'roles')}/>
+                    <Button onClick={this.updateRoles}>Применить роли</Button>
+                </UniformGrid>
+                <UniformGrid>
+                    <MultiTagSelector label={"Права"}
+                                      options={this.props.allPrivileges}
+                                      value={privileges}
+                                      onChange={this.handleSelectorChange.bind(this, 'privileges')}/>
+                    <Button onClick={this.updateAuthorities}>Применить права</Button>
+                </UniformGrid>
             </div>
+            }
         </div>
     }
 }
