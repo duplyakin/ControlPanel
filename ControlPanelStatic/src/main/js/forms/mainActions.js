@@ -1,3 +1,5 @@
+import {actions} from "react-redux-form";
+
 export const endpoints = {
     GET: "users/get",
     ADD: "/add",
@@ -50,12 +52,13 @@ const constructGetRequest = () => {
 };
 
 export const executeRequest = ({
+                                   dispatch,
                                    endpoint,
                                    postprocess = (e) => {
                                    },
                                    method = "GET",
                                    body = {},
-                                   handleError = e => console.log(e)
+                                   errorMessage
                                }) => {
     const request = method === "GET"
         ? constructGetRequest()
@@ -63,5 +66,14 @@ export const executeRequest = ({
     fetch(`http://localhost:8090/${endpoint}`, request)
         .then(response => response.json())
         .then(responseJson => postprocess(responseJson))
-        .catch(handleError)
+        .then(e => {
+            console.log("BBBBBBBB");
+            console.log(e);
+            dispatch(actions.merge("callStatus", {success: true}))
+        })
+        .catch(e => {
+            console.log("AAAAAAAAAAAA");
+            console.log(e);
+            dispatch(actions.merge("callStatus", {error: true, errorMessage}))
+        })
 };

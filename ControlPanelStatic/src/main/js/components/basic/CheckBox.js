@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 export const CheckBox = (props) => {
 
     const {label, onChange, checked} = props;
-    return  <FormControlLabel control={<Checkbox
-                checked={checked}
-                onChange={onChange}/>
-        }
-        label={label}
+    return <FormControlLabel control={<Checkbox
+        checked={checked}
+        onChange={onChange}/>
+    }
+                             label={label}
     />
 };
 
@@ -24,5 +24,6 @@ CheckBox.propTypes = {
 CheckBox.defaultProps = {
     value: false,
     checked: '',
-    onChange: (e) => {}
+    onChange: (e) => {
+    }
 };

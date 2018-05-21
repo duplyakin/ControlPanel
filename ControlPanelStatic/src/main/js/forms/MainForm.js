@@ -6,9 +6,11 @@ import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
 
 import PermissionsCache from "../components/permissions/PermissionCache"
-import {CreateUser} from "../forms/createUser/CreateUser";
-import {EditUser} from "../forms/editUser/EditUser";
+import CreateUser from "../forms/createUser/CreateUser";
+import EditUser from "../forms/editUser/EditUser";
 import Rights from "../forms/modifyPermissions/Rights";
+import DialogOnSuccess from "../components/basic/popups/DialogOnSuccess";
+import DialogOnError from "../components/basic/popups/DialogOnError";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 
@@ -16,6 +18,8 @@ export const MainForm = (props) =>
     <Provider store={store}>
         <div>
             <PermissionsCache/>
+            <DialogOnError/>
+            <DialogOnSuccess/>
             <Router>
                 <div>
                     <ul>

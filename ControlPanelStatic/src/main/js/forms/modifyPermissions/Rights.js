@@ -8,43 +8,47 @@ import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../../forms/mainActions";
 import _ from 'lodash';
 import Well from "react-bootstrap/es/Well";
-import {DialogWithConfirmation} from "../../components/basic/DialogWithConfirmation";
 
 class Rights extends React.Component {
 
     updateRoles() {
+        const {dispatch} = this.props;
         executeRequest({
             endpoint: "users/setRoles",
             method: "POST",
             body: {name: this.state.user.username, authorities: this.state.roles},
             postprocess: (e) => this.setState({user: e}),
-            handleError: e => this.setState({errorHappened: true, errorMessage:"Не удалось изменить роли пользователя"})
+            errorMessage: "Не удалось изменить роли пользователя",
+            dispatch
         })
     }
 
     updateAuthorities() {
+        const {dispatch} = this.props;
         executeRequest({
             endpoint: "users/setPrivileges",
             method: "POST",
             body: {name: this.state.user.username, authorities: this.state.privileges},
             postprocess: (e) => this.setState({user: e}),
-            handleError: e => this.setState({errorHappened: true, errorMessage:"Не удалось изменить права пользователя"})
+            errorMessage: "Не удалось изменить права пользователя",
+            dispatch
         })
     }
 
     getUser() {
+        const {dispatch} = this.props;
+
         executeRequest({
             endpoint: `users/get/${this.state.username}`,
             postprocess: (e) => this.setState({user: e, roles: e.roles, privileges: e.privileges}),
-            handleError: e => this.setState({errorHappened: true, errorMessage:"Не удалось загрузить пользователя"})
+            errorMessage: "Не удалось загрузить пользователя",
+            dispatch
         })
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            errorHappened: false,
-            errorMessage: "",
             username: "",
             roles: [],
             privileges: [],
@@ -74,7 +78,7 @@ class Rights extends React.Component {
     }
 
     render() {
-        const {user, username, roles, privileges, errorHappened, errorMessage} = this.state;
+        const {user, username, roles, privileges} = this.state;
         return <div>
             <Well>Hi! It's user modify rights form!</Well>
             <div style={{marginLeft: "10px"}}>
@@ -84,11 +88,6 @@ class Rights extends React.Component {
                     </Grid>
                     <Grid item xs={1}>
                         <Button onClick={this.getUser}>Найти</Button>
-                        <DialogWithConfirmation errorMessage={errorMessage}
-                                                handleClose={this.handleClose}
-                                                handleRetry={this.getUser}
-                                                isOpen={errorHappened}
-                                                title="Ошибка на форме изменения прав"/>
                     </Grid>
                 </Grid>
                 {!_.isEmpty(user) &&
@@ -102,11 +101,6 @@ class Rights extends React.Component {
                         </Grid>
                         <Grid item xs={1}>
                             <Button onClick={this.updateRoles}>Применить роли</Button>
-                            <DialogWithConfirmation errorMessage={errorMessage}
-                                                    handleClose={this.handleClose}
-                                                    handleRetry={this.updateRoles}
-                                                    isOpen={errorHappened}
-                                                    title="Ошибка на форме изменения прав"/>
                         </Grid>
                     </Grid>
                     <Grid container>
@@ -118,11 +112,6 @@ class Rights extends React.Component {
                         </Grid>
                         <Grid item xs={1}>
                             <Button onClick={this.updateAuthorities}>Применить права</Button>
-                            <DialogWithConfirmation errorMessage={errorMessage}
-                                                    handleClose={this.handleClose}
-                                                    handleRetry={this.updateAuthorities}
-                                                    isOpen={errorHappened}
-                                                    title="Ошибка на форме изменения прав"/>
                         </Grid>
                     </Grid>
                 </div>

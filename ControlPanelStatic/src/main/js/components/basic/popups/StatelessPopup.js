@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 import PropTypes from 'prop-types';
 import Dialog from "@material-ui/core/es/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/es/DialogTitle/DialogTitle";
 import Button from "@material-ui/core/es/Button/Button";
-import Slide from "@material-ui/core/es/Slide/Slide";
 import DialogActions from "@material-ui/core/es/DialogActions/DialogActions";
 import DialogContentText from "@material-ui/core/es/DialogContentText/DialogContentText";
+import Slide from "@material-ui/core/es/Slide/Slide";
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-export const DialogWithConfirmation = ({handleClose, handleRetry, isOpen, title, errorMessage}) =>
+export const StatelessPopup = ({handleClose, handleRetry, isOpen, title, errorMessage}) =>
     <Dialog
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"
@@ -32,7 +32,7 @@ export const DialogWithConfirmation = ({handleClose, handleRetry, isOpen, title,
         </DialogActions>
     </Dialog>;
 
-DialogWithConfirmation.propTypes = {
+StatelessPopup.propTypes = {
     handleClose: PropTypes.func.isRequired,
     handleRetry: PropTypes.func,
     isOpen: PropTypes.bool,
@@ -40,8 +40,8 @@ DialogWithConfirmation.propTypes = {
     errorMessage: PropTypes.string,
 };
 
-DialogWithConfirmation.defaultProps = {
+StatelessPopup.defaultProps = {
     isOpen: false,
-    title: "Error!",
+    title: "Ошибка!",
     errorMessage: "",
 };
