@@ -17,7 +17,7 @@
   "author": "Gleb Zaborovskiy",
   "homepage": "",
   "dependencies": {
-    "@material-ui/core": "^1.0.0-rc.1",
+    "@material-ui/core": "^1.0.0",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.2",
@@ -25,13 +25,13 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux-thunk": "^2.2.0",
-    "webpack": "^4.8.1"
+    "webpack": "^4.8.3"
   },
   "scripts": {
     "watch": "webpack --watch -d",
     "start:dev": "webpack-dev-server --mode development --progress --hot --inline --open",
     "start": "webpack-dev-server --mode production --progress",
-    "webpack-build": "webpack --mode production --progress"
+    "webpack-build": "webpack --mode development --progress"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
