@@ -45,9 +45,9 @@ public class UserRepositorySmokeTest {
     private UserRepository repo;
 
     // tests on get
-    @Test
+    @Test(expected = UserNotExistException.class)
     public void getsNoUser_ifItIsAbsent() {
-        assertNull("Absent user exists", repo.get("absent username"));
+        repo.get("absent username");
     }
 
     @Test
@@ -64,7 +64,7 @@ public class UserRepositorySmokeTest {
     @Test
     @DirtiesContext
     public void addUserSuccessfully() {
-        assertEquals("User has changed", MOCK_USER_1, repo.update(MOCK_USER_1));
+        assertEquals("User has changed", MOCK_USER_1, repo.add(MOCK_USER_1));
     }
 
     @Test
@@ -79,8 +79,8 @@ public class UserRepositorySmokeTest {
     @Test
     @DirtiesContext
     public void addTwoUsersSuccessfully_differentUsername() {
-        User savedUser1 = repo.update(MOCK_USER_1);
-        User savedUser2 = repo.update(MOCK_USER_2);
+        User savedUser1 = repo.add(MOCK_USER_1);
+        User savedUser2 = repo.add(MOCK_USER_2);
         assertTrue("Ids are equal: save is corrupted", savedUser1.getId() != savedUser2.getId());
     }
 
@@ -115,8 +115,6 @@ public class UserRepositorySmokeTest {
     public void deleteSuccessfully_existingUser() {
         repo.add(MOCK_USER_1);
         assertNotNull("Add fails!", repo.get(MOCK_USER_1.getUsername()));
-        repo.delete(MOCK_USER_1.getUsername());
-        User deleted = repo.get(MOCK_USER_1.getUsername());
-        assertNull("User exists!", deleted);
+        assertEquals("Deletes wrong client!", MOCK_USER_1, repo.delete(MOCK_USER_1.getUsername()));
     }
 }

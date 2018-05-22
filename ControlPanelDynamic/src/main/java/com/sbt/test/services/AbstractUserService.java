@@ -1,6 +1,7 @@
 package com.sbt.test.services;
 
 import com.sbt.test.entities.User;
+import com.sbt.test.repository.UserNotExistException;
 import com.sbt.test.services.exceptions.UserNotFoundException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,15 @@ public class AbstractUserService {
         T entity = null;
         try {
             entity = userSupplier.get();
+        } catch (UserServiceException serviceEx) {
+            // user supplier can throw service exceptions,
+            // for example if some preconditions were violated.
+            // Service should carefully rethrow them.
+            log.info("Service exception: " + serviceEx.getMessage());
+            throw serviceEx;
+        } catch (UserNotExistException notExist) {
+            log.info("Persistence exception: " + notExist.getMessage());
+            throw new UserNotFoundException(notExist);
         } catch (PersistenceException pex) {
             log.info("Persistence exception: " + pex.getMessage());
             throw exceptionSupplier.apply(pex);

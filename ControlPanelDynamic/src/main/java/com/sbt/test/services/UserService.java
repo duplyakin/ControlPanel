@@ -36,11 +36,7 @@ public class UserService extends AbstractUserService {
     }
 
     public User delete(String username) {
-        return supplyUser(() -> {
-            User user = repo.get(username);
-            repo.delete(username);
-            return user;
-        });
+        return supplyUser(() -> repo.delete(username));
     }
 
     public User setRoles(String username, Collection<Role> roles) {

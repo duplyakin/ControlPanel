@@ -27,7 +27,7 @@ public class UserDetailsLoader implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        repo.update(User.builder()
+        repo.add(User.builder()
                 .username("user")
                 .password(new BCryptPasswordEncoder().encode("pass"))
                 .accountNonExpired(true)

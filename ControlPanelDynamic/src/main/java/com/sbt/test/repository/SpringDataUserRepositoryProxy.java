@@ -18,9 +18,17 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
         this.repo = repository;
     }
 
+    private UserNotExistException userNotExistException(String username) {
+        return new UserNotExistException("User " + username + " does not exist");
+    }
+
     @Override
     public User get(String userName) {
-        return repo.getByUsername(userName);
+        User user = repo.getByUsername(userName);
+        if (user == null) {
+            throw userNotExistException(userName);
+        }
+        return user;
     }
 
     @Override
@@ -29,12 +37,20 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
     }
 
     @Override
-    public void delete(String username) {
+    public User delete(String username) {
+        User user = repo.getByUsername(username);
+        if (user == null) {
+            throw userNotExistException(username);
+        }
         repo.deleteByUsername(username);
+        return user;
     }
 
     @Override
     public User update(User user) {
+        if (repo.getByUsername(user.getUsername()) == null) {
+            throw new UserNotExistException("User " + user.getUsername() + " does not exist");
+        }
         return repo.saveAndFlush(user);
     }
 }

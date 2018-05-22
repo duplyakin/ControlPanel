@@ -2,20 +2,18 @@ package com.sbt.test.repository;
 
 import com.sbt.test.entities.User;
 
-import java.util.Optional;
-
 /**
  * Абстракция необходимых нам данных
  * Данный интерфейс убирает прямую зависимость от SpringData
  */
 public interface UserRepository {
 
-    User get(String userName);
+    User get(String userName) throws UserNotExistException;
 
     User add(User user);
 
-    User update(User user);
+    User update(User user) throws UserNotExistException;
 
-    void delete(String username);
+    User delete(String username) throws UserNotExistException;
 
 }

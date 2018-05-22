@@ -11,7 +11,7 @@ public interface SpringDataUserRepository extends JpaRepository<User, Long> {
 
     User getByUsername(String userName);
 
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     void deleteByUsername(String username);
 
 }

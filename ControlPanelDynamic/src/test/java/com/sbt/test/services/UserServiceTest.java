@@ -104,7 +104,7 @@ public class UserServiceTest {
 
     // tests on update
     @Test
-    public void updatesUser_ifAddSucceed() {
+    public void updatesUser_ifUpdateSucceed() {
         when(repo.update(any(User.class))).thenReturn(MOCK_USER);
         User user = service.update(MOCK_USER);
         assertEquals("User is not equal", MOCK_USER, user);
@@ -133,9 +133,8 @@ public class UserServiceTest {
     // tests on delete
     @Test
     public void deletesUser_ifDeleteSucceed() {
-        when(repo.get(anyString())).thenReturn(MOCK_USER);
+        when(repo.delete(anyString())).thenReturn(MOCK_USER);
         service.delete(MOCK_USER.getUsername());
-        verify(repo).get(anyString());
         verify(repo).delete(anyString());
     }
 
