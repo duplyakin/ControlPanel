@@ -9,7 +9,7 @@ export const TextInput = (props) => {
     const {label, value, onChange} = props;
 
     return <FormControl className={styles.formControl}>
-        <InputLabel htmlFor="select-multiple-checkbox">{label}</InputLabel>
+        <InputLabel>{label}</InputLabel>
         <Input value={value}
                disabled={onChange === undefined}
                onChange={onChange}/>

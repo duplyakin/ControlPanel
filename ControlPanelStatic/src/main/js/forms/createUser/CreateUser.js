@@ -17,7 +17,6 @@ class CreateUser extends React.Component {
         })
     }
 
-
     constructor(props) {
         super(props);
         this.addUser = this.addUser.bind(this);

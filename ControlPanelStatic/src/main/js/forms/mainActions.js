@@ -51,16 +51,17 @@ const constructGetRequest = () => {
     }
 };
 
-export const executeRequest = ({
-                                   dispatch,
-                                   endpoint,
-                                   postprocess = (e) => {
-                                   },
-                                   method = "GET",
-                                   body = {},
-                                   errorMessage,
-                                   popupIfSuccess = true
-                               }) => {
+export const executeRequest = (
+    {
+        dispatch,
+        endpoint,
+        postprocess = (e) => {
+        },
+        method = "GET",
+        body = {},
+        errorMessage,
+        popupIfSuccess = true
+    } = {}) => {
     const request = method === "GET"
         ? constructGetRequest()
         : constructModifyingRequest({method, body});

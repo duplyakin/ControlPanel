@@ -63,7 +63,7 @@ export class EditUser extends React.Component {
         return <div>
             <Well>Hi! It's user edit form!</Well>
             <UniformGrid>
-                < TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
+                <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
                 <Button onClick={this.getUser}>Найти</Button>
             </UniformGrid>
             {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
