@@ -16,7 +16,8 @@ export class EditUser extends React.Component {
             method: "DELETE",
             errorMessage: "Не удалось удалить пользователя",
             dispatch
-        })
+        });
+        this.setState({user: {}})
     }
 
     constructor(props) {
@@ -37,8 +38,10 @@ export class EditUser extends React.Component {
     }
 
     getUser() {
+        this.setState({user: {}});
         const {dispatch} = this.props;
         executeRequest({
+            popupIfSuccess: false,
             endpoint: `users/get/${this.state.name}`,
             postprocess: (e) => this.setState({user: e}),
             errorMessage: "Не удалось найти пользователя",

@@ -37,8 +37,13 @@ class Rights extends React.Component {
 
     getUser() {
         const {dispatch} = this.props;
-
+        this.setState({
+            user: {},
+            roles: [],
+            privileges: [],
+        })
         executeRequest({
+            popupIfSuccess: false,
             endpoint: `users/get/${this.state.username}`,
             postprocess: (e) => this.setState({user: e, roles: e.roles, privileges: e.privileges}),
             errorMessage: "Не удалось загрузить пользователя",
@@ -87,6 +92,9 @@ class Rights extends React.Component {
             </UniformGrid>
             {!_.isEmpty(user) &&
             <div>
+                <UniformGrid>
+                    <TextInput label="Пользователь" value={user.username}/>
+                </UniformGrid>
                 <UniformGrid>
                     <MultiTagSelector label={"Роли"}
                                       options={this.props.allRoles}
