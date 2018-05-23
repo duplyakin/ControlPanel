@@ -17,7 +17,7 @@ import java.util.List;
 public class PrivilegesController extends AbstractRestController {
 
     @GetMapping("/getAll")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Privilege>> getAllPrivileges() {
         return process(() -> Arrays.asList(Privilege.values()));
     }

@@ -23,37 +23,37 @@ public class UserController extends AbstractRestController {
     }
 
     @GetMapping("/get/{username}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')  and hasAuthority('READ')")
     public ResponseEntity<User> get(@PathVariable("username") String username) {
         return process(() -> service.get(username));
     }
 
     @PutMapping("/add")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> add(@RequestBody User user) {
         return process(() -> service.add(user));
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> update(@RequestBody User user) {
         return process(() -> service.update(user));
     }
 
     @DeleteMapping("/delete/{username}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> delete(@PathVariable("username") String username) {
         return process(() -> service.delete(username));
     }
 
     @PostMapping("/setRoles")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> setRoles(@RequestBody NameWithAuthorities<Role> usernameAndRoles) {
         return process(() -> service.setRoles(usernameAndRoles.getName(), usernameAndRoles.getAuthorities()));
     }
 
     @PostMapping("/setPrivileges")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> setPrivileges(@RequestBody NameWithAuthorities<Privilege> usernameAndPrivileges) {
         return process(() -> service.setPrivileges(usernameAndPrivileges.getName(), usernameAndPrivileges.getAuthorities()));
     }
