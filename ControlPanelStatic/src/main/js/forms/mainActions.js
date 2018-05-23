@@ -55,8 +55,7 @@ export const executeRequest = (
     {
         dispatch,
         endpoint,
-        postprocess = (e) => {
-        },
+        postprocess = (e) => e,
         method = "GET",
         body = {},
         errorMessage,
@@ -66,12 +65,22 @@ export const executeRequest = (
         ? constructGetRequest()
         : constructModifyingRequest({method, body});
     fetch(`http://localhost:8090/${endpoint}`, request)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                switch (response.status) {
+                    case 403:
+                        throw new Error("Запрещено");
+                    default:
+                        throw new Error("response is not ok")
+                }
+            }
+            return response.json()
+        })
         .then(responseJson => postprocess(responseJson))
-        .then(e => {
+        .then(resp => {
             popupIfSuccess && dispatch(actions.merge("callStatus", {success: true}))
         })
-        .catch(e => {
-            dispatch(actions.merge("callStatus", {error: true, errorMessage}))
+        .catch(error => {
+            dispatch(actions.merge("callStatus", {error: true, errorMessage: `${errorMessage}: ${error.message}`}))
         })
 };
