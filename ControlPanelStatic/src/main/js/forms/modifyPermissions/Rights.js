@@ -8,6 +8,7 @@ import {executeRequest} from "../../forms/mainActions";
 import _ from 'lodash';
 import Well from "react-bootstrap/es/Well";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
+import UserValidator from "../../components/basic/security/UserValidator";
 
 class Rights extends React.Component {
 
@@ -84,7 +85,7 @@ class Rights extends React.Component {
 
     render() {
         const {user, username, roles, privileges} = this.state;
-        return <div>
+        return <UserValidator privilegesRequired={["WRITE"]} rolesRequired={["ADMIN"]}>
             <Well>Hi! It's user modify rights form!</Well>
             <UniformGrid>
                 <TextInput value={username} onChange={this.handleInputChange} label="Имя пользователя"/>
@@ -111,7 +112,7 @@ class Rights extends React.Component {
                 </UniformGrid>
             </div>
             }
-        </div>
+        </UserValidator>
     }
 }
 

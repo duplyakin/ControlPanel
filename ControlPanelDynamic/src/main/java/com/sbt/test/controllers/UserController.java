@@ -23,7 +23,7 @@ public class UserController extends AbstractRestController {
     }
 
     @GetMapping("/get/{username}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')  and hasAuthority('READ')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')  and hasAnyAuthority('READ', 'WRITE')")
     public ResponseEntity<User> get(@PathVariable("username") String username) {
         return process(() -> service.get(username));
     }

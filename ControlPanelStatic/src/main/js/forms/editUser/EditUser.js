@@ -6,6 +6,7 @@ import Button from "@material-ui/core/es/Button/Button";
 import {executeRequest} from "../mainActions";
 import {connect} from "react-redux";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
+import UserValidator from "../../components/basic/security/UserValidator";
 
 export class EditUser extends React.Component {
 
@@ -63,7 +64,7 @@ export class EditUser extends React.Component {
 
     render() {
         const {user, name} = this.state;
-        return <div>
+        return <UserValidator privilegesRequired={["WRITE"]} rolesRequired={["ADMIN"]}>
             <Well>Hi! It's user edit form!</Well>
             <UniformGrid>
                 <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
@@ -75,7 +76,7 @@ export class EditUser extends React.Component {
                 <Button onClick={this.deleteUser}>Удалить</Button>
             </UniformGrid>
             }
-        </div>
+        </UserValidator>
     }
 }
 
