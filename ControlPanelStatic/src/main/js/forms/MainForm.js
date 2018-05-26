@@ -7,12 +7,14 @@ import thunk from 'redux-thunk';
 
 import PermissionsCache from "../components/permissions/PermissionCache"
 import CurrentUserCache from "../components/currentUser/CurrentUserCache"
-import CreateUser from "../forms/createUser/CreateUser";
-import EditUser from "../forms/editUser/EditUser";
-import Rights from "../forms/modifyPermissions/Rights";
+import CreateUser from "./createUser/CreateUser";
+import EditUser from "./editUser/EditUser";
+import Rights from "./modifyPermissions/Rights";
 import UserValidator from "../components/basic/security/UserValidator"
 import DialogOnSuccess from "../components/basic/popups/DialogOnSuccess";
 import DialogOnError from "../components/basic/popups/DialogOnError";
+import ChangePassword from "./changePassword/ChangePassword";
+import HomePage from "./homePage/HomePage";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 
@@ -26,9 +28,14 @@ export const MainForm = (props) =>
             <Router>
                 <div>
                     <ul>
-                        <UserValidator privilegesRequired={["READ"]} rolesRequired={["USER"]}>
+                        <UserValidator>
                             <li>
                                 <Link to="/">Домашняя страница</Link>
+                            </li>
+                        </UserValidator>
+                        <UserValidator>
+                            <li>
+                                <Link to="/changePassword">Сменить пароль</Link>
                             </li>
                         </UserValidator>
                         <UserValidator privilegesRequired={["WRITE"]} rolesRequired={["ADMIN"]}>
@@ -48,6 +55,8 @@ export const MainForm = (props) =>
                         </UserValidator>
                     </ul>
                     <Switch>
+                        <Route exact path="/" component={HomePage}/>
+                        <Route path="/changePassword" component={ChangePassword}/>
                         <Route path="/create" component={CreateUser}/>
                         <Route path="/edit/:username?" component={EditUser}/>
                         <Route path="/modify" component={Rights}/>

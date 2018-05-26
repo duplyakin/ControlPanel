@@ -5,6 +5,7 @@ import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
 import com.sbt.test.repository.UserRepository;
 import com.sbt.test.services.exceptions.UserNotFoundException;
+import com.sbt.test.services.exceptions.WrongPasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,25 @@ public class UserService extends AbstractUserService {
         return supplyUser(() -> {
             User user = repo.get(username);
             user.setPrivileges(new HashSet<>(privilege));
+            repo.update(user);
+            return user;
+        });
+    }
+
+    public User changePassword(String username, String oldPass, String newPass) {
+        return supplyUser(() -> {
+            if (oldPass == null) {
+                throw new WrongPasswordException("null old password");
+            }
+            if (newPass == null) {
+                throw new WrongPasswordException("null new password");
+            }
+            String encodedPass = encode(oldPass);
+            User user = repo.get(username);
+            if (!user.getPassword().equals(encodedPass)) {
+                throw new WrongPasswordException("wrong old password");
+            }
+            user.setPassword(encode(newPass));
             repo.update(user);
             return user;
         });

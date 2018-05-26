@@ -22,6 +22,10 @@ public class AbstractUserService {
         this.encoder = encoder;
     }
 
+    String encode(String s) {
+        return encoder.encode(s);
+    }
+
     User encodeUser(User user) {
         return User.builder()
                 .id(user.getId())
@@ -32,7 +36,7 @@ public class AbstractUserService {
                 .credentialsNonExpired(user.isCredentialsNonExpired())
                 .enabled(user.isEnabled())
                 .username(user.getUsername())
-                .password(encoder.encode(user.getPassword()))
+                .password(encode(user.getPassword()))
                 .build();
     }
 
