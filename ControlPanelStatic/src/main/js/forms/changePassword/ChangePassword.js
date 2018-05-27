@@ -10,16 +10,16 @@ import {actions} from "react-redux-form";
 class ChangePassword extends React.Component {
 
     changePassword() {
-        const {oldPass, newPass, newPassRepeated} = this.state;
+        const {oldPassword, newPassword, newPassRepeated} = this.state;
         const {dispatch} = this.props;
-        if (newPass !== newPassRepeated) {
-            dispatch(actions.merge("callStatus", {error: true, errorMessage: "Пароли не совпадают!"}))
+        if (newPassword !== newPassRepeated) {
+            dispatch(actions.merge("callStatus", {error: true, errorMessage: "Пароли не совпадают!"}));
             return;
         }
         executeRequest({
             method: "POST",
             endpoint: `changePassword`,
-            body: {oldPass, newPass},
+            body: {oldPassword, newPassword},
             errorMessage: "Не удалось сменить пароль",
             dispatch
         })
@@ -28,8 +28,8 @@ class ChangePassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            oldPass: "",
-            newPass: "",
+            oldPassword: "",
+            newPassword: "",
             newPassRepeated: "",
 
         };
@@ -45,24 +45,24 @@ class ChangePassword extends React.Component {
     }
 
     disabled() {
-        const {oldPass, newPass, newPassRepeated} = this.state;
-        return _.isEmpty(oldPass)
-            || _.isEmpty(newPass)
-            || newPass !== newPassRepeated;
+        const {oldPassword, newPassword, newPassRepeated} = this.state;
+        return _.isEmpty(oldPassword)
+            || _.isEmpty(newPassword)
+            || newPassword !== newPassRepeated;
     }
 
     render() {
-        const {oldPass, newPass, newPassRepeated} = this.state;
+        const {oldPassword, newPassword, newPassRepeated} = this.state;
         return <div>
             <Well>Hi! It's change password form!</Well>
             <UniformGrid>
-                <TextInput value={oldPass}
-                           onChange={this.handleInputChange.bind(this, "oldPass")}
+                <TextInput value={oldPassword}
+                           onChange={this.handleInputChange.bind(this, "oldPassword")}
                            label="Старый пароль"/>
             </UniformGrid>
             <UniformGrid>
-                <TextInput value={newPass}
-                           onChange={this.handleInputChange.bind(this, "newPass")}
+                <TextInput value={newPassword}
+                           onChange={this.handleInputChange.bind(this, "newPassword")}
                            label="Новый пароль"/>
                 <TextInput value={newPassRepeated}
                            onChange={this.handleInputChange.bind(this, "newPassRepeated")}

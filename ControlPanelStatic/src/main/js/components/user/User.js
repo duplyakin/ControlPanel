@@ -101,7 +101,21 @@ class User extends React.Component {
                 />
             </UniformGrid>
             <UniformGrid>
-                <Button onClick={() => onSubmit(user)}>{mode === "CREATE"
+                <Button onClick={() => {
+                    onSubmit(user);
+                    if (mode === "CREATE") {
+                        this.setState({
+                            user: {
+                                roles: [],
+                                privileges: [],
+                                accountNonExpired: true,
+                                accountNonLocked: true,
+                                credentialsNonExpired: true,
+                                enabled: true
+                            }
+                        })
+                    }
+                }}>{mode === "CREATE"
                     ? "Создать"
                     : "Обновить"
                 }</Button>
