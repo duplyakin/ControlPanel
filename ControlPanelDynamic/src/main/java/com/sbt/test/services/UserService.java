@@ -66,9 +66,8 @@ public class UserService extends AbstractUserService {
             if (newPass == null) {
                 throw new WrongPasswordException("null new password");
             }
-            String encodedPass = encode(oldPass);
             User user = repo.get(username);
-            if (!user.getPassword().equals(encodedPass)) {
+            if (!matches(oldPass, user.getPassword())) {
                 throw new WrongPasswordException("wrong old password");
             }
             user.setPassword(encode(newPass));

@@ -16,14 +16,16 @@ public class AbstractUserService {
 
     private final PasswordEncoder encoder;
 
-    private String NO_ENTITY_MESSAGE = "No users had been found";
-
     public AbstractUserService(PasswordEncoder encoder) {
         this.encoder = encoder;
     }
 
     String encode(String s) {
         return encoder.encode(s);
+    }
+
+    boolean matches(String pass, String encodedPass) {
+        return encoder.matches(pass, encodedPass);
     }
 
     User encodeUser(User user) {
@@ -61,7 +63,7 @@ public class AbstractUserService {
             throw new UserServiceException(rex);
         }
         if (entity == null) {
-            throw new UserNotFoundException(NO_ENTITY_MESSAGE);
+            throw new UserNotFoundException("No users had been found");
         }
         return entity;
     }
