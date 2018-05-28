@@ -16,8 +16,6 @@ class CurrentUserCache extends React.Component {
             popupIfSuccess: false,
             endpoint: "currentUser/get",
             postprocess: user => {
-                console.log('user');
-                console.log(user);
                 dispatch(actions.merge("currentUser", user))},
             errorMessage: "Не удалось загрузить текущего пользователя",
             dispatch,
