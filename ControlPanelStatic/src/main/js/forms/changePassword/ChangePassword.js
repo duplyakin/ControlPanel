@@ -58,15 +58,18 @@ class ChangePassword extends React.Component {
             <UniformGrid>
                 <TextInput value={oldPassword}
                            onChange={this.handleInputChange.bind(this, "oldPassword")}
-                           label="Старый пароль"/>
+                           label="Старый пароль"
+                           type="password"/>
             </UniformGrid>
             <UniformGrid>
                 <TextInput value={newPassword}
                            onChange={this.handleInputChange.bind(this, "newPassword")}
-                           label="Новый пароль"/>
+                           label="Новый пароль"
+                           type="password"/>
                 <TextInput value={newPassRepeated}
                            onChange={this.handleInputChange.bind(this, "newPassRepeated")}
-                           label="Повторите пароль"/>
+                           label="Повторите пароль"
+                           type="password"/>
             </UniformGrid>
             <UniformGrid>
                 <Button disabled={this.disabled()} onClick={this.changePassword}>Сменить пароль</Button>

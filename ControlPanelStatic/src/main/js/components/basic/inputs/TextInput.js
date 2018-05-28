@@ -6,13 +6,14 @@ import Input from "@material-ui/core/es/Input/Input";
 
 export const TextInput = (props) => {
 
-    const {label, value, onChange} = props;
+    const {label, value, onChange, type} = props;
 
     return <FormControl className={styles.formControl}>
         <InputLabel>{label}</InputLabel>
         <Input value={value}
                disabled={onChange === undefined}
-               onChange={onChange}/>
+               onChange={onChange}
+               type={type}/>
     </FormControl>
 };
 
@@ -20,10 +21,11 @@ TextInput.propTypes = {
     onChange: PropTypes.func,
     label: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    type: PropTypes.string,
 };
 
 TextInput.defaultProps = {
     value: "",
     label: "",
-    // onChange: (e) => {};
+    type: "text",
 };
