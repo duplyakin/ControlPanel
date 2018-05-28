@@ -33,13 +33,13 @@ public class AbstractRestController {
         try {
             return ok(responseSupplier.get());
         } catch (UserNotFoundException e) {
-            log.error(CONTROLLER_LAYER_EXCEPTION_PREFIX + "user was not found: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "user was not found: ", e.getMessage());
             return notFound();
         } catch (UserServiceException e) {
-            log.error(CONTROLLER_LAYER_EXCEPTION_PREFIX + "exception on service layer: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "exception on service layer: ", e.getMessage());
             return preconditionFailed();
         } catch (RuntimeException e) {
-            log.error(CONTROLLER_LAYER_EXCEPTION_PREFIX + "caught runtime exception: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "caught runtime exception: ", e.getMessage());
             return preconditionFailed();
         }
     }
