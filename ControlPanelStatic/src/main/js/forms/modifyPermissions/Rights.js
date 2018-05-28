@@ -89,7 +89,7 @@ class Rights extends React.Component {
             <Well>Hi! It's user modify rights form!</Well>
             <UniformGrid>
                 <TextInput value={username} onChange={this.handleInputChange} label="Имя пользователя"/>
-                <Button onClick={this.getUser}>Найти</Button>
+                <Button disabled={_.isEmpty(username)} onClick={this.getUser}>Найти</Button>
             </UniformGrid>
             {!_.isEmpty(user) &&
             <div>

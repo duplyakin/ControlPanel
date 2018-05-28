@@ -33,12 +33,18 @@ class User extends React.Component {
         this.handleSelectorChange = this.handleSelectorChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.buttonIsDisabled = this.buttonIsDisabled.bind(this);
     }
 
     handleSelectorChange(change, event) {
         const {user} = this.state;
         user[change] = event.target.value;
         this.setState({user});
+    }
+
+    buttonIsDisabled() {
+        const {username, password} = this.state.user;
+        return _.isEmpty(username) || _.isEmpty(password);
     }
 
     handleInputChange(change, event) {
@@ -101,7 +107,7 @@ class User extends React.Component {
                 />
             </UniformGrid>
             <UniformGrid>
-                <Button onClick={() => {
+                <Button disabled={this.buttonIsDisabled()} onClick={() => {
                     onSubmit(user);
                     if (mode === "CREATE") {
                         this.setState({

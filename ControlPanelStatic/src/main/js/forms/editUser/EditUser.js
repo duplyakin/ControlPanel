@@ -7,6 +7,7 @@ import {executeRequest} from "../mainActions";
 import {connect} from "react-redux";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import UserValidator from "../../components/basic/security/UserValidator";
+import _ from 'lodash';
 
 export class EditUser extends React.Component {
 
@@ -68,7 +69,7 @@ export class EditUser extends React.Component {
             <Well>Hi! It's user edit form!</Well>
             <UniformGrid>
                 <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>
-                <Button onClick={this.getUser}>Найти</Button>
+                <Button disabled={_.isEmpty(name)} onClick={this.getUser}>Найти</Button>
             </UniformGrid>
             {!_.isEmpty(user) && <User user={user} onSubmit={this.updateUser}/>}
             {!_.isEmpty(user) &&
