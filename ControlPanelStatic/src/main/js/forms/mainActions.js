@@ -64,12 +64,16 @@ export const executeRequest = (
     const request = method === "GET"
         ? constructGetRequest()
         : constructModifyingRequest({method, body});
-    fetch(`http://localhost:8090/${endpoint}`, request)
+    fetch(`https://localhost:8090/${endpoint}`, request)
         .then(response => {
             if (!response.ok) {
                 switch (response.status) {
                     case 403:
                         throw new Error("Запрещено");
+                    case 404:
+                        throw new Error("Не найдено");
+                    case 412:
+                        throw new Error("Нарушены предусловия для совершения действия");
                     default:
                         throw new Error("response is not ok")
                 }
