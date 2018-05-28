@@ -18,7 +18,7 @@
 
 ### NetBeans ###
 /nbproject/private/
-/build/
+/build/*.js
 /nbbuild/
 /dist/
 /nbdist/
@@ -26,6 +26,3 @@
 
 ### JS ###
 /node_modules/
-
-.gitignore
-/src/resources/js/
