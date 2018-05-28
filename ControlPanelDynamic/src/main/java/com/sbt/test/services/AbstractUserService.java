@@ -1,11 +1,9 @@
 package com.sbt.test.services;
 
-import com.sbt.test.entities.User;
 import com.sbt.test.repository.UserNotExistException;
 import com.sbt.test.services.exceptions.UserNotFoundException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.PersistenceException;
 import java.util.function.Function;
@@ -13,34 +11,6 @@ import java.util.function.Supplier;
 
 @Slf4j
 public class AbstractUserService {
-
-    private final PasswordEncoder encoder;
-
-    public AbstractUserService(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
-
-    String encode(String s) {
-        return encoder.encode(s);
-    }
-
-    boolean matches(String pass, String encodedPass) {
-        return encoder.matches(pass, encodedPass);
-    }
-
-    User encodeUser(User user) {
-        return User.builder()
-                .id(user.getId())
-                .privileges(user.getPrivileges())
-                .roles(user.getRoles())
-                .accountNonExpired(user.isAccountNonExpired())
-                .accountNonLocked(user.isAccountNonLocked())
-                .credentialsNonExpired(user.isCredentialsNonExpired())
-                .enabled(user.isEnabled())
-                .username(user.getUsername())
-                .password(encode(user.getPassword()))
-                .build();
-    }
 
     <T> T supplyUserOrThrow(Supplier<T> userSupplier, Function<? super PersistenceException, ? extends UserServiceException> exceptionSupplier) {
         T entity = null;

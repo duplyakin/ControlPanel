@@ -1,7 +1,6 @@
 package com.sbt.test.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sbt.test.dto.NameWithAuthorities;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
@@ -9,7 +8,6 @@ import com.sbt.test.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -61,8 +58,6 @@ public class UserControllerSecurityTest {
         when(service.add(any(User.class))).thenReturn(STUB_USER);
         when(service.update(any(User.class))).thenReturn(STUB_USER);
         when(service.delete(anyString())).thenReturn(STUB_USER);
-        when(service.setRoles(anyString(), anyCollection())).thenReturn(STUB_USER);
-        when(service.setPrivileges(anyString(), anyCollection())).thenReturn(STUB_USER);
     }
 
     @Test
@@ -160,64 +155,6 @@ public class UserControllerSecurityTest {
         )
                 .andExpect(status().isUnauthorized());
         verify(service, never()).update(any(User.class));
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    public void shouldSuccessfullySetRoles_IfAuthorized() throws Exception {
-        mockMvc.perform(
-                post("/users/setRoles")
-                        .with(csrf().asHeader())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Role>(STUB_USER.getUsername(),
-                                Sets.newSet(Role.ADMIN))))
-        )
-                .andExpect(status().isOk());
-        verify(service).setRoles(anyString(), anyCollection());
-    }
-
-    @Test
-    public void shouldFailOnSetRoles_IfUnauthorized() throws Exception {
-        mockMvc.perform(
-                post("/users/setRoles")
-                        .with(csrf().asHeader())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Role>(STUB_USER.getUsername(),
-                                Sets.newSet(Role.ADMIN))))
-        )
-                .andExpect(status().isUnauthorized());
-        verify(service, never()).setRoles(anyString(), anyCollection());
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    public void shouldSuccessfullySetPrivileges_IfAuthorized() throws Exception {
-        mockMvc.perform(
-                post("/users/setPrivileges")
-                        .with(csrf().asHeader())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Privilege>(STUB_USER.getUsername(),
-                                Sets.newSet(Privilege.WRITE))))
-        )
-                .andExpect(status().isOk());
-        verify(service).setPrivileges(anyString(), anyCollection());
-    }
-
-    @Test
-    public void shouldFailOnSetPrivileges_IfUnauthorized() throws Exception {
-        mockMvc.perform(
-                post("/users/setPrivileges")
-                        .with(csrf().asHeader())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("utf-8")
-                        .content(new ObjectMapper().writeValueAsString(new NameWithAuthorities<Privilege>(STUB_USER.getUsername(),
-                                Sets.newSet(Privilege.WRITE))))
-        )
-                .andExpect(status().isUnauthorized());
-        verify(service, never()).setPrivileges(anyString(), anyCollection());
     }
 
 }

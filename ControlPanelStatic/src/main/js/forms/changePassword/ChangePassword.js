@@ -18,7 +18,7 @@ class ChangePassword extends React.Component {
         }
         executeRequest({
             method: "POST",
-            endpoint: `changePassword`,
+            endpoint: "currentUser/changePassword",
             body: {oldPassword, newPassword},
             errorMessage: "Не удалось сменить пароль",
             dispatch

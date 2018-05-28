@@ -14,7 +14,7 @@ class CurrentUserCache extends React.Component {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
-            endpoint: "currentUser",
+            endpoint: "currentUser/get",
             postprocess: user => {
                 console.log('user');
                 console.log(user);

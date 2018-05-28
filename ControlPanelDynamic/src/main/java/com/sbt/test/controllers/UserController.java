@@ -1,8 +1,5 @@
 package com.sbt.test.controllers;
 
-import com.sbt.test.dto.NameWithAuthorities;
-import com.sbt.test.entities.Privilege;
-import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
 import com.sbt.test.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +41,5 @@ public class UserController extends AbstractRestController {
     @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
     public ResponseEntity<User> delete(@PathVariable("username") String username) {
         return process(() -> service.delete(username));
-    }
-
-    @PostMapping("/setRoles")
-    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
-    public ResponseEntity<User> setRoles(@RequestBody NameWithAuthorities<Role> usernameAndRoles) {
-        return process(() -> service.setRoles(usernameAndRoles.getName(), usernameAndRoles.getAuthorities()));
-    }
-
-    @PostMapping("/setPrivileges")
-    @PreAuthorize("hasRole('ADMIN') and hasAuthority('WRITE')")
-    public ResponseEntity<User> setPrivileges(@RequestBody NameWithAuthorities<Privilege> usernameAndPrivileges) {
-        return process(() -> service.setPrivileges(usernameAndPrivileges.getName(), usernameAndPrivileges.getAuthorities()));
     }
 }

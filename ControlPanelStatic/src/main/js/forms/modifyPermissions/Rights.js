@@ -15,7 +15,7 @@ class Rights extends React.Component {
     updateRoles() {
         const {dispatch} = this.props;
         executeRequest({
-            endpoint: "users/setRoles",
+            endpoint: "roles/set",
             method: "POST",
             body: {name: this.state.user.username, authorities: this.state.roles},
             postprocess: (e) => this.setState({user: e}),
@@ -27,7 +27,7 @@ class Rights extends React.Component {
     updateAuthorities() {
         const {dispatch} = this.props;
         executeRequest({
-            endpoint: "users/setPrivileges",
+            endpoint: "privileges/set",
             method: "POST",
             body: {name: this.state.user.username, authorities: this.state.privileges},
             postprocess: (e) => this.setState({user: e}),

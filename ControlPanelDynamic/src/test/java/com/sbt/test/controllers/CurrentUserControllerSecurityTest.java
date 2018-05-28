@@ -5,7 +5,7 @@ import com.sbt.test.dto.OldAndNewPass;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
-import com.sbt.test.services.UserService;
+import com.sbt.test.services.CurrentUserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,40 +47,40 @@ public class CurrentUserControllerSecurityTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService service;
+    private CurrentUserService service;
 
     @Before
     public void initMocks() {
-        when(service.get(anyString())).thenReturn(STUB_USER);
+        when(service.getCurrentUser(anyString())).thenReturn(STUB_USER);
     }
 
     @Test
     @WithMockUser(roles = "USER")
     public void shouldSuccessfullyGetCurrentUser_IfAuthorized() throws Exception {
-        mockMvc.perform(get("/currentUser")
+        mockMvc.perform(get("/currentUser/get")
                 .with(csrf().asHeader())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
         )
                 .andExpect(status().isOk());
-        verify(service).get(anyString());
+        verify(service).getCurrentUser(anyString());
     }
 
     @Test
     public void shouldFailOnGetCurrentUser_IfUnauthorized() throws Exception {
-        mockMvc.perform(get("/currentUser")
+        mockMvc.perform(get("/currentUser/get")
                 .with(csrf().asHeader())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
         )
                 .andExpect(status().isUnauthorized());
-        verify(service, never()).get(anyString());
+        verify(service, never()).getCurrentUser(anyString());
     }
 
     @Test
     @WithMockUser(roles = "USER")
     public void shouldSuccessfullyChangePassword_IfAuthorized() throws Exception {
-        mockMvc.perform(post("/changePassword")
+        mockMvc.perform(post("/currentUser/changePassword")
                 .with(csrf().asHeader())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
@@ -95,7 +95,7 @@ public class CurrentUserControllerSecurityTest {
 
     @Test
     public void shouldFailOnChangePassword_IfUnauthorized() throws Exception {
-        mockMvc.perform(post("/changePassword")
+        mockMvc.perform(post("/currentUser/changePassword")
                 .with(csrf().asHeader())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")

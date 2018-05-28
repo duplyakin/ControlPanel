@@ -2,7 +2,7 @@ package com.sbt.test.controllers;
 
 import com.sbt.test.dto.OldAndNewPass;
 import com.sbt.test.entities.User;
-import com.sbt.test.services.UserService;
+import com.sbt.test.services.CurrentUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +11,19 @@ import java.security.Principal;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/currentUser")
 public class CurrentUserController extends AbstractRestController {
 
-    private final UserService service;
+    private final CurrentUserService service;
 
-    public CurrentUserController(UserService service) {
+    public CurrentUserController(CurrentUserService service) {
         this.service = service;
     }
 
-    @GetMapping("/currentUser")
+    @GetMapping("/get")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
-        return process(() -> service.get(principal.getName()));
+        return process(() -> service.getCurrentUser(principal.getName()));
     }
 
     @PostMapping("/changePassword")

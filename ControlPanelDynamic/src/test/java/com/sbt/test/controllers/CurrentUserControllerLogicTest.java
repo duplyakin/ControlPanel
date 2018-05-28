@@ -4,7 +4,7 @@ import com.sbt.test.dto.OldAndNewPass;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
-import com.sbt.test.services.UserService;
+import com.sbt.test.services.CurrentUserService;
 import com.sbt.test.services.exceptions.UserNotFoundException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import org.junit.Before;
@@ -24,18 +24,17 @@ import static org.mockito.Mockito.*;
 public class CurrentUserControllerLogicTest {
 
     private static final String MESSAGE = "wow it's definitely not ok!";
-
-    private static User MOCK_USER;
     private static final String USERNAME = "test user";
     private static final String OLD_PASS = "old_pass";
     private static final String NEW_PASS = "new_pass";
+    private static final Principal PRINCIPAL = mock(Principal.class);
+    private static User MOCK_USER;
     private static OldAndNewPass OLD_AND_NEW_PASS = OldAndNewPass.builder()
             .newPassword(NEW_PASS)
             .oldPassword(OLD_PASS)
             .build();
-    private UserService service = mock(UserService.class);
+    private CurrentUserService service = mock(CurrentUserService.class);
     private CurrentUserController controller = new CurrentUserController(service);
-    private static final Principal PRINCIPAL = mock(Principal.class);
 
     private static User createMockUser() {
         return User.builder()
@@ -61,36 +60,36 @@ public class CurrentUserControllerLogicTest {
     // tests on getCurrentUser
     @Test
     public void returnsSuccessOnGetCurrentUser_ifServiceReturnsUser() {
-        when(service.get(anyString())).thenReturn(MOCK_USER);
+        when(service.getCurrentUser(anyString())).thenReturn(MOCK_USER);
         ResponseEntity<User> response = controller.getCurrentUser(PRINCIPAL);
-        verify(service).get(USERNAME);
+        verify(service).getCurrentUser(USERNAME);
         assertEquals("Status is invalid", HttpStatus.OK, response.getStatusCode());
         assertEquals("User has changed", MOCK_USER, response.getBody());
     }
 
     @Test
     public void returnsFailOnOnGetCurrentUser_ifServiceFoundNothing() {
-        when(service.get(anyString())).thenThrow(new UserNotFoundException(MESSAGE));
+        when(service.getCurrentUser(anyString())).thenThrow(new UserNotFoundException(MESSAGE));
         ResponseEntity<User> response = controller.getCurrentUser(PRINCIPAL);
-        verify(service).get(USERNAME);
+        verify(service).getCurrentUser(USERNAME);
         assertEquals("Status is invalid", HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
     public void returnsFailOnGetCurrentUser_ifServiceThrowsRuntimeException() {
-        when(service.get(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
+        when(service.getCurrentUser(any(String.class))).thenThrow(new RuntimeException(MESSAGE));
         ResponseEntity<User> response = controller.getCurrentUser(PRINCIPAL);
-        verify(service).get(anyString());
+        verify(service).getCurrentUser(anyString());
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
 
     @Test
     public void returnsFailOnGetCurrentUser_ifServiceThrowsUserServiceException() {
-        when(service.get(anyString())).thenThrow(new UserServiceException(MESSAGE));
+        when(service.getCurrentUser(anyString())).thenThrow(new UserServiceException(MESSAGE));
         ResponseEntity<User> response = controller.getCurrentUser(PRINCIPAL);
-        verify(service).get(any(String.class));
+        verify(service).getCurrentUser(any(String.class));
         assertEquals("Status is invalid", HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
         assertNull("Body is not empty", response.getBody());
     }
