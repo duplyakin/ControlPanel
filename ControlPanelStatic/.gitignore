@@ -18,11 +18,10 @@
 
 ### NetBeans ###
 /nbproject/private/
-/build/*.js
-/nbbuild/
+/build/
 /dist/
 /nbdist/
-/.nb-gradle/
 
 ### JS ###
 /node_modules/
+/build/public/*.js
