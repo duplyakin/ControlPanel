@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 @Slf4j
 public class AbstractUserService {
 
+    private static final String SERVICE_LAYER_EXCEPTION_PREFIX = "Service layer has caught an exception";
+
     <T> T supplyUserOrThrow(Supplier<T> userSupplier, Function<? super PersistenceException, ? extends UserServiceException> exceptionSupplier) {
         T entity = null;
         try {
@@ -20,20 +22,20 @@ public class AbstractUserService {
             // user supplier can throw service exceptions,
             // for example if some preconditions were violated.
             // Service should carefully rethrow them.
-            log.info("Service exception: " + serviceEx.getMessage());
+            log.info("Service exception thrown: " + serviceEx.getMessage());
             throw serviceEx;
         } catch (UserNotExistException notExist) {
-            log.info("Persistence exception: " + notExist.getMessage());
+            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - user not exist: " + notExist.getMessage());
             throw new UserNotFoundException(notExist);
         } catch (PersistenceException pex) {
-            log.info("Persistence exception: " + pex.getMessage());
+            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - persistence exception caught: " + pex.getMessage());
             throw exceptionSupplier.apply(pex);
         } catch (RuntimeException rex) {
-            log.info("Runtime exception: " + rex.getMessage());
+            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - runtime exception caught: " + rex.getMessage());
             throw new UserServiceException(rex);
         }
         if (entity == null) {
-            throw new UserNotFoundException("No users had been found");
+            throw new UserNotFoundException(SERVICE_LAYER_EXCEPTION_PREFIX + ": fails to find any entities");
         }
         return entity;
     }

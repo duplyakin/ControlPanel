@@ -5,7 +5,7 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import javax.persistence.EntityNotFoundException;
 
 public class UserNotExistException extends JpaObjectRetrievalFailureException {
-    UserNotExistException(String message) {
+    public UserNotExistException(String message) {
         super(new EntityNotFoundException(message));
     }
 }

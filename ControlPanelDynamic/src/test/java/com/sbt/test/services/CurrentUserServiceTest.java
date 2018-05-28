@@ -71,5 +71,4 @@ public class CurrentUserServiceTest {
         verify(repo).get(anyString());
     }
 
-
 }
