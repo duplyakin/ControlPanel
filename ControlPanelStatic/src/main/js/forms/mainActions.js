@@ -2,11 +2,15 @@ import {actions} from "react-redux-form";
 
 export const endpoints = {
     GET: "users/get",
-    ADD: "/add",
-    DELETE: "/delete",
-    UPDATE: "/update",
-    SET_ROLES: "/setRoles",
-    SET_PRIVILEGES: "/setPrivileges"
+    ADD: "users/add",
+    DELETE: "users/delete",
+    UPDATE: "users/update",
+    SET_ROLES: "roles/set",
+    GET_ALL_ROLES: "roles/getAll",
+    SET_PRIVILEGES: "privileges/set",
+    GET_ALL_PRIVILEGES: "privileges/getAll",
+    GET_CURRENT_USER: "currentUser/get",
+    CHANGE_PASSWORD: "currentUser/changePassword",
 };
 
 function getCookie(name) {
@@ -64,12 +68,16 @@ export const executeRequest = (
     const request = method === "GET"
         ? constructGetRequest()
         : constructModifyingRequest({method, body});
-    fetch(`http://localhost:8090/${endpoint}`, request)
+    fetch(`${SERVER_PATH}/${endpoint}`, request)
         .then(response => {
             if (!response.ok) {
                 switch (response.status) {
                     case 403:
                         throw new Error("Запрещено");
+                    case 404:
+                        throw new Error("Не найдено");
+                    case 412:
+                        throw new Error("Нарушены предусловия для совершения действия");
                     default:
                         throw new Error("response is not ok")
                 }

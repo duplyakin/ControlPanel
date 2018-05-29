@@ -3,18 +3,19 @@ import User from "../../components/user/User";
 import Well from "react-bootstrap/es/Well";
 import {TextInput} from "../../components/basic/inputs/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
-import {executeRequest} from "../mainActions";
+import {executeRequest, endpoints} from "../mainActions";
 import {connect} from "react-redux";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import UserValidator from "../../components/basic/security/UserValidator";
 import _ from 'lodash';
+import {privileges, roles} from "../../components/basic/security/authorities";
 
 export class EditUser extends React.Component {
 
     deleteUser() {
         const {dispatch} = this.props;
         executeRequest({
-            endpoint: `users/delete/${this.state.user.username}`,
+            endpoint: `${endpoints.DELETE}/${this.state.user.username}`,
             method: "DELETE",
             errorMessage: "Не удалось удалить пользователя",
             dispatch
@@ -40,11 +41,12 @@ export class EditUser extends React.Component {
     }
 
     getUser() {
+        const {name} = this.state;
         this.setState({user: {}});
         const {dispatch} = this.props;
         executeRequest({
             popupIfSuccess: false,
-            endpoint: `users/get/${this.state.name}`,
+            endpoint: `${endpoints.GET}/${name}`,
             postprocess: (e) => this.setState({user: e}),
             errorMessage: "Не удалось найти пользователя",
             dispatch
@@ -54,7 +56,7 @@ export class EditUser extends React.Component {
     updateUser(user) {
         const {dispatch} = this.props;
         executeRequest({
-            endpoint: "users/update",
+            endpoint: endpoints.UPDATE,
             method: "POST",
             body: user,
             postprocess: (e) => this.setState({user: e}),
@@ -65,7 +67,7 @@ export class EditUser extends React.Component {
 
     render() {
         const {user, name} = this.state;
-        return <UserValidator privilegesRequired={["WRITE"]} rolesRequired={["ADMIN"]}>
+        return <UserValidator  privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
             <Well>Hi! It's user edit form!</Well>
             <UniformGrid>
                 <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>

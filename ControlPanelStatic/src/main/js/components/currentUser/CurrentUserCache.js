@@ -1,7 +1,7 @@
 import React from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
-import {executeRequest} from "../../forms/mainActions";
+import {executeRequest, endpoints} from "../../forms/mainActions";
 
 class CurrentUserCache extends React.Component {
 
@@ -14,7 +14,7 @@ class CurrentUserCache extends React.Component {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
-            endpoint: "currentUser/get",
+            endpoint: endpoints.GET_CURRENT_USER,
             postprocess: user => {
                 dispatch(actions.merge("currentUser", user))},
             errorMessage: "Не удалось загрузить текущего пользователя",

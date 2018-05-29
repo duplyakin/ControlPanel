@@ -1,7 +1,7 @@
 import React from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
-import {executeRequest} from "../../forms/mainActions";
+import {executeRequest, endpoints} from "../../forms/mainActions";
 
 class PermissionCache extends React.Component {
 
@@ -15,7 +15,7 @@ class PermissionCache extends React.Component {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
-            endpoint: "roles/getAll",
+            endpoint: endpoints.GET_ALL_ROLES,
             postprocess: roles => dispatch(actions.merge("permissionsCache.roles", roles)),
             errorMessage: "Не удалось загрузить роли",
             dispatch,
@@ -26,7 +26,7 @@ class PermissionCache extends React.Component {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
-            endpoint: "privileges/getAll",
+            endpoint: endpoints.GET_ALL_PRIVILEGES,
             postprocess: privileges => dispatch(actions.merge("permissionsCache.privileges", privileges)),
             errorMessage: "Не удалось загрузить права",
             dispatch,

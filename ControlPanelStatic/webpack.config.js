@@ -7,7 +7,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'SERVER_PATH': JSON.stringify("localhost:8090")
+            SERVER_PATH: JSON.stringify("http://localhost:8090")
         })
     ],
     output: {

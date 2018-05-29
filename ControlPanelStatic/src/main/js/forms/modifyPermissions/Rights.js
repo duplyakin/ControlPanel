@@ -4,20 +4,22 @@ import {MultiTagSelector} from "../../components/basic/inputs/MultiTagSelector";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/es/Button/Button";
-import {executeRequest} from "../../forms/mainActions";
+import {endpoints, executeRequest} from "../../forms/mainActions";
 import _ from 'lodash';
 import Well from "react-bootstrap/es/Well";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import UserValidator from "../../components/basic/security/UserValidator";
+import {privileges as p, roles as r} from "../../components/basic/security/authorities";
 
 class Rights extends React.Component {
 
     updateRoles() {
         const {dispatch} = this.props;
+        const {user, roles} = this.state;
         executeRequest({
-            endpoint: "roles/set",
+            endpoint: endpoints.SET_ROLES,
             method: "POST",
-            body: {name: this.state.user.username, authorities: this.state.roles},
+            body: {name: user.username, authorities: roles},
             postprocess: (e) => this.setState({user: e}),
             errorMessage: "Не удалось изменить роли пользователя",
             dispatch
@@ -25,11 +27,12 @@ class Rights extends React.Component {
     }
 
     updateAuthorities() {
+        const {user, privileges} = this.state;
         const {dispatch} = this.props;
         executeRequest({
-            endpoint: "privileges/set",
+            endpoint: endpoints.SET_PRIVILEGES,
             method: "POST",
-            body: {name: this.state.user.username, authorities: this.state.privileges},
+            body: {name: user.username, authorities: privileges},
             postprocess: (e) => this.setState({user: e}),
             errorMessage: "Не удалось изменить права пользователя",
             dispatch
@@ -37,15 +40,16 @@ class Rights extends React.Component {
     }
 
     getUser() {
+        const {username} = this.state;
         const {dispatch} = this.props;
         this.setState({
             user: {},
             roles: [],
             privileges: [],
-        })
+        });
         executeRequest({
             popupIfSuccess: false,
-            endpoint: `users/get/${this.state.username}`,
+            endpoint: `${endpoints.GET}/${username}`,
             postprocess: (e) => this.setState({user: e, roles: e.roles, privileges: e.privileges}),
             errorMessage: "Не удалось загрузить пользователя",
             dispatch
@@ -85,7 +89,7 @@ class Rights extends React.Component {
 
     render() {
         const {user, username, roles, privileges} = this.state;
-        return <UserValidator privilegesRequired={["WRITE"]} rolesRequired={["ADMIN"]}>
+        return <UserValidator privilegesRequired={[p.WRITE]} rolesRequired={[r.ADMIN]}>
             <Well>Hi! It's user modify rights form!</Well>
             <UniformGrid>
                 <TextInput value={username} onChange={this.handleInputChange} label="Имя пользователя"/>
