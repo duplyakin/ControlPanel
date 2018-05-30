@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextInput} from "../../components/basic/inputs/TextInput";
 import {connect} from "react-redux";
-import {executeRequest, endpoints} from "../../forms/mainActions";
+import {endpoints, executeRequest} from "../../forms/mainActions";
 import Well from "react-bootstrap/es/Well";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import Button from "@material-ui/core/es/Button/Button";

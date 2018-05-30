@@ -3,7 +3,7 @@ import User from "../../components/user/User";
 import Well from "react-bootstrap/es/Well";
 import {TextInput} from "../../components/basic/inputs/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
-import {executeRequest, endpoints} from "../mainActions";
+import {endpoints, executeRequest} from "../mainActions";
 import {connect} from "react-redux";
 import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import UserValidator from "../../components/basic/security/UserValidator";
@@ -67,7 +67,7 @@ export class EditUser extends React.Component {
 
     render() {
         const {user, name} = this.state;
-        return <UserValidator  privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+        return <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
             <Well>Hi! It's user edit form!</Well>
             <UniformGrid>
                 <TextInput value={name} onChange={this.handleChange} label="Имя пользователя"/>

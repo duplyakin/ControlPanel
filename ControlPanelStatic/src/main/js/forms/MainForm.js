@@ -15,7 +15,7 @@ import DialogOnSuccess from "../components/basic/popups/DialogOnSuccess";
 import DialogOnError from "../components/basic/popups/DialogOnError";
 import ChangePassword from "./changePassword/ChangePassword";
 import HomePage from "./homePage/HomePage";
-import {roles, privileges} from "../components/basic/security/authorities";
+import {privileges, roles} from "../components/basic/security/authorities";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 
@@ -49,7 +49,7 @@ export const MainForm = (props) =>
                                 <Link to="/edit">Форма редактирования</Link>
                             </li>
                         </UserValidator>
-                        <UserValidator  privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
                             <li>
                                 <Link to="/modify">Форма изменения прав</Link>
                             </li>

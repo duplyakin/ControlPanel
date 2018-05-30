@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
-import {executeRequest, endpoints} from "../../forms/mainActions";
+import {endpoints, executeRequest} from "../../forms/mainActions";
 
 class PermissionCache extends React.Component {
 
@@ -39,7 +39,7 @@ class PermissionCache extends React.Component {
     }
 
     render() {
-        return <div/>
+        return null;
     }
 }
 

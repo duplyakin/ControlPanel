@@ -27,7 +27,6 @@ AuthoritiesRequiredContainer.propTypes = {
 };
 
 AuthoritiesRequiredContainer.defaultProps = {
-    predicate: (user) => false,
     privilegesRequired: [],
     rolesRequired: [],
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Well} from "react-bootstrap";
 import User from "../../components/user/User";
-import {executeRequest, endpoints} from "../mainActions";
+import {endpoints, executeRequest} from "../mainActions";
 import {connect} from "react-redux";
 import UserValidator from "../../components/basic/security/UserValidator";
 import {privileges, roles} from "../../components/basic/security/authorities";
@@ -25,7 +25,7 @@ class CreateUser extends React.Component {
     }
 
     render() {
-        return <UserValidator  privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+        return <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
             <Well>Hi! It's user create form!</Well>
             <User onSubmit={this.addUser} mode="CREATE"/>
         </UserValidator>
