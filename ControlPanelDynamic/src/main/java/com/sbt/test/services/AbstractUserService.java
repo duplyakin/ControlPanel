@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class AbstractUserService {
 
-    private static final String SERVICE_LAYER_EXCEPTION_PREFIX = "Service layer has caught an exception";
+    private static final String SERVICE_LAYER_EXCEPTION_PREFIX = "Exception caught on service layer - ";
 
     <T> T supplyUserOrThrow(Supplier<T> userSupplier, Function<? super PersistenceException, ? extends UserServiceException> exceptionSupplier) {
         T entity = null;
@@ -25,14 +25,17 @@ public class AbstractUserService {
             log.info("Service exception thrown: " + serviceEx.getMessage());
             throw serviceEx;
         } catch (UserNotExistException notExist) {
-            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - user not exist: " + notExist.getMessage());
+            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + "thrown by persistence layer: user not exist: " + notExist.getMessage());
             throw new UserNotFoundException(notExist);
         } catch (PersistenceException pex) {
-            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - persistence exception caught: " + pex.getMessage());
+            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + "thrown by persistence layer:", pex);
             throw exceptionSupplier.apply(pex);
         } catch (RuntimeException rex) {
-            log.info(SERVICE_LAYER_EXCEPTION_PREFIX + " - runtime exception caught: " + rex.getMessage());
+            log.error(SERVICE_LAYER_EXCEPTION_PREFIX + "a runtime exception, you should have expected this: ", rex);
             throw new UserServiceException(rex);
+        } catch (Exception e) {
+            log.error(SERVICE_LAYER_EXCEPTION_PREFIX + "an exception, you should have expected this: ", e);
+            throw new UserServiceException(e);
         }
         if (entity == null) {
             throw new UserNotFoundException(SERVICE_LAYER_EXCEPTION_PREFIX + ": fails to find any entities");

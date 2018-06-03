@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class AbstractRestController {
 
-    private static final String CONTROLLER_LAYER_EXCEPTION_PREFIX = "Controller layer exception - ";
+    private static final String CONTROLLER_LAYER_EXCEPTION_PREFIX = "Exception caught on controller layer - ";
 
     static <T> ResponseEntity<T> ok(T body) {
         return ResponseEntity.status(200).body(body);
@@ -37,15 +37,18 @@ public class AbstractRestController {
         try {
             return ok(responseSupplier.get());
         } catch (UserNotFoundException e) {
-            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "user was not found: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "thrown by service layer: user was not found: ", e.getMessage());
             return notFound();
         } catch (UserServiceException e) {
-            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "exception on service layer: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "thrown by service layer: ", e.getMessage());
             return preconditionFailed();
         } catch (RuntimeException e) {
-            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "caught runtime exception: ", e.getMessage());
+            log.info(CONTROLLER_LAYER_EXCEPTION_PREFIX + "a runtime exception, you should have expected this: ", e);
             return preconditionFailed();
-        }
+        } catch (Exception e) {
+        log.error(CONTROLLER_LAYER_EXCEPTION_PREFIX + "an exception, you should have expected this: ", e);
+        return preconditionFailed();
+    }
     }
 
 }

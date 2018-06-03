@@ -6,7 +6,7 @@ public class UserServiceException extends RuntimeException {
         super(s);
     }
 
-    public UserServiceException(RuntimeException ex) {
+    public UserServiceException(Exception ex) {
         super(ex);
     }
 }
