@@ -3,6 +3,7 @@ package com.sbt.test.repository;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
+import com.sbt.test.repository.exceptions.UserNotExistException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

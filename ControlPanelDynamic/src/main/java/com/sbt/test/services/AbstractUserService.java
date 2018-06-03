@@ -1,6 +1,6 @@
 package com.sbt.test.services;
 
-import com.sbt.test.repository.UserNotExistException;
+import com.sbt.test.repository.exceptions.UserNotExistException;
 import com.sbt.test.services.exceptions.UserNotFoundException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import lombok.extern.slf4j.Slf4j;

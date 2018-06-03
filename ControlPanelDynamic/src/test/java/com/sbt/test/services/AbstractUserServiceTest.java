@@ -3,7 +3,7 @@ package com.sbt.test.services;
 import com.sbt.test.entities.Privilege;
 import com.sbt.test.entities.Role;
 import com.sbt.test.entities.User;
-import com.sbt.test.repository.UserNotExistException;
+import com.sbt.test.repository.exceptions.UserNotExistException;
 import com.sbt.test.services.exceptions.UserServiceException;
 import org.junit.Test;
 

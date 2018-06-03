@@ -1,4 +1,4 @@
-package com.sbt.test.repository;
+package com.sbt.test.repository.exceptions;
 
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 

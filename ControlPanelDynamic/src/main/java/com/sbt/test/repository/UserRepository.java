@@ -1,6 +1,7 @@
 package com.sbt.test.repository;
 
 import com.sbt.test.entities.User;
+import com.sbt.test.repository.exceptions.UserNotExistException;
 
 /**
  * Абстракция необходимых нам данных

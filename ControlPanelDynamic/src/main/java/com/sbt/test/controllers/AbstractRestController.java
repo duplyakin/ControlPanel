@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.function.Supplier;
 
+/**
+ * Abstract layer for controllers.
+ * Catches exceptions and handles them, wraps result into ResponseEntity.
+ */
 @Slf4j
 public class AbstractRestController {
 

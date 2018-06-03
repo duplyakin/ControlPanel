@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * maybe one day i'll make data layer prettier.
+ */
 @Getter
 @Setter
 @Builder

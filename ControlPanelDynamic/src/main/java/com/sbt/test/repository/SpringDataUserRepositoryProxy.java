@@ -1,12 +1,13 @@
 package com.sbt.test.repository;
 
 import com.sbt.test.entities.User;
+import com.sbt.test.repository.exceptions.UserNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * Прокси, отсекающий те методы репозитория spring data, которые не нужны.
- * Полезен для unit-тестирования, и в случае если возникнет необходимость отказаться от SpringData
+ * Proxy cutting unnecessary spring repository methods.
+ * Handy for testing, or in case of refusing spring data repository in future (i.e. using java 9+)
  */
 @Repository
 public class SpringDataUserRepositoryProxy implements UserRepository {

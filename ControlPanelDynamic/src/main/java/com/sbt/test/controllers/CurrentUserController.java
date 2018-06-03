@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+/**
+ * Controller to handle operations on current user
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/currentUser")
