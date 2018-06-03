@@ -22,6 +22,12 @@ class ChangePassword extends React.Component {
             body: {oldPassword, newPassword},
             errorMessage: "Не удалось сменить пароль",
             dispatch
+        });
+        // очистим форму после смены пароля
+        this.setState({
+            oldPassword: "",
+            newPassword: "",
+            newPassRepeated: "",
         })
     }
 

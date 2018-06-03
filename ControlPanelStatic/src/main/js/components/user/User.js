@@ -1,26 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {TextInput} from "../basic/inputs/TextInput";
-import {MultiTagSelector} from "../basic/inputs/MultiTagSelector";
-import PropTypes from "prop-types";
+import {UserStatusCheckboxGroup} from "./userBlocks/UserStatusCheckboxGroup";
+import RolesAndPrivileges from "./userBlocks/RolesAndPrivileges";
+import {UsernameAndPassword} from "./userBlocks/UsernameAndPassword";
 import {connect} from "react-redux";
-import {CheckBox} from "../basic/inputs/CheckBox";
-import Button from "@material-ui/core/es/Button/Button";
-import {UniformGrid} from "../basic/formatters/UniformGrid";
+import {SubmitButton} from "./userBlocks/SubmitButton";
 
-const getUserOrEmpty = (user) => {
-    return _.isEmpty(user)
-        ? {
-            username: "",
-            password: "",
-            roles: [],
-            privileges: [],
-            accountNonExpired: true,
-            accountNonLocked: true,
-            credentialsNonExpired: true,
-            enabled: true
-        }
-        : user
+const getUserOrDefault = (user) => {
+    return !_.isEmpty(user)
+        ? user
+        : defaultUser()
+};
+
+const defaultUser = () => {
+    return {
+        username: "",
+        password: "",
+        roles: [],
+        privileges: [],
+        accountNonExpired: true,
+        accountNonLocked: true,
+        credentialsNonExpired: true,
+        enabled: true,
+    }
 };
 
 class User extends React.Component {
@@ -28,18 +31,17 @@ class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: getUserOrEmpty(props.user)
+            user: getUserOrDefault(props.user),
         };
-        this.handleSelectorChange = this.handleSelectorChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleGroupChange = this.handleGroupChange.bind(this);
         this.buttonIsDisabled = this.buttonIsDisabled.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSelectorChange(change, event) {
-        const {user} = this.state;
-        user[change] = event.target.value;
-        this.setState({user});
+    componentWillReceiveProps(nextProps) {
+        if (!_.isEqual(this.state.user, nextProps.user)) {
+            this.setState({user: nextProps.user})
+        }
     }
 
     buttonIsDisabled() {
@@ -47,85 +49,41 @@ class User extends React.Component {
         return _.isEmpty(username) || _.isEmpty(password);
     }
 
-    handleInputChange(change, event) {
+    handleGroupChange(changes) {
         const {user} = this.state;
-        user[change] = event.target.value;
+        _.keys(changes).forEach(e => {
+            user[e] = changes[e]
+        });
         this.setState({user});
     }
 
-    handleCheckboxChange(change, event) {
-        const {user} = this.state;
-        user[change] = !user[change];
-        this.setState({user});
+    handleSubmit(param) {
+        const {onSubmit, mode} = this.props;
+        if (mode === "CREATE") {
+            this.setState({user: defaultUser()})
+        }
+        return onSubmit(param);
     }
 
 
     render() {
-        const {onSubmit, mode} = this.props;
+        const {mode} = this.props;
         const {user} = this.state;
-        const {username, password, roles, privileges, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled} = user;
         return <div style={{marginLeft: "10px"}}>
-            <UniformGrid>
-                <TextInput label={'Имя'}
-                           value={username}
-                           onChange={mode === "CREATE"
-                               ? this.handleInputChange.bind(this, 'username')
-                               : undefined}/>
-                {mode === "CREATE" && <TextInput label={'Пароль'}
-                                                 type={"password"}
-                                                 value={password}
-                                                 onChange={this.handleInputChange.bind(this, 'password')}/>
-                }
-
-            </UniformGrid>
-            <UniformGrid>
-                <MultiTagSelector label={"Роли"}
-                                  options={this.props.allRoles}
-                                  value={roles}
-                                  onChange={this.handleSelectorChange.bind(this, 'roles')}/>
-                <MultiTagSelector label={"Права"}
-                                  options={this.props.allPrivileges}
-                                  value={privileges}
-                                  onChange={this.handleSelectorChange.bind(this, 'privileges')}/>
-            </UniformGrid>
-            <UniformGrid>
-                <CheckBox checked={accountNonExpired}
-                          label={"Учетная запись действительна"}
-                          onChange={this.handleCheckboxChange.bind(this, 'accountNonExpired')}
-                />
-                <CheckBox checked={accountNonLocked}
-                          label={"Учетная запись не заблокирована"}
-                          onChange={this.handleCheckboxChange.bind(this, 'accountNonLocked')}
-                />
-                <CheckBox checked={credentialsNonExpired}
-                          label={"Данные пользователя действительны"}
-                          onChange={this.handleCheckboxChange.bind(this, 'credentialsNonExpired')}
-                />
-                <CheckBox checked={enabled}
-                          label={"Включён"}
-                          onChange={this.handleCheckboxChange.bind(this, 'enabled')}
-                />
-            </UniformGrid>
-            <UniformGrid>
-                <Button disabled={this.buttonIsDisabled()} onClick={() => {
-                    onSubmit(user);
-                    if (mode === "CREATE") {
-                        this.setState({
-                            user: {
-                                roles: [],
-                                privileges: [],
-                                accountNonExpired: true,
-                                accountNonLocked: true,
-                                credentialsNonExpired: true,
-                                enabled: true
-                            }
-                        })
-                    }
-                }}>{mode === "CREATE"
-                    ? "Создать"
-                    : "Обновить"
-                }</Button>
-            </UniformGrid>
+            <UsernameAndPassword onChange={this.handleGroupChange}
+                                 mode={mode}
+                                 username={user.username}
+                                 password={user.password}/>
+            <RolesAndPrivileges onChange={this.handleGroupChange}
+                                privileges={user.privileges}
+                                roles={user.roles}/>
+            <UserStatusCheckboxGroup onChange={this.handleGroupChange}
+                                     accountNonExpired={user.accountNonExpired}
+                                     accountNonLocked={user.accountNonLocked}
+                                     credentialsNonExpired={user.credentialsNonExpired}
+                                     enabled={user.enabled}
+            />
+            <SubmitButton user={user} mode={mode} onSubmit={this.handleSubmit}/>
         </div>
     }
 }
@@ -133,25 +91,14 @@ class User extends React.Component {
 User.propTypes = {
     user: PropTypes.object,
     onSubmit: PropTypes.func,
-    allPrivileges: PropTypes.array,
-    allRoles: PropTypes.array,
     mode: PropTypes.string.isRequired,
 };
 
 User.defaultProps = {
     user: {},
-    allPrivileges: [],
-    allRoles: [],
-    onSubmit: (e) => {
-    },
+    onSubmit: (e) => e,
     mode: "EDIT",
 };
 
-const mapStateToProps = (store) => {
-    return {
-        allRoles: store.permissionsCache.roles,
-        allPrivileges: store.permissionsCache.privileges,
-    }
-};
 
-export default connect(mapStateToProps)(User);
+export default connect()(User);

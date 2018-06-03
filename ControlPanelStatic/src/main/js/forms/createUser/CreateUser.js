@@ -13,7 +13,6 @@ class CreateUser extends React.Component {
             endpoint: endpoints.ADD,
             method: "PUT",
             body: user,
-            postprocess: (e) => this.setState({user: e}),
             errorMessage: "Не удалось добавить пользователя",
             dispatch
         })
