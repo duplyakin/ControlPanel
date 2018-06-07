@@ -7,9 +7,22 @@ import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import Button from "@material-ui/core/es/Button/Button";
 import {actions} from "react-redux-form";
 
+/**
+ * Форма для смены пароля
+ */
 class ChangePassword extends React.Component {
 
-    changePassword() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            oldPassword: "",
+            newPassword: "",
+            newPassRepeated: "",
+
+        };
+    }
+
+    changePassword = () => {
         const {oldPassword, newPassword, newPassRepeated} = this.state;
         const {dispatch} = this.props;
         if (newPassword !== newPassRepeated) {
@@ -29,33 +42,20 @@ class ChangePassword extends React.Component {
             newPassword: "",
             newPassRepeated: "",
         })
-    }
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            oldPassword: "",
-            newPassword: "",
-            newPassRepeated: "",
-
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.changePassword = this.changePassword.bind(this);
-        this.disabled = this.disabled.bind(this);
-    }
-
-    handleInputChange(change, event) {
+    handleInputChange = (change, event) => {
         const {state} = this;
         state[change] = event.target.value;
         this.setState({state});
-    }
+    };
 
-    disabled() {
+    disabled = () => {
         const {oldPassword, newPassword, newPassRepeated} = this.state;
         return _.isEmpty(oldPassword)
             || _.isEmpty(newPassword)
             || newPassword !== newPassRepeated;
-    }
+    };
 
     render() {
         const {oldPassword, newPassword, newPassRepeated} = this.state;

@@ -18,7 +18,11 @@ import HomePage from "./homePage/HomePage";
 import {privileges, roles} from "../components/basic/security/authorities";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
-
+/**
+ * Основная форма
+ * Осуществляет роутинг между компонентами.
+ * Предоставляет redux store.
+ */
 export const MainForm = (props) =>
     <Provider store={store}>
         <div>

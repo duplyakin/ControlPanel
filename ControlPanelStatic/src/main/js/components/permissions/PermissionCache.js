@@ -1,17 +1,15 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
 import {endpoints, executeRequest} from "../../forms/mainActions";
 
+/**
+ * Компонент для загрузки всех доступных ролей и прав.
+ * Роли и права, загруженные с динамики, используются в качестве опций значений в селекторах.
+ */
 class PermissionCache extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.loadRoles = this.loadRoles.bind(this);
-        this.loadPrivileges = this.loadPrivileges.bind(this);
-    }
-
-    loadRoles() {
+    loadRoles = () => {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
@@ -20,9 +18,9 @@ class PermissionCache extends React.Component {
             errorMessage: "Не удалось загрузить роли",
             dispatch,
         });
-    }
+    };
 
-    loadPrivileges() {
+    loadPrivileges = () => {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
@@ -31,7 +29,7 @@ class PermissionCache extends React.Component {
             errorMessage: "Не удалось загрузить права",
             dispatch,
         });
-    }
+    };
 
     componentDidMount() {
         Promise.all([this.loadRoles(), this.loadPrivileges()])

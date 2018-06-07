@@ -31,6 +31,7 @@
                             <executable>npm.cmd</executable>
                             <arguments>
                                 <argument>run</argument>
+                                <!--mode development, because production mode breaks @material-ui modals-->
                                 <argument>webpack-build</argument>
                             </arguments>
                         </configuration>
@@ -79,36 +80,36 @@
     </build>
 
     <profiles>
-    <profile>
-        <id>static-npm-install</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.5.0</version>
-                    <executions>
-                        <execution>
-                            <id>npm install</id>
-                            <goals>
-                                <goal>exec</goal>
-                            </goals>
-                            <phase>initialize</phase>
-                            <configuration>
-                                <executable>npm.cmd</executable>
-                                <arguments>
-                                    <argument>install</argument>
-                                </arguments>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-    </profile>
+        <profile>
+            <id>static-npm-install</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <executable>npm.cmd</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
     </profiles>
 
 

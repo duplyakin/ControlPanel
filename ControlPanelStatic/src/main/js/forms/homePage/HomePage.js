@@ -8,7 +8,10 @@ const welcomeString = (username) =>
     _.isEmpty(username)
         ? "Hello!"
         : "Hello, " + username;
-
+/**
+ * Компонент для отображения информации о текущем пользователе.
+ * @param username - имя текущего пользователя (загружается автоматически)
+ */
 const HomePage = ({username}) => <Well>{welcomeString(username)}</Well>;
 
 HomePage.propTypes = {

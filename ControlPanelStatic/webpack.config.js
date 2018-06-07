@@ -6,6 +6,9 @@ module.exports = {
         main: './src/main/js/index.js'
     },
     plugins: [
+        // Данный параметр описывает путь к динамике приложения.
+        // Используется в mainActions#executeRequest
+        // Переопределите, если java-часть приложения располагается по другому адресу.
         new webpack.DefinePlugin({
             SERVER_PATH: JSON.stringify("http://localhost:8090")
         })
@@ -22,13 +25,16 @@ module.exports = {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ['env', 'react']
+                        presets: ['env', 'react'],
+                        plugins: ["babel-plugin-transform-class-properties"]
                     }
                 }
             }
         ],
     },
-    devtool: 'inline-source-map',
+    //https://webpack.js.org/configuration/devtool/
+    // Позволяет понять, где случилась беда
+    devtool: 'hidden-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, "build"),
         port: 9090,
@@ -36,6 +42,8 @@ module.exports = {
         historyApiFallback: true,
         proxy: {
             secure: true,
+            // Данный параметр описывает путь к динамике приложения и позволяет переадресовывать туда запросы.
+            // Переопределите, если dev-сервер взаимодействует с java-приложением расположенным по другому адресу.
             target: "http://localhost:8090",
         }
     }

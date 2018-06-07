@@ -5,7 +5,7 @@ import {actions} from "react-redux-form";
 
 const DialogOnSuccess = ({isOpen, dispatch}) => {
     return <StatelessPopup isOpen={isOpen}
-                           handleClose={e => dispatch(actions.merge("callStatus", {success: false}))}
+                           handleClose={() => dispatch(actions.merge("callStatus", {success: false}))}
                            title="Успешно"/>;
 };
 

@@ -6,8 +6,11 @@ import {connect} from "react-redux";
 import UserValidator from "../../components/basic/security/UserValidator";
 import {privileges, roles} from "../../components/basic/security/authorities";
 
+/**
+ * Форма для добавления нового пользователя
+ */
 class CreateUser extends React.Component {
-    addUser(user) {
+    addUser = (user) => {
         const {dispatch} = this.props;
         executeRequest({
             endpoint: endpoints.ADD,
@@ -16,11 +19,6 @@ class CreateUser extends React.Component {
             errorMessage: "Не удалось добавить пользователя",
             dispatch
         })
-    }
-
-    constructor(props) {
-        super(props);
-        this.addUser = this.addUser.bind(this);
     }
 
     render() {

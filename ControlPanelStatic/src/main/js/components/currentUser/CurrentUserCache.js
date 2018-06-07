@@ -1,16 +1,14 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
 import {endpoints, executeRequest} from "../../forms/mainActions";
 
+/**
+ * Компонент для загрузки текущего (залогиненного) пользователя
+ */
 class CurrentUserCache extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.loadCurrentUser = this.loadCurrentUser.bind(this);
-    }
-
-    loadCurrentUser() {
+    loadCurrentUser = () => {
         const {dispatch} = this.props;
         return executeRequest({
             popupIfSuccess: false,
@@ -21,7 +19,7 @@ class CurrentUserCache extends React.Component {
             errorMessage: "Не удалось загрузить текущего пользователя",
             dispatch,
         });
-    }
+    };
 
     componentDidMount() {
         Promise.resolve(this.loadCurrentUser())

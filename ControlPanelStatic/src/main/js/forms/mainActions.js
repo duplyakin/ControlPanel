@@ -55,6 +55,17 @@ const constructGetRequest = () => {
     }
 };
 
+/**
+ * template-метод для отправки запросов к серверу.
+ * @param dispatch - redux#store.dispatch. Нужен для оповещения store об успешном/неуспешном результате запроса
+ * @param endpoint - элемент из mainActions#endpoints
+ * @param postprocess = (response) => {...} - хук для использования результата запроса.
+ * Позволяет записать ответ от сервера в состояние компонента, в котором был осуществлён запрос.
+ * @param method - http-метод.
+ * @param body - тело запроса
+ * @param errorMessage - надпись во всплывающем окне в случае ошибки.
+ * @param popupIfSuccess -  отображать ли всплывающее окно в случае успешного совершения запроса.
+ */
 export const executeRequest = (
     {
         dispatch,
@@ -68,9 +79,12 @@ export const executeRequest = (
     const request = method === "GET"
         ? constructGetRequest()
         : constructModifyingRequest({method, body});
+    // Путь к серверу возьмём из webpack.config
     fetch(`${SERVER_PATH}/${endpoint}`, request)
         .then(response => {
             if (!response.ok) {
+                // Если запрос завершился неуспешно - выведем какое-нибудь сообщение об ошибке
+                // в соответствии со статусом ответа.
                 switch (response.status) {
                     case 403:
                         throw new Error("Запрещено");
@@ -84,11 +98,14 @@ export const executeRequest = (
             }
             return response.json()
         })
+        // применим хук для постобработки
         .then(responseJson => postprocess(responseJson))
-        .then(resp => {
+        .then(() => {
+            // Отобразим всплывающее окно об успехе
             popupIfSuccess && dispatch(actions.merge("callStatus", {success: true}))
         })
         .catch(error => {
+            // Отобразим всплывающее окно о неудаче.
             dispatch(actions.merge("callStatus", {error: true, errorMessage: `${errorMessage}: ${error.message}`}))
         })
 };

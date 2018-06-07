@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/es/Grid/Grid";
 import _ from 'lodash';
 
+/**
+ * Компонент для унификации разметки.
+ * @param children - react-node содержимое
+ * @returns {*} - material-ui grid с содержимым children
+ * @constructor
+ */
 export const UniformGrid = ({children}) => {
     const arrayChildren = _.isArray(children)
         ? children

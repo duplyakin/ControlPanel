@@ -10,9 +10,19 @@ import _ from 'lodash';
 import {privileges, roles} from "../../components/basic/security/authorities";
 import {InputWithButton} from "../../components/user/userBlocks/InputWithButton";
 
+/**
+ * Компонент для редактирования пользователя
+ */
 export class EditUser extends React.Component {
 
-    deleteUser() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: {},
+        };
+    }
+
+    deleteUser = () => {
         const {dispatch} = this.props;
         executeRequest({
             endpoint: `${endpoints.DELETE}/${this.state.user.username}`,
@@ -21,19 +31,9 @@ export class EditUser extends React.Component {
             dispatch
         });
         this.setState({user: {}})
-    }
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: {},
-        };
-        this.getUser = this.getUser.bind(this);
-        this.updateUser = this.updateUser.bind(this);
-        this.deleteUser = this.deleteUser.bind(this);
-    }
-
-    getUser(name) {
+    getUser = (name) => {
         this.setState({user: {}});
         const {dispatch} = this.props;
         executeRequest({
@@ -43,9 +43,9 @@ export class EditUser extends React.Component {
             errorMessage: "Не удалось найти пользователя",
             dispatch
         })
-    }
+    };
 
-    updateUser(user) {
+    updateUser = (user) => {
         const {dispatch} = this.props;
         executeRequest({
             endpoint: endpoints.UPDATE,

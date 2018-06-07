@@ -69,7 +69,7 @@ class User extends React.Component {
     render() {
         const {mode} = this.props;
         const {user} = this.state;
-        return <div style={{marginLeft: "10px"}}>
+        return <div>
             <UsernameAndPassword onChange={this.handleGroupChange}
                                  mode={mode}
                                  username={user.username}

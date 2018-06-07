@@ -12,7 +12,9 @@ const containsAll = (authoritiesRequired, authoritiesActual) => {
         return prev && authoritiesActual.includes(curr)
     }, true)
 };
-
+/**Контейнер, скрывающий действия, на которые нет прав у текущего пользователя
+ * Выполняет косметическую функцию - права дополнительно проверяются на стороне динамики
+ */
 const AuthoritiesRequiredContainer = ({user, privilegesRequired, rolesRequired, children}) => {
     return (containsAll(privilegesRequired, _.get(user, 'privileges', []))
         && containsAll(rolesRequired, _.get(user, 'roles', [])))

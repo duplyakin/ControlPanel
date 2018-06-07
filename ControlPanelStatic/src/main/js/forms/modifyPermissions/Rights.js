@@ -11,9 +11,23 @@ import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
 import UserValidator from "../../components/basic/security/UserValidator";
 import {privileges as p, roles as r} from "../../components/basic/security/authorities";
 
+/**
+ * Компонент для изменения ролей и прав текущего пользователя.
+ */
 class Rights extends React.Component {
 
-    updateRoles() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            roles: [],
+            privileges: [],
+            user: {},
+
+        };
+    }
+
+    updateRoles = () => {
         const {dispatch} = this.props;
         const {user, roles} = this.state;
         executeRequest({
@@ -24,9 +38,9 @@ class Rights extends React.Component {
             errorMessage: "Не удалось изменить роли пользователя",
             dispatch
         })
-    }
+    };
 
-    updateAuthorities() {
+    updateAuthorities = () => {
         const {user, privileges} = this.state;
         const {dispatch} = this.props;
         executeRequest({
@@ -37,9 +51,9 @@ class Rights extends React.Component {
             errorMessage: "Не удалось изменить права пользователя",
             dispatch
         })
-    }
+    };
 
-    getUser() {
+    getUser = () => {
         const {username} = this.state;
         const {dispatch} = this.props;
         this.setState({
@@ -54,38 +68,21 @@ class Rights extends React.Component {
             errorMessage: "Не удалось загрузить пользователя",
             dispatch
         })
-    }
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: "",
-            roles: [],
-            privileges: [],
-            user: {},
-
-        };
-        this.handleSelectorChange = this.handleSelectorChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.updateRoles = this.updateRoles.bind(this);
-        this.updateAuthorities = this.updateAuthorities.bind(this);
-        this.getUser = this.getUser.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-    }
-
-    handleSelectorChange(change, event) {
+    handleSelectorChange = (change, event) => {
         const {state} = this;
         state[change] = event.target.value;
         this.setState({state});
-    }
+    };
 
-    handleClose() {
+    handleClose = () => {
         this.setState({errorHappened: false});
-    }
+    };
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         this.setState({username: event.target.value});
-    }
+    };
 
     render() {
         const {user, username, roles, privileges} = this.state;
