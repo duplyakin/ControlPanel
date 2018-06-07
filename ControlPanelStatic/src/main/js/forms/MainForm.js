@@ -4,15 +4,12 @@ import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
 import thunk from 'redux-thunk';
-
-import PermissionsCache from "../components/permissions/PermissionCache"
-import CurrentUserCache from "../components/currentUser/CurrentUserCache"
+import {Cache} from "../components/cache/Cache"
 import CreateUser from "./createUser/CreateUser";
 import EditUser from "./editUser/EditUser";
 import Rights from "./modifyPermissions/Rights";
 import UserValidator from "../components/basic/security/UserValidator"
-import DialogOnSuccess from "../components/basic/popups/DialogOnSuccess";
-import DialogOnError from "../components/basic/popups/DialogOnError";
+import {ResponseEventsPopUp} from "../components/basic/popups/ResponseEventsPopUp";
 import ChangePassword from "./changePassword/ChangePassword";
 import HomePage from "./homePage/HomePage";
 import {privileges, roles} from "../components/basic/security/authorities";
@@ -20,16 +17,14 @@ import {privileges, roles} from "../components/basic/security/authorities";
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
  * Основная форма
- * Осуществляет роутинг между компонентами.
+ * Осуществляет роутинг между формами.
  * Предоставляет redux store.
  */
-export const MainForm = (props) =>
+export const MainForm = () =>
     <Provider store={store}>
         <div>
-            <PermissionsCache/>
-            <CurrentUserCache/>
-            <DialogOnError/>
-            <DialogOnSuccess/>
+            <Cache/>
+            <ResponseEventsPopUp/>
             <Router>
                 <div>
                     <ul>

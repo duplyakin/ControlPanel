@@ -1,7 +1,7 @@
 import React from 'react';
 import {actions} from "react-redux-form";
 import {connect} from "react-redux";
-import {endpoints, executeRequest} from "../../forms/mainActions";
+import {endpoints, executeRequest} from "../../../forms/mainActions";
 
 /**
  * Компонент для загрузки всех доступных ролей и прав.

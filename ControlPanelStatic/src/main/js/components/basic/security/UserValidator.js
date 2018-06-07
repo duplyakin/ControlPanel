@@ -15,20 +15,20 @@ const containsAll = (authoritiesRequired, authoritiesActual) => {
 /**Контейнер, скрывающий действия, на которые нет прав у текущего пользователя
  * Выполняет косметическую функцию - права дополнительно проверяются на стороне динамики
  */
-const AuthoritiesRequiredContainer = ({user, privilegesRequired, rolesRequired, children}) => {
+const UserValidator = ({user, privilegesRequired, rolesRequired, children}) => {
     return (containsAll(privilegesRequired, _.get(user, 'privileges', []))
         && containsAll(rolesRequired, _.get(user, 'roles', [])))
         ? children
         : <div/>
 };
 
-AuthoritiesRequiredContainer.propTypes = {
+UserValidator.propTypes = {
     privilegesRequired: PropTypes.arrayOf(PropTypes.oneOf(_.values(privileges))),
     rolesRequired: PropTypes.arrayOf(PropTypes.oneOf(_.values(roles))),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
 };
 
-AuthoritiesRequiredContainer.defaultProps = {
+UserValidator.defaultProps = {
     privilegesRequired: [],
     rolesRequired: [],
 };
@@ -37,4 +37,4 @@ const mapStateToProps = (store) => {
     return {user: store.currentUserCache}
 };
 
-export default connect(mapStateToProps)(AuthoritiesRequiredContainer)
+export default connect(mapStateToProps)(UserValidator)
