@@ -3,27 +3,27 @@ import PropTypes from 'prop-types';
 import InputLabel, {styles} from "@material-ui/core/es/InputLabel/InputLabel";
 import Select from "@material-ui/core/es/Select/Select";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
-import Checkbox from "@material-ui/core/es/Checkbox/Checkbox";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import Input from "@material-ui/core/es/Input/Input";
 
-export const MultiTagSelector = (props) => {
+export const SelectBox = (props) => {
 
-    const {label, onChange, value, options} = props;
+    const {label, onChange, value, options, valueFactory} = props;
+
+    const validOptions = options.map(e => valueFactory(e));
+    const validValue = valueFactory(value);
 
     return <FormControl className={styles.formControl}>
-        <InputLabel htmlFor="select-multiple">{label}</InputLabel>
+        <InputLabel htmlFor="select-single">{label}</InputLabel>
         <Select
-            multiple
-            value={value}
+            value={validValue}
             onChange={onChange}
-            input={<Input id="select-multiple"/>}
-            renderValue={selected => selected.join(', ')}
+            input={<Input id="select-single"/>}
         >
-            {options.map(name => (
+            {validOptions.map(name => (
                 <MenuItem key={name} value={name}>
-                    <Checkbox checked={value.includes(name)}/>
+                    {/*<Checkbox checked={value.includes(name)}/>*/}
                     <ListItemText primary={name}/>
                 </MenuItem>
             ))}
@@ -31,16 +31,18 @@ export const MultiTagSelector = (props) => {
     </FormControl>
 };
 
-MultiTagSelector.propTypes = {
+SelectBox.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.array,
-    options: PropTypes.array,
+    valueFactory: PropTypes.func,
+    value: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
+    options: PropTypes.oneOfType(PropTypes.array, PropTypes.object),
     label: PropTypes.string,
 };
 
-MultiTagSelector.defaultProps = {
+SelectBox.defaultProps = {
     value: [],
     label: '',
+    valueFactory: e => e,
     options: [],
     onChange: (e) => {
     }
