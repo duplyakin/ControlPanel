@@ -13,7 +13,8 @@ import {ResponseEventsPopUp} from "../components/basic/popups/ResponseEventsPopU
 import ChangePassword from "./changePassword/ChangePassword";
 import HomePage from "./homePage/HomePage";
 import {privileges, roles} from "../components/basic/security/authorities";
-import AddInventory from "./addInventory/AddInventory";
+import AddInventory from "./inventory/add/AddInventory";
+import ViewInventory from "./inventory/view/ViewInventory";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -56,7 +57,12 @@ export const MainForm = () =>
                         </UserValidator>
                         <UserValidator>
                             <li>
-                                <Link to="/addInventory">Добавить оборудование</Link>
+                                <Link to="/addInventory">Добавить тип оборудования</Link>
+                            </li>
+                        </UserValidator>
+                        <UserValidator>
+                            <li>
+                                <Link to="/viewInventory">Посмотреть оборудование</Link>
                             </li>
                         </UserValidator>
                     </ul>
@@ -67,6 +73,7 @@ export const MainForm = () =>
                         <Route path="/edit/:username?" component={EditUser}/>
                         <Route path="/modify" component={Rights}/>
                         <Route path="/addInventory" component={AddInventory}/>
+                        <Route path="/viewInventory" component={ViewInventory}/>
                     </Switch>
                 </div>
             </Router>

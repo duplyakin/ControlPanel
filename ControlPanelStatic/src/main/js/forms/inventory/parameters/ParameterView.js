@@ -1,6 +1,6 @@
 import React from 'react';
-import {TextInput} from "../../components/basic/inputs/TextInput";
-import {UniformGrid} from "../../components/basic/formatters/UniformGrid";
+import {TextInput} from "../../../components/basic/inputs/TextInput";
+import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
 
 export class ParameterView extends React.Component {
 

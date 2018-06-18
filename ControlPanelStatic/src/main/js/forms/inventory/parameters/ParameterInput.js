@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from "lodash";
-import {TextInput} from "../../components/basic/inputs/TextInput";
+import {TextInput} from "../../../components/basic/inputs/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
-import {SelectBox} from "../../components/basic/inputs/SelectBox";
+import {SelectBox} from "../../../components/basic/inputs/SelectBox";
 
 const TYPES = {
     numeric: "NUMBER",
