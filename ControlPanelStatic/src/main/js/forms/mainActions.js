@@ -13,6 +13,7 @@ export const endpoints = {
     CHANGE_PASSWORD: "currentUser/changePassword",
     ADD_EQUIPMENT: "equipment/add",
     EQUIPMENT_GET: "equipment/get",
+    EQUIPMENT_GET_ALL: "equipment/getAll",
 };
 
 function getCookie(name) {

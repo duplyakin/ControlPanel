@@ -4,6 +4,8 @@ import com.sbt.test.entities.Equipment;
 import com.sbt.test.repository.SpringDataEquipmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EquipmentService extends AbstractUserService {
     private final SpringDataEquipmentRepository repo;
@@ -23,5 +25,7 @@ public class EquipmentService extends AbstractUserService {
     public Equipment add(Equipment eq) {
         return repo.saveAndFlush(eq);
     }
+
+    public List<Equipment> getAll() {return repo.findAll();}
 
 }
