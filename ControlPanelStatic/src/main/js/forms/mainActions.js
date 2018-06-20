@@ -11,9 +11,9 @@ export const endpoints = {
     GET_ALL_PRIVILEGES: "privileges/getAll",
     GET_CURRENT_USER: "currentUser/get",
     CHANGE_PASSWORD: "currentUser/changePassword",
-    ADD_EQUIPMENT: "equipment/add",
-    EQUIPMENT_GET: "equipment/get",
-    EQUIPMENT_GET_ALL: "equipment/getAll",
+    ADD_EQUIPMENT: "equipmentTypes/add",
+    EQUIPMENT_GET: "equipmentTypes/get",
+    EQUIPMENT_GET_ALL: "equipmentTypes/getAll",
 };
 
 function getCookie(name) {

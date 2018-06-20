@@ -13,7 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"id"})
 @Table(name = "equipment", indexes = {@Index(name = "name", columnList = "name")},
         uniqueConstraints = {@UniqueConstraint(name = "uniqueName", columnNames = {"name"})})
-public class Equipment {
+public class EquipmentType {
 
     @Id
     @GeneratedValue
