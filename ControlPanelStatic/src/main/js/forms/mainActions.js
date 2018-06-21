@@ -14,6 +14,7 @@ export const endpoints = {
     ADD_EQUIPMENT: "equipmentTypes/add",
     EQUIPMENT_GET: "equipmentTypes/get",
     EQUIPMENT_GET_ALL: "equipmentTypes/getAll",
+    EQUIPMENT_UNIT_ADD: "equipmentUnits/add",
 };
 
 function getCookie(name) {

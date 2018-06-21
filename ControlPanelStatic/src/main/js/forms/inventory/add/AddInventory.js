@@ -37,10 +37,10 @@ class AddInventory extends React.Component {
         this.setState({name: e.target.value})
     };
 
-    addEquipment = (name, value, type) => {
+    addEquipment = (name, type) => {
         if (!_.isEmpty(name)) {
             const newParameters = [...this.state.parameters];
-            newParameters.push({name, value, type});
+            newParameters.push({name, type});
             console.log(newParameters);
             this.setState({parameters: newParameters, addParameter: false})
         }
@@ -56,8 +56,8 @@ class AddInventory extends React.Component {
         return <div>
             <UniformGrid>
                 <TextInput label="Название оборудования" value={name} onChange={this.handleChange}/>
-                {parameters.map(e => <ParameterView name={e.name} value={e.value} type={e.type}
-                                                    key={`${e.name}_${e.value}`}/>)}
+                {parameters.map(e => <ParameterView name={e.name} type={e.type}
+                                                    key={e.name}/>)}
                 <Button onClick={this.handleAddParameterClick}>Добавить параметр</Button>
                 {addParameter && <ParameterInput onSubmit={this.addEquipment}/>}
             </UniformGrid>

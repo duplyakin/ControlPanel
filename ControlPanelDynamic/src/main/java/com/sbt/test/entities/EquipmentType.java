@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
-@Table(name = "equipment", indexes = {@Index(name = "name", columnList = "name")},
+@Table(name = "equipment_type", indexes = {@Index(name = "name", columnList = "name")},
         uniqueConstraints = {@UniqueConstraint(name = "uniqueName", columnNames = {"name"})})
 public class EquipmentType {
 
@@ -21,8 +21,7 @@ public class EquipmentType {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Parameter> parameters = new HashSet<>();
-
 
 }

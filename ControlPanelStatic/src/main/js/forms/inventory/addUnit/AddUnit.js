@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {SelectBox} from "../../../components/basic/inputs/SelectBox";
 import {ParametersBlock} from "./ParametersBlock";
 import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
+import {Button} from "react-bootstrap";
 
 class AddUnit extends React.Component {
 
@@ -12,6 +13,7 @@ class AddUnit extends React.Component {
         this.state = {
             types: [],
             selected: "",
+            values: {}
         }
     }
 
@@ -33,6 +35,15 @@ class AddUnit extends React.Component {
 
     addUnit = () => {
         const {dispatch} = this.props;
+        const {values, types} = this.state;
+        executeRequest({
+            dispatch,
+            method: "PUT",
+            endpoint: endpoints.EQUIPMENT_UNIT_ADD,
+            body: {type: types[0],values},
+            errorMessage: "AAAAAAAAAAAAAa",
+            postprocess: console.log
+        })
     };
 
 
@@ -45,7 +56,8 @@ class AddUnit extends React.Component {
                        value={selected}
                        onChange={this.handleChange("selected")}
                        label={"Тип оборудования"}/>
-            <ParametersBlock parameters={params}/>
+            <ParametersBlock parameters={params} onChange={(e) => this.setState({values: e})}/>
+            <Button onClick={this.addUnit}>Добавить оборудование</Button>
         </UniformGrid>
     }
 }

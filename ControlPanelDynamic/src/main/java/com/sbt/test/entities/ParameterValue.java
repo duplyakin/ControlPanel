@@ -5,25 +5,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
-@Table(name = "parameter")
-public class Parameter {
+@Table(name = "parameter_value")
+public class ParameterValue {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "id", unique = true, nullable = false, updatable = false)
+    private Parameter parameter;
 
-    private Type type;
+    private String value;
 
 }
