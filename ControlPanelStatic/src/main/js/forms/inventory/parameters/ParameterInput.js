@@ -16,14 +16,13 @@ export class ParameterInput extends React.Component {
         super(props);
         this.state = {
             name: "",
-            value: "",
             type: _.values(TYPES)[0],
         }
     }
 
     couldBeSaved = () => {
-        const {name, value, type} = this.state;
-        return !_.isEmpty(name) && !_.isEmpty(value) && !_.isEmpty(type);
+        const {name, type} = this.state;
+        return !_.isEmpty(name) && !_.isEmpty(type);
     };
 
     handleChange = (field) => (e) => {
@@ -43,12 +42,11 @@ export class ParameterInput extends React.Component {
         const {onSubmit} = this.props;
         return <div>
             <TextInput label={"Название параметра"} value={name} onChange={this.handleChange("name")}/>
-            <TextInput label={"Значение параметра"} value={value} onChange={this.handleChange("value")}/>
             <SelectBox label={"Тип параметра"}
                        options={_.values(TYPES)}
                        value={type}
                        onChange={this.handleSelect}/>
-            <Button disabled={!this.couldBeSaved()} onClick={() => onSubmit(name, value, type)}>Сохранить</Button>
+            <Button disabled={!this.couldBeSaved()} onClick={() => onSubmit(name, type)}>Сохранить</Button>
             <Button>Удалить</Button>
         </div>;
     }

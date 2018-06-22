@@ -11,6 +11,14 @@ export class ParametersBlock extends React.Component {
         }
     }
 
+    generateParamValues = () => {
+        const {values} = this.state;
+        const {parameters} = this.props;
+        return parameters.map(e => {
+            return {parameter: e, value: values[e.name]}
+        })
+    };
+
     onChange = (index) => (e) => {
         const {values} = this.state;
         values[index] = e.target.value;
@@ -18,16 +26,22 @@ export class ParametersBlock extends React.Component {
     };
 
     render() {
-        const {parameters} = this.props;
+        const {parameters, onChange} = this.props;
         const {values} = this.state;
         console.log(values)
+        console.log(parameters)
         return <UniformGrid>
             <div>Параметры оборудования</div>
             {parameters.map((e, index) =>
                 <TextInput key={index}
                            label={e.name}
                            value={values[e.name]}
-                           onChange={this.onChange(e.name)}>{`${e.name}_${index}`}</TextInput>)
+                           onChange={a => {
+                               onChange(this.generateParamValues());
+                               this.onChange(e.name)(a)
+                           }}>
+                    {`${e.name}_${index}`}
+                </TextInput>)
             }
         </UniformGrid>
     }
