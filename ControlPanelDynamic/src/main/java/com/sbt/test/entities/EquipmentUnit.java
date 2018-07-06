@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(exclude = {"id", "values"})
 @Table(name = "equipment_unit")
 public class EquipmentUnit {
 
@@ -21,11 +21,10 @@ public class EquipmentUnit {
     @GeneratedValue
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", unique = true, nullable = false, updatable = false)
+    @OneToOne(cascade = CascadeType.MERGE)
     private EquipmentType type;
 
-    @OneToMany(targetEntity=ParameterValue.class, mappedBy="id", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ParameterValue> values = new HashSet<>();
 
 }

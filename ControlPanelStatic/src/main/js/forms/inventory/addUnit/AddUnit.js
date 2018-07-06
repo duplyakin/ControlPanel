@@ -40,9 +40,9 @@ class AddUnit extends React.Component {
             dispatch,
             method: "PUT",
             endpoint: endpoints.EQUIPMENT_UNIT_ADD,
-            body: {type: types[0],values},
-            errorMessage: "AAAAAAAAAAAAAa",
-            postprocess: console.log
+            body: {type: types[0], values},
+            errorMessage: "Failed to add unit",
+            postprocess: e => console.log(e.id)
         })
     };
 

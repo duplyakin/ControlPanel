@@ -16,6 +16,7 @@ import {privileges, roles} from "../components/basic/security/authorities";
 import AddInventory from "./inventory/add/AddInventory";
 import ViewInventory from "./inventory/view/ViewInventory";
 import AddUnit from "./inventory/addUnit/AddUnit";
+import ViewUnit from "./inventory/viewUnit/ViewUnit";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -71,6 +72,11 @@ export const MainForm = () =>
                                 <Link to="/addUnit">Добавить единицу оборудования</Link>
                             </li>
                         </UserValidator>
+                        <UserValidator>
+                            <li>
+                                <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
+                            </li>
+                        </UserValidator>
                     </ul>
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
@@ -81,6 +87,8 @@ export const MainForm = () =>
                         <Route path="/addInventory" component={AddInventory}/>
                         <Route path="/viewInventory" component={ViewInventory}/>
                         <Route path="/addUnit" component={AddUnit}/>
+                        <Route path="/addUnit" component={AddUnit}/>
+                        <Route path="/viewUnit" component={ViewUnit}/>
                     </Switch>
                 </div>
             </Router>

@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(exclude = {"id", "parameters"})
 @Table(name = "equipment_type", indexes = {@Index(name = "name", columnList = "name")},
         uniqueConstraints = {@UniqueConstraint(name = "uniqueName", columnNames = {"name"})})
 public class EquipmentType {

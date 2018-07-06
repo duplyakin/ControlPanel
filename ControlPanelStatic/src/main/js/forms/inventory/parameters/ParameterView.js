@@ -5,10 +5,11 @@ import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
 export class ParameterView extends React.Component {
 
     render() {
-        const {name, type} = this.props;
+        const {name, type, value} = this.props;
         return <UniformGrid>
-            <TextInput label={"Название параметра"} value={name}/>
-            <TextInput label={"Тип параметра"} value={type}/>
+            {name && <TextInput label={"Название параметра"} value={name}/>}
+            {value && <TextInput label={"Значение параметра"} value={value}/>}
+            {type && <TextInput label={"Тип параметра"} value={type}/>}
         </UniformGrid>;
     }
 }

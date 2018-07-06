@@ -19,8 +19,7 @@ public class ParameterValue {
     @GeneratedValue
     private long id;
 
-    @OneToOne
-    @JoinColumn(name = "id", unique = true, nullable = false, updatable = false)
+    @OneToOne(cascade = CascadeType.MERGE)
     private Parameter parameter;
 
     private String value;
