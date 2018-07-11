@@ -14,11 +14,11 @@ public class EquipmentUnitService extends AbstractUserService {
     }
 
     public EquipmentUnit addUnit(EquipmentUnit eq) {
-        return repo.saveAndFlush(eq);
-    }
+            return repo.saveAndFlush(eq);
+        }
 
-    public EquipmentUnit getById(long id) {
-        return repo.getById(id);
+        public EquipmentUnit getById(long id) {
+            return repo.getById(id);
     }
 
 }

@@ -39,7 +39,7 @@ public class CurrentUserControllerSecurityTest {
             .credentialsNonExpired(true)
             .username("test user")
             .password(PASS)
-            .roles(Collections.singleton(Role.USER))
+            .springRoles(Collections.singleton(Role.USER))
             .privileges(Collections.singleton(Privilege.READ))
             .build();
 

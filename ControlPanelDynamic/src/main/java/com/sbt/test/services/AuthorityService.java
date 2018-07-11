@@ -23,7 +23,7 @@ public class AuthorityService extends AbstractUserService {
     public User setRoles(String username, Collection<Role> roles) {
         return supplyUser(() -> {
             User user = repo.get(username);
-            user.setRoles(new HashSet<>(roles));
+            user.setSpringRoles(new HashSet<>(roles));
             repo.update(user);
             return user;
         });

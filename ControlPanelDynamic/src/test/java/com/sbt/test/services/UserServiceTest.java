@@ -29,7 +29,7 @@ public class UserServiceTest {
     private User MOCK_USER = User.builder()
             .username("user")
             .password("test pass")
-            .roles(Collections.singleton(Role.USER))
+            .springRoles(Collections.singleton(Role.USER))
             .privileges(Collections.singleton(Privilege.READ))
             .accountNonExpired(true)
             .accountNonLocked(true)
