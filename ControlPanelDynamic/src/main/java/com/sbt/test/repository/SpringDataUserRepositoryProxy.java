@@ -39,6 +39,7 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
 
     @Override
     public User get(String userName) {
+        log.debug("Getting user "+userName);
         User user = repo.getByUsername(userName);
         if (user == null) {
             log.warn(REPOSITORY_ERROR_PREFIX + "Can't get: user " + userName + " doesn't exist");
@@ -49,7 +50,7 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
 
     @Override
     public User add(User user) {
-
+        log.debug("Adding user "+user.getUsername());
         Enrollment enrollment=null;
 
         try {
@@ -76,10 +77,19 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
 
     @Override
     public User delete(String username) {
+        log.debug("Deleting user "+username);
         User user = repo.getByUsername(username);
         if (user == null) {
             log.warn(REPOSITORY_ERROR_PREFIX + "Can't delete: user " + username + " doesn't exist");
             throw userNotExistException(username);
+        }
+        try {
+            User admin = repo.getByUsername(UserRepository.ADMIN);
+            HFCAClient caClient = hlProvider.getCaClient();
+            caClient.revoke(admin,user.getName(),"deleted by admin. Admins are evil.");
+
+        }catch (Exception e){
+            log.error("Unable to revoke in Fabric!",e);
         }
         repo.deleteByUsername(username);
         return user;
@@ -87,6 +97,7 @@ public class SpringDataUserRepositoryProxy implements UserRepository {
 
     @Override
     public User update(User user) {
+        log.debug("Updating user "+user.getUsername());
         if (repo.getByUsername(user.getUsername()) == null) {
             log.warn(REPOSITORY_ERROR_PREFIX + "Can't update: user " + user.getUsername() + " doesn't exist. Maybe you mean \"add\"?");
             throw new UserNotExistException("User " + user.getUsername() + " does not exist");

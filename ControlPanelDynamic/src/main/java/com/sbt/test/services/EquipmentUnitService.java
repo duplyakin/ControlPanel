@@ -1,6 +1,7 @@
 package com.sbt.test.services;
 
 import com.sbt.test.entities.EquipmentUnit;
+import com.sbt.test.entities.User;
 import com.sbt.test.repository.SpringDataEquipmentUnitRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class EquipmentUnitService extends AbstractUserService {
         this.repo = repo;
     }
 
-    public EquipmentUnit addUnit(EquipmentUnit eq) {
+    public EquipmentUnit addUnit(EquipmentUnit eq, User user) {
             return repo.saveAndFlush(eq);
         }
 

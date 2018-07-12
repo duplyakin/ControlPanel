@@ -9,8 +9,8 @@ import com.sbt.test.repository.exceptions.UserNotExistException;
  */
 public interface UserRepository {
     public static final String ADMIN = "admin";
-    public static final String AFFILATION = "admin";
-    public static final String MSP = "admin";
+    public static final String AFFILATION = "org1";
+    public static final String MSP = "Org1MSP";
 
 
     User get(String userName) throws UserNotExistException;

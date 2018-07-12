@@ -1,6 +1,7 @@
 package com.sbt.test.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sbt.test.hl.HLEnrollment;
 import lombok.*;
 import org.hyperledger.fabric.sdk.Enrollment;
@@ -40,6 +41,7 @@ public class User implements UserDetails, Serializable,org.hyperledger.fabric.sd
     @GeneratedValue
     private long id;
 
+    @JsonProperty("roles")
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Singular
     private Set<Role> springRoles;
