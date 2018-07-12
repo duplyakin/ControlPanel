@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Controller to handle operations on equipment
  */
@@ -30,7 +32,7 @@ public class EquipmentUnitController extends AbstractRestController {
 
     @PutMapping("/add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<EquipmentUnit> add(@RequestBody EquipmentUnit equip) {
+    public ResponseEntity<EquipmentUnit> add(HttpSession session, @RequestBody EquipmentUnit equip) {
         return process(() -> service.addUnit(equip));
     }
 
