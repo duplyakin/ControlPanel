@@ -8,4 +8,4 @@ import {MainForm} from "./forms/MainForm";
 export default ReactDOM.render(
     <MainForm/>,
     document.getElementById('react')
-);
+);afadfadfadfdaff
