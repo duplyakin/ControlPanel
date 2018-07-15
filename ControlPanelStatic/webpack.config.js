@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -13,9 +12,6 @@ module.exports = {
         new webpack.DefinePlugin({
             SERVER_PATH: JSON.stringify("http://localhost:8090")
         }),
-        // для использования 'extract-text-webpack-plugin'
-        // https://github.com/webpack-contrib/extract-text-webpack-plugin
-        new ExtractTextPlugin("styles.css"),
     ],
 
     output: {
@@ -39,13 +35,6 @@ module.exports = {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
                 loader: "url?limit=5000"
             },
-            {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader'
-                })
-            }
         ]
     },
     //https://webpack.js.org/configuration/devtool/
