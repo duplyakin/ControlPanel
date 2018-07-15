@@ -17,6 +17,8 @@ import AddInventory from "./inventory/add/AddInventory";
 import ViewInventory from "./inventory/view/ViewInventory";
 import AddUnit from "./inventory/addUnit/AddUnit";
 import ViewUnit from "./inventory/viewUnit/ViewUnit";
+import "bootstrap/dist/css/bootstrap.css";
+import { Navbar, NavItem, Nav, Grid, Row, Col } from "react-bootstrap";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -31,65 +33,89 @@ export const MainForm = () =>
             <ResponseEventsPopUp/>
             <Router>
                 <div>
-                    <ul>
-                        <UserValidator>
-                            <li>
-                                <Link to="/">Домашняя страница</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/changePassword">Сменить пароль</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/create">Форма создания</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/edit">Форма редактирования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/modify">Форма изменения прав</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/addInventory">Добавить тип оборудования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/viewInventory">Посмотреть оборудование</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/addUnit">Добавить единицу оборудования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
-                            </li>
-                        </UserValidator>
-                    </ul>
-                    <Switch>
-                        <Route exact path="/" component={HomePage}/>
-                        <Route path="/changePassword" component={ChangePassword}/>
-                        <Route path="/create" component={CreateUser}/>
-                        <Route path="/edit/:username?" component={EditUser}/>
-                        <Route path="/modify" component={Rights}/>
-                        <Route path="/addInventory" component={AddInventory}/>
-                        <Route path="/viewInventory" component={ViewInventory}/>
-                        <Route path="/addUnit" component={AddUnit}/>
-                        <Route path="/addUnit" component={AddUnit}/>
-                        <Route path="/viewUnit" component={ViewUnit}/>
-                    </Switch>
+
+                    <Navbar inverse collapseOnSelect>
+                        <Navbar.Header>
+                            <Navbar.Brand>
+                                <a href="#home">Super App</a>
+                            </Navbar.Brand>
+                            <Navbar.Toggle />
+                        </Navbar.Header>
+                    </Navbar>
+
+                    <Grid>
+                        <Row>
+                            <Col md={4} sm={4}>
+                                <Nav>
+                                    <NavItem>
+                                        <UserValidator>
+                                            <Link to="/">Домашняя страница</Link>
+                                        </UserValidator>
+                                    </NavItem>
+                                    <NavItem>
+                                        <UserValidator>
+                                                <Link to="/changePassword">Сменить пароль</Link>
+                                        </UserValidator>
+                                    </NavItem>
+                                    <NavItem>
+                                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+                                            <Link to="/create">Форма создания</Link>
+                                        </UserValidator>
+                                    </NavItem>
+                                    <NavItem>
+                                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+                                            <Link to="/edit">Форма редактирования</Link>
+                                        </UserValidator>
+                                    </NavItem>
+                                    <NavItem>
+                                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
+                                            <Link to="/modify">Форма изменения прав</Link>
+                                        </UserValidator>
+                                    </NavItem>
+
+                                    <NavItem>
+                                        <UserValidator>
+                                            <Link to="/addInventory">Добавить тип оборудования</Link>
+                                        </UserValidator>
+                                    </NavItem>
+
+                                    <NavItem>
+                                        <UserValidator>
+                                            <Link to="/viewInventory">Посмотреть оборудование</Link>
+                                        </UserValidator>
+                                    </NavItem>
+
+                                    <NavItem>
+                                        <UserValidator>
+                                            <Link to="/addUnit">Добавить единицу оборудования</Link>
+                                        </UserValidator>
+                                    </NavItem>
+
+                                    <NavItem>
+                                        <UserValidator>
+                                            <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
+                                        </UserValidator>
+                                    </NavItem>
+
+                                </Nav>
+                            </Col>
+
+                            <Col md={8} sm={8}>
+                                <Switch>
+                                    <Route exact path="/" component={HomePage}/>
+                                    <Route path="/changePassword" component={ChangePassword}/>
+                                    <Route path="/create" component={CreateUser}/>
+                                    <Route path="/edit/:username?" component={EditUser}/>
+                                    <Route path="/modify" component={Rights}/>
+                                    <Route path="/addInventory" component={AddInventory}/>
+                                    <Route path="/viewInventory" component={ViewInventory}/>
+                                    <Route path="/addUnit" component={AddUnit}/>
+                                    <Route path="/addUnit" component={AddUnit}/>
+                                    <Route path="/viewUnit" component={ViewUnit}/>
+                                </Switch>
+                            </Col>
+                        </Row>
+                    </Grid>
                 </div>
             </Router>
         </div>
