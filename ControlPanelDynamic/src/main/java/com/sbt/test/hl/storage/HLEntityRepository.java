@@ -1,11 +1,10 @@
-package com.sbt.test.repository;
+package com.sbt.test.hl.storage;
 
 import com.sbt.test.entities.User;
-import com.sbt.test.repository.exceptions.UserNotExistException;
 
 import javax.persistence.EntityNotFoundException;
 
-public interface HLEntityRepository<T> extends HLConstEntityRepository<T> {
+public interface HLEntityRepository<T extends HLEntity> extends HLConstEntityRepository<T> {
 
     T update(T entity,User user) throws EntityNotFoundException;
 

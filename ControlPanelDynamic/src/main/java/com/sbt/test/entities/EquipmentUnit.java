@@ -1,5 +1,6 @@
 package com.sbt.test.entities;
 
+import com.sbt.test.hl.storage.HLEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,13 +14,16 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "values"})
+@EqualsAndHashCode(exclude = {"id", "hlId", "values"})
 @Table(name = "equipment_unit")
-public class EquipmentUnit {
+public class EquipmentUnit implements HLEntity {
 
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(unique = true)
+    private String hlId;
 
     @OneToOne(cascade = CascadeType.MERGE)
     private EquipmentType type;
