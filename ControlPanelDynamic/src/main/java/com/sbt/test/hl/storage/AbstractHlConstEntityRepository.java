@@ -1,29 +1,23 @@
 package com.sbt.test.hl.storage;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.ByteString;
 import com.sbt.test.entities.User;
 import com.sbt.test.hl.HLProvider;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.hyperledger.fabric.sdk.*;
-import org.hyperledger.fabric.sdk.exception.CryptoException;
-import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
-import org.hyperledger.fabric.sdk.exception.ProposalException;
-import org.hyperledger.fabric.sdk.exception.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Nullable;
 import javax.persistence.EntityNotFoundException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import static org.hyperledger.fabric.sdk.Channel.TransactionOptions.createTransactionOptions;
 
 @Repository
 @Slf4j
@@ -33,15 +27,59 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
     private final JpaRepository<T, Long> jpaRepository;
     @Getter
     private final HLProvider hlProvider;
+    @Getter
+    private final Class<T> entityClass;
+
     @Autowired
-    protected AbstractHlConstEntityRepository(JpaRepository<T, Long> repo, HLProvider hlProvider) {
+    protected AbstractHlConstEntityRepository(JpaRepository<T, Long> repo, HLProvider hlProvider, Class<T> entityClass) {
         this.jpaRepository = repo;
         this.hlProvider = hlProvider;
+        this.entityClass = entityClass;
     }
 
-    private ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazz");
+    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazz");
     @Override
-    public T getFromHl(String hlEntityId, User user) throws EntityNotFoundException {
+    public @Nullable T getFromHl(String hlEntityId, User user) throws EntityNotFoundException {
+        try {
+            HFClient hlClient = hlProvider.getClient(user);
+            Channel channel = hlProvider.getChannel(hlClient);
+            // create chaincode request
+            QueryByChaincodeRequest qpr = hlClient.newQueryProposalRequest();
+            // build cc id providing the chaincode name. Version is omitted here.
+            ChaincodeID ccId = ChaincodeID.newBuilder().setName("objects-ledger").build();
+            qpr.setChaincodeID(ccId);
+            qpr.setFcn("queryItem");
+            qpr.setArgs(hlEntityId);
+            //try {
+            //    String txId = hlClient.
+            // CC function to be called
+            Collection<ProposalResponse> responses=channel.queryByChaincode(qpr);
+
+            for (ProposalResponse response : responses) {
+                if (response.isVerified() && response.getStatus() == ChaincodeResponse.Status.SUCCESS) {
+                    ByteString payload = response.getProposalResponse().getResponse().getPayload();
+                    JsonNode rootNode = mapper.readTree(payload.toByteArray());
+                    // parse response
+                    Iterator<JsonNode> elements = rootNode.elements();
+                    while(elements.hasNext()){
+                        JsonNode object = elements.next();
+                        try {
+                            return mapper.readerFor(getEntityClass()).readValue(object);
+                        }catch(IOException e){
+                            log.error("Type "+getEntityClass().getSimpleName()+":\nError parsing json :" + object.toString(),e);
+                            throw e;
+                        }
+
+                    }
+
+                } else {
+                    log.error("response failed. status: " + response.getStatus().getStatus());
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("bad tx",e);
+        }
         return null;
     }
 
@@ -64,7 +102,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             //try {
             //    String txId = hlClient.
             // CC function to be called
-            tpr.setFcn("addEvent");
+            tpr.setFcn("addElement");
             tpr.setArgs(entity.getHlId(),mapper.writeValueAsString(entity));
             Collection<ProposalResponse> res = channel.sendTransactionProposal(tpr);
 
@@ -80,15 +118,13 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
                 log.info(stringResponse);
             }
 
-            BlockEvent.TransactionEvent event=channel.sendTransaction(successful, createTransactionOptions() //Basically the default options but shows it's usage.
-                    .userContext(user) //could be a different user context. this is the default.
-                    .shuffleOrders(false) // don't shuffle any orderers the default is true.
-                    .orderers(channel.getOrderers()) // specify the orderers we want to try this transaction. Fails once all Orderers are tried.
-                  //  .nOfEvents(channel.) // The events to signal the completion of the interest in the transaction
-            ).get(30, TimeUnit.SECONDS);
-            /*if(event.isValid()){
-
-            }*/
+            BlockEvent.TransactionEvent event=channel.sendTransaction(successful) //could be a different user context. this is the default.
+            .get(30, TimeUnit.SECONDS);
+            if(event.isValid()){
+                log.info("object "+entity.getClass().getSimpleName()+" succesfully saved!");
+            }else{
+                log.error("object "+entity.getClass().getSimpleName()+" not saved!");
+            }
 
         } catch (Exception e) {
            log.error("bad tx",e);

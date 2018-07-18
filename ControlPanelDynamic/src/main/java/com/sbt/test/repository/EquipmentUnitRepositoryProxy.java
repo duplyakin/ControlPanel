@@ -14,6 +14,6 @@ public class EquipmentUnitRepositoryProxy extends AbstractHlConstEntityRepositor
 
     @Autowired
     public EquipmentUnitRepositoryProxy(JpaRepository<EquipmentUnit, Long> repo, HLProvider hlProvider) {
-        super(repo, hlProvider);
+        super(repo, hlProvider, EquipmentUnit.class);
     }
 }

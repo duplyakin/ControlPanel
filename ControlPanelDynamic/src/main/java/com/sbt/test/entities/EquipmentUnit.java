@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -23,7 +24,7 @@ public class EquipmentUnit implements HLEntity {
     private long id;
 
     @Column(unique = true)
-    private String hlId;
+    private String hlId= UUID.randomUUID().toString();
 
     @OneToOne(cascade = CascadeType.MERGE)
     private EquipmentType type;
