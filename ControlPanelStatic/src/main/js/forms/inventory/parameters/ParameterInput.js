@@ -38,8 +38,8 @@ export class ParameterInput extends React.Component {
     };
 
     render() {
-        const {name, value, type} = this.state;
-        const {onSubmit} = this.props;
+        const {name, type} = this.state;
+        const {onSubmit, onReject} = this.props;
         return <div>
             <TextInput label={"Название параметра"} value={name} onChange={this.handleChange("name")}/>
             <SelectBox label={"Тип параметра"}
@@ -47,7 +47,11 @@ export class ParameterInput extends React.Component {
                        value={type}
                        onChange={this.handleSelect}/>
             <Button disabled={!this.couldBeSaved()} onClick={() => onSubmit(name, type)}>Сохранить</Button>
-            <Button>Удалить</Button>
+            <Button onClick={onReject}>Удалить</Button>
         </div>;
     }
 }
+
+ParameterInput.defaultProps = {
+    onReject: e => e
+};
