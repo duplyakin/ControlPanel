@@ -35,15 +35,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/h2-console/**")
+                .and().authorizeRequests().antMatchers("/h2-console/**").hasRole("ADMIN")
+                .and().headers().frameOptions().sameOrigin()
                 .and().cors()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().authorizeRequests().mvcMatchers("/**").authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
+                .and().formLogin().permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
     }
 
     @Autowired
