@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class CurrentUserServiceTest {
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
     private static final String ENCODED_PASS = "encoded_pass";
     private PasswordEncoder dummyEncoder = mock(PasswordEncoder.class);
     private UserRepository repo = mock(UserRepository.class);

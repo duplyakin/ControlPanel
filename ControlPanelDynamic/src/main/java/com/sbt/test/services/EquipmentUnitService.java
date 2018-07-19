@@ -17,6 +17,10 @@ public class EquipmentUnitService extends AbstractUserService {
         return repo.saveAndFlush(eq);
     }
 
+    public EquipmentUnit updateUnit(EquipmentUnit eq) {
+        return repo.saveAndFlush(eq);
+    }
+
     public EquipmentUnit getById(long id) {
         return repo.getById(id);
     }

@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class AuthorityServiceTest {
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
 
     private UserRepository repo = mock(UserRepository.class);
     private final AuthorityService service = new AuthorityService(repo);

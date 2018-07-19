@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class AbstractUserServiceTest {
 
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
 
     private AbstractUserService service = new AbstractUserService();
 

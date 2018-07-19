@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 public class PrivilegesControllerLogicTest {
 
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
     private static User MOCK_USER;
     private static NameWithAuthorities<Privilege> NAME_WITH_PRIVILEGES;
     private AuthorityService service = mock(AuthorityService.class);

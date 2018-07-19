@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 public class CurrentUserControllerLogicTest {
 
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
     private static final String USERNAME = "test user";
     private static final String OLD_PASS = "old_pass";
     private static final String NEW_PASS = "new_pass";
