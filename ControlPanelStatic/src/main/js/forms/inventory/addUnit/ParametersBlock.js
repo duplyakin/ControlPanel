@@ -11,8 +11,9 @@ export class ParametersBlock extends React.Component {
         }
     }
 
-    generateParamValues = () => {
+    generateParamValues = (a, name) => {
         const {values} = this.state;
+        values[name] = a.target.value;
         const {parameters} = this.props;
         return parameters.map(e => {
             return {parameter: e, value: values[e.name]}
@@ -37,7 +38,7 @@ export class ParametersBlock extends React.Component {
                            label={e.name}
                            value={values[e.name]}
                            onChange={a => {
-                               onChange(this.generateParamValues());
+                               onChange(this.generateParamValues(a, e.name));
                                this.onChange(e.name)(a)
                            }}>
                     {`${e.name}_${index}`}
