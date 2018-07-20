@@ -52,15 +52,16 @@ class ViewUnit extends React.Component {
                     <div>Единица оборудования:</div>
                     <TextInput label="Id оборудования" value={equipmentUnit.id}/>
                     <TextInput label="Имя оборудования" value={equipmentUnit.type.name}/>
-                    {_.get(equipmentUnit, "type.parameters", []).map(e =>
-                        <ParameterView name={e.name}
-                                       value={this.getParameterValueByParameterName(equipmentUnit, e.name)}
-                                       type={e.type}
-                                       key={`${e.name}_${e.value}`}/>)}
+                    {_.get(equipmentUnit, "type.parameters", [])
+                        .map(e => <ParameterView name={e.name}
+                                                 value={this.getParameterValueByParameterName(equipmentUnit, e.name)}
+                                                 type={e.type}
+                                                 key={`${e.name}_${e.value}`}/>
+                        )}
                     <div>События</div>
                     {
                         _.get(equipmentUnit, "events", [])
-                            .map(e => <EventInput event={e}/>)
+                            .map(e => <EventInput event={e} key={e.id}/>)
                     }
                     <AddNewEvent id={id}/>
                 </React.Fragment>
@@ -70,4 +71,4 @@ class ViewUnit extends React.Component {
     }
 }
 
-export default connect()(ViewUnit)
+export default connect()(ViewUnit);
