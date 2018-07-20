@@ -1,13 +1,20 @@
 package com.sbt.test.hl.storage;
 
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.StringValue;
+import com.google.protobuf.TextFormat;
 import com.sbt.test.entities.User;
 import com.sbt.test.hl.HLProvider;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.hyperledger.fabric.sdk.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,7 +44,9 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
         this.entityClass = entityClass;
     }
 
-    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazz");
+    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazzandmanyz");
+
+
     @Override
     public @Nullable T getFromHl(String hlEntityId, User user) throws EntityNotFoundException {
         try {
@@ -54,13 +63,31 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             //    String txId = hlClient.
             // CC function to be called
             Collection<ProposalResponse> responses=channel.queryByChaincode(qpr);
-
             for (ProposalResponse response : responses) {
                 if (response.isVerified() && response.getStatus() == ChaincodeResponse.Status.SUCCESS) {
+                    String stringResponse = new String(response.getChaincodeActionResponsePayload());
+                    log.info(stringResponse);
+
                     ByteString payload = response.getProposalResponse().getResponse().getPayload();
-                    JsonNode rootNode = mapper.readTree(payload.toByteArray());
+                    JsonNode rootNode = mapper.readTree(payload.toStringUtf8());
+                    JsonNode datanode = rootNode.path("data");
+                    Iterator<JsonNode> elements = datanode.elements();
+                    List<Byte> data = new ArrayList<>();
+                    while(elements.hasNext()){
+                        data.add((byte)elements.next().intValue());
+                    }
+                    byte[] barr  = new byte[data.size()];
+                    for(int i=0;i<data.size();i++){
+                        barr[i]=data.get(i);
+                    }
+
+                    ByteString bufData = ByteString.copyFrom(barr);
+                    String out = StringEscapeUtils.unescapeJson(bufData.toStringUtf8());
+
                     // parse response
-                    Iterator<JsonNode> elements = rootNode.elements();
+                    out = out.substring(1,out.length()-1);
+                    rootNode = mapper.readTree(out);
+                    elements = rootNode.elements();
                     while(elements.hasNext()){
                         JsonNode object = elements.next();
                         try {
@@ -91,6 +118,9 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
     @Override
     public T addToHl(T entity, User user)   {
 
+       // JpaRepository<T,Long> repo = getJpaRepository();
+
+      //  T entityWithId = repo.save(entity);
         try {
             HFClient hlClient = hlProvider.getClient(user);
             Channel channel = hlProvider.getChannel(hlClient);

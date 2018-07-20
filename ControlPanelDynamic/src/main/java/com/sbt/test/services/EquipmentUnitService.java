@@ -33,7 +33,9 @@ public class EquipmentUnitService extends AbstractUserService {
 
     public EquipmentUnit addUnit(EquipmentUnit eq, User user) {
 
-            return repo.addToHl(eq,user);
+        EquipmentUnit unit = repo.addToHl(eq,user);
+        EquipmentUnit unit2 =repo.getFromHl(unit.getHlId(),user);
+            return unit2;
         }
         public EquipmentUnit getById(long id) {
             return repo.get(id);
