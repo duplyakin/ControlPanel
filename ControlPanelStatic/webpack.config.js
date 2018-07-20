@@ -11,8 +11,9 @@ module.exports = {
         // Переопределите, если java-часть приложения располагается по другому адресу.
         new webpack.DefinePlugin({
             SERVER_PATH: JSON.stringify("http://localhost:8090")
-        })
+        }),
     ],
+
     output: {
         path: path.resolve(__dirname, "build/public"),
         filename: 'main.js',
@@ -29,8 +30,12 @@ module.exports = {
                         plugins: ["babel-plugin-transform-class-properties"]
                     }
                 }
-            }
-        ],
+            },
+            {
+                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                loader: "url?limit=5000"
+            },
+        ]
     },
     //https://webpack.js.org/configuration/devtool/
     // Позволяет понять, где случилась беда
