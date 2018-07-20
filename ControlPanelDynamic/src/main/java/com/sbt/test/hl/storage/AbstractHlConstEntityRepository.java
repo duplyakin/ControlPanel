@@ -44,7 +44,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
         this.entityClass = entityClass;
     }
 
-    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazzandmanyz");
+    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"class_");
 
 
     @Override
@@ -59,8 +59,6 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             qpr.setChaincodeID(ccId);
             qpr.setFcn("queryItem");
             qpr.setArgs(hlEntityId);
-            //try {
-            //    String txId = hlClient.
             // CC function to be called
             Collection<ProposalResponse> responses=channel.queryByChaincode(qpr);
             for (ProposalResponse response : responses) {
@@ -86,17 +84,11 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
 
                     // parse response
                     out = out.substring(1,out.length()-1);
-                    rootNode = mapper.readTree(out);
-                    elements = rootNode.elements();
-                    while(elements.hasNext()){
-                        JsonNode object = elements.next();
-                        try {
-                            return mapper.readerFor(getEntityClass()).readValue(object);
-                        }catch(IOException e){
-                            log.error("Type "+getEntityClass().getSimpleName()+":\nError parsing json :" + object.toString(),e);
-                            throw e;
-                        }
-
+                    try {
+                        return mapper.readerFor(getEntityClass()).readValue(out);
+                    }catch(IOException e){
+                        log.error("Type "+getEntityClass().getSimpleName()+":\nError parsing json :" + out,e);
+                        throw e;
                     }
 
                 } else {
@@ -118,9 +110,6 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
     @Override
     public T addToHl(T entity, User user)   {
 
-       // JpaRepository<T,Long> repo = getJpaRepository();
-
-      //  T entityWithId = repo.save(entity);
         try {
             HFClient hlClient = hlProvider.getClient(user);
             Channel channel = hlProvider.getChannel(hlClient);

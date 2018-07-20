@@ -16,4 +16,15 @@ public class EquipmentUnitRepositoryProxy extends AbstractHlConstEntityRepositor
     public EquipmentUnitRepositoryProxy(JpaRepository<EquipmentUnit, Long> repo, HLProvider hlProvider) {
         super(repo, hlProvider, EquipmentUnit.class);
     }
+
+
+    @Override
+    public EquipmentUnit saveAndFlush(EquipmentUnit in) {
+        return getJpaRepository().saveAndFlush(in);
+    }
+
+    @Override
+    public EquipmentUnit getById(long id) {
+        return getJpaRepository().getOne(id);
+    }
 }
