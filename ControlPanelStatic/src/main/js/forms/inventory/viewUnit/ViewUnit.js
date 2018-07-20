@@ -6,6 +6,8 @@ import {ParameterView} from "../parameters/ParameterView";
 import Button from "@material-ui/core/es/Button/Button";
 import {endpoints, executeRequest} from "../../mainActions";
 import {connect} from "react-redux";
+import {EventInput} from "./EventInput"
+import AddNewEvent from "./AddNewEvent";
 
 class ViewUnit extends React.Component {
 
@@ -35,8 +37,6 @@ class ViewUnit extends React.Component {
     getParameterValueByParameterName = (equipmentUnit, parameter) => {
         const values = _.get(equipmentUnit, "values", []);
         const value = _.find(values, e => e.parameter.name === parameter);
-        console.log("VAL")
-        console.log(value)
         return _.get(value, "value", "")
 
     };
@@ -57,6 +57,12 @@ class ViewUnit extends React.Component {
                                        value={this.getParameterValueByParameterName(equipmentUnit, e.name)}
                                        type={e.type}
                                        key={`${e.name}_${e.value}`}/>)}
+                    <div>События</div>
+                    {
+                        _.get(equipmentUnit, "events", [])
+                            .map(e => <EventInput event={e}/>)
+                    }
+                    <AddNewEvent id={id}/>
                 </React.Fragment>
                 }
             </UniformGrid>

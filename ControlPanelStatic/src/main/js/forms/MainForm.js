@@ -17,6 +17,8 @@ import AddInventory from "./inventory/add/AddInventory";
 import ViewInventory from "./inventory/view/ViewInventory";
 import AddUnit from "./inventory/addUnit/AddUnit";
 import ViewUnit from "./inventory/viewUnit/ViewUnit";
+import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
+import AddEventType from "../forms/events/addType/AddEventType";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -31,53 +33,76 @@ export const MainForm = () =>
             <ResponseEventsPopUp/>
             <Router>
                 <div>
-                    <ul>
-                        <UserValidator>
-                            <li>
-                                <Link to="/">Домашняя страница</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/changePassword">Сменить пароль</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/create">Форма создания</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/edit">Форма редактирования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator privilegesRequired={[privileges.WRITE]} rolesRequired={[roles.ADMIN]}>
-                            <li>
-                                <Link to="/modify">Форма изменения прав</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/addInventory">Добавить тип оборудования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/viewInventory">Посмотреть оборудование</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/addUnit">Добавить единицу оборудования</Link>
-                            </li>
-                        </UserValidator>
-                        <UserValidator>
-                            <li>
-                                <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
-                            </li>
-                        </UserValidator>
-                    </ul>
+                    <Navbar inverse collapseOnSelect>
+                        <Navbar.Header>
+                            <Navbar.Brand><Link to="/">Домашняя страница</Link></Navbar.Brand>
+                        </Navbar.Header>
+
+                        <Nav>
+                            <NavDropdown eventKey={1} title="Текущий пользователь" id="current-user-nav-dropdown">
+                                <MenuItem eventKey={1.1}>
+                                    <UserValidator>
+                                        <Link to="/changePassword">Сменить пароль</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                            </NavDropdown>
+                            <NavDropdown eventKey={2} title="Операции с пользователями" id="user-nav-dropdown">
+                                <MenuItem eventKey={2.1}>
+                                    <UserValidator privilegesRequired={[privileges.WRITE]}
+                                                   rolesRequired={[roles.ADMIN]}>
+                                        <Link to="/create">Форма создания</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={2.2}>
+                                    <UserValidator privilegesRequired={[privileges.WRITE]}
+                                                   rolesRequired={[roles.ADMIN]}>
+                                        <Link to="/edit">Форма редактирования</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={2.3}>
+                                    <UserValidator privilegesRequired={[privileges.WRITE]}
+                                                   rolesRequired={[roles.ADMIN]}>
+                                        <Link to="/modify">Форма изменения прав</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                            </NavDropdown>
+                            <NavDropdown eventKey={3} title="Оборудование" id="inventory-nav-dropdown">
+                                <MenuItem eventKey={3.1}>
+                                    <UserValidator>
+                                        <Link to="/addInventory">Добавить тип оборудования</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={3.2}>
+                                    <UserValidator>
+                                        <Link to="/viewInventory">Посмотреть оборудование</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={3.3}>
+                                    <UserValidator>
+                                        <Link to="/addUnit">Добавить единицу оборудования</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={3.4}>
+                                    <UserValidator>
+                                        <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                            </NavDropdown>
+
+                            <NavDropdown eventKey={4} title="События" id="events-nav-dropdown">
+                                <MenuItem eventKey={4.1}>
+                                    <UserValidator>
+                                        <Link to="/addEventType">Добавить тип события</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                            </NavDropdown>
+                            <NavItem eventKey={5} href={`${SERVER_PATH}/logout`}>
+                                Выйти из системы
+                            </NavItem>
+                        </Nav>
+
+                    </Navbar>
+
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
                         <Route path="/changePassword" component={ChangePassword}/>
@@ -87,8 +112,8 @@ export const MainForm = () =>
                         <Route path="/addInventory" component={AddInventory}/>
                         <Route path="/viewInventory" component={ViewInventory}/>
                         <Route path="/addUnit" component={AddUnit}/>
-                        <Route path="/addUnit" component={AddUnit}/>
                         <Route path="/viewUnit" component={ViewUnit}/>
+                        <Route path="/addEventType" component={AddEventType}/>
                     </Switch>
                 </div>
             </Router>

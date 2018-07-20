@@ -42,5 +42,10 @@ public class EquipmentUnitController extends AbstractRestController {
         return process(() -> service.addUnit(equip,user));
     }
 
+    @PostMapping("/update")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<EquipmentUnit> update(@RequestBody EquipmentUnit equip) {
+        return process(() -> service.updateUnit(equip));
+    }
 
 }

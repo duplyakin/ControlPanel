@@ -37,8 +37,14 @@ public class EquipmentUnitService extends AbstractUserService {
         EquipmentUnit unit2 =repo.getFromHl(unit.getHlId(),user);
             return unit2;
         }
-        public EquipmentUnit getById(long id) {
-            return repo.get(id);
-        }
+
+
+    public EquipmentUnit updateUnit(EquipmentUnit eq) {
+        return repo.saveAndFlush(eq);
+    }
+
+    public EquipmentUnit getById(long id) {
+        return repo.getById(id);
+    }
 
 }

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 public class UserControllerLogicTest {
 
-    private static final String MESSAGE = "wow it's definitely not ok!";
+    private static final String MESSAGE = "It's test exception message. Don't panic!!";
 
     private static User MOCK_USER;
     private UserService service = mock(UserService.class);
