@@ -33,6 +33,14 @@ public class EquipmentUnitController extends AbstractRestController {
         return process(() -> service.getById(id));
     }
 
+    @GetMapping("blockchainGet/{hlId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<EquipmentUnit> blockchainGet(Principal principal,@PathVariable String hlId) {
+        String username =principal.getName();
+        final User user=userService.get(username);
+        return process(() -> service.getByhlId(user,hlId));
+    }
+
 
     @PutMapping("/add")
     @PreAuthorize("isAuthenticated()")

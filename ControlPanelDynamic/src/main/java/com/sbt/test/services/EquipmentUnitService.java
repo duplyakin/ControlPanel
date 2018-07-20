@@ -35,7 +35,7 @@ public class EquipmentUnitService extends AbstractUserService {
 
         EquipmentUnit unit = repo.addToHl(eq,user);
         EquipmentUnit unit2 =repo.getFromHl(unit.getHlId(),user);
-            return unit2;
+            return unit;
         }
 
 
@@ -47,4 +47,7 @@ public class EquipmentUnitService extends AbstractUserService {
         return repo.getById(id);
     }
 
+    public EquipmentUnit getByhlId(User user, String hlId) {
+        return repo.getFromHl(hlId,user);
+    }
 }
