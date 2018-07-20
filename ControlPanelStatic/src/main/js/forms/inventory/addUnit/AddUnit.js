@@ -35,12 +35,12 @@ class AddUnit extends React.Component {
 
     addUnit = () => {
         const {dispatch} = this.props;
-        const {values, types} = this.state;
+        const {values, types,selected} = this.state;
         executeRequest({
             dispatch,
             method: "PUT",
             endpoint: endpoints.EQUIPMENT_UNIT_ADD,
-            body: {type: types[0], values},
+            body: {type: types.find(e=>e.name === selected), values},
             errorMessage: "Failed to add unit",
             postprocess: e => console.log(e.id)
         })
@@ -48,7 +48,9 @@ class AddUnit extends React.Component {
 
 
     render() {
-        const {types, selected} = this.state;
+        const {types, selected, values} = this.state;
+        console.log("VALUES")
+        console.log(values)
         const options = types.map(e => e.name);
         const params = _.get(types.find(e => e.name === selected), "parameters", []);
         return <UniformGrid>
