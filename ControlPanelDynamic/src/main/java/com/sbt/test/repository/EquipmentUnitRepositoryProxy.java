@@ -25,6 +25,7 @@ public class EquipmentUnitRepositoryProxy extends AbstractHlConstEntityRepositor
 
     @Override
     public EquipmentUnit getById(long id) {
-        return getJpaRepository().getOne(id);
+        EquipmentUnit equ =  getJpaRepository().findById(id).get();
+        return equ;
     }
 }
