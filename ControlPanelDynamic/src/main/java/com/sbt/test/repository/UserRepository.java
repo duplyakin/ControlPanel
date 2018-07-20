@@ -8,6 +8,10 @@ import com.sbt.test.repository.exceptions.UserNotExistException;
  * Данный интерфейс убирает прямую зависимость от SpringData
  */
 public interface UserRepository {
+    public static final String ADMIN = "admin";
+    public static final String AFFILATION = "org1";
+    public static final String MSP = "Org1MSP";
+
 
     User get(String userName) throws UserNotExistException;
 

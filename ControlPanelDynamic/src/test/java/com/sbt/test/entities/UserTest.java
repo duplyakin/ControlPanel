@@ -34,7 +34,7 @@ public class UserTest {
                 .id(rand.nextLong())
                 .username(NAME)
                 .password(PASS)
-                .roles(Collections.singleton(Role.USER))
+                .springRoles(Collections.singleton(Role.USER))
                 .privileges(Collections.singleton(Privilege.READ))
                 .credentialsNonExpired(rand.nextBoolean())
                 .accountNonLocked(rand.nextBoolean())

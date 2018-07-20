@@ -24,13 +24,19 @@ public class UserService extends AbstractUserService {
         return User.builder()
                 .id(user.getId())
                 .privileges(user.getPrivileges())
-                .roles(user.getRoles())
                 .accountNonExpired(user.isAccountNonExpired())
                 .accountNonLocked(user.isAccountNonLocked())
                 .credentialsNonExpired(user.isCredentialsNonExpired())
                 .enabled(user.isEnabled())
                 .username(user.getUsername())
                 .password(encoder.encode(user.getPassword()))
+                //new
+                .springRoles(user.getSpringRoles())
+                .enrollment(user.getEnrollment())
+                .username(user.getUsername())
+                .account(user.getAccount())
+                .affiliation(user.getAffiliation())
+                .mspId(user.getMspId())
                 .build();
     }
 

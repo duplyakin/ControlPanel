@@ -30,7 +30,7 @@ public class AbstractRestControllerLogicTest {
             .password("test pass")
             .id(123L)
             .privileges(Collections.singleton(Privilege.READ))
-            .roles(Collections.singleton(Role.USER))
+            .springRoles(Collections.singleton(Role.USER))
             .credentialsNonExpired(true)
             .accountNonExpired(true)
             .enabled(true)
