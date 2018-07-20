@@ -36,4 +36,7 @@ public class EventUnitService extends AbstractUserService {
         return supplyUser(() -> repo.get(id));
     }
 
+    public EventUnit getByhlId(User user, String hlId) {
+        return repo.getFromHl(hlId,user);
+    }
 }

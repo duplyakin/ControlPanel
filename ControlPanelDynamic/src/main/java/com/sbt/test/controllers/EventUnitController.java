@@ -1,5 +1,6 @@
 package com.sbt.test.controllers;
 
+import com.sbt.test.entities.EquipmentUnit;
 import com.sbt.test.entities.EventUnit;
 import com.sbt.test.entities.User;
 import com.sbt.test.services.EventUnitService;
@@ -36,5 +37,14 @@ public class EventUnitController extends AbstractRestController {
         final User user=userService.get(username);
         return process(() -> service.addEvent(id, unit,user));
     }
+
+    @GetMapping("blockchainGet/{hlId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<EventUnit> blockchainGet(Principal principal, @PathVariable String hlId) {
+        String username =principal.getName();
+        final User user=userService.get(username);
+        return process(() -> service.getByhlId(user,hlId));
+    }
+
 
 }
