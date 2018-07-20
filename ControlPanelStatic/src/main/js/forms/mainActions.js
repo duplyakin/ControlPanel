@@ -84,7 +84,7 @@ export const executeRequest = (
         method = "GET",
         body = {},
         errorMessage,
-        popupIfSuccess = true
+        popupIfSuccess = true,
     } = {}) => {
     const request = method === "GET"
         ? constructGetRequest()
@@ -109,10 +109,16 @@ export const executeRequest = (
             return response.json()
         })
         // применим хук для постобработки
-        .then(responseJson => postprocess(responseJson))
-        .then(() => {
+        .then(responseJson => {
+            postprocess(responseJson);
+            return responseJson
+        })
+        .then((resp) => {
             // Отобразим всплывающее окно об успехе
-            popupIfSuccess && dispatch(actions.merge("callStatus", {success: true}))
+            popupIfSuccess && dispatch(actions.merge("callStatus", {
+                success: true,
+                successMessage: resp.id
+            }))
         })
         .catch(error => {
             // Отобразим всплывающее окно о неудаче.

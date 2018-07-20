@@ -7,7 +7,7 @@ import {StatelessPopup} from "./StatelessPopup";
 const DialogOnError = ({isOpen, title, errorMessage, dispatch}) => {
 
     return <StatelessPopup
-        handleClose={e => dispatch(actions.merge("callStatus", {error: false}))}
+        handleClose={e => dispatch(actions.merge("callStatus", {error: false, errorMessage:""}))}
         isOpen={isOpen}
         errorMessage={errorMessage}/>
 };
