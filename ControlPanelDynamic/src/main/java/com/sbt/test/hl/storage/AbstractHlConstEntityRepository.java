@@ -44,7 +44,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
         this.entityClass = entityClass;
     }
 
-    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"class_");
+    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazz");
 
 
     @Override
