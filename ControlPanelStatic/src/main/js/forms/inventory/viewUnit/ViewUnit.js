@@ -43,7 +43,7 @@ class ViewUnit extends React.Component {
 
     render() {
         const {equipmentUnit, id} = this.state;
-        console.log(this.state);
+        const {dispatch} = this.props;
         return <React.Fragment>
             <UniformGrid>
                 <TextInput label="Id оборудования" value={id} onChange={this.handleChange}/>
@@ -52,6 +52,13 @@ class ViewUnit extends React.Component {
                     <div>Единица оборудования:</div>
                     <TextInput label="Id оборудования" value={equipmentUnit.id}/>
                     <TextInput label="Имя оборудования" value={equipmentUnit.type.name}/>
+                    {
+                        _.isNil(equipmentUnit.id)
+                            ? null
+                            : <Button
+                                onClick={() => executeRequest({dispatch, endpoint: `equipmentUnits/blockchainGet/${equipmentUnit.hlId}`,})}>Валидировать
+                                в блокчейне</Button>
+                    }
                     {_.get(equipmentUnit, "type.parameters", [])
                         .map(e => <ParameterView name={e.name}
                                                  value={this.getParameterValueByParameterName(equipmentUnit, e.name)}
@@ -61,7 +68,14 @@ class ViewUnit extends React.Component {
                     <div>События</div>
                     {
                         _.get(equipmentUnit, "events", [])
-                            .map(e => <EventInput event={e} key={e.id}/>)
+                            .map(e => <React.Fragment key={e.id}><EventInput event={e}/>
+                                {
+                                    _.isNil(e.id)
+                                        ? null
+                                        : <Button
+                                            onClick={() => executeRequest({dispatch, endpoint: `events/blockchainGet/${e.hlId}`,})}>Валидировать
+                                            в блокчейне</Button>
+                                }</React.Fragment>)
                     }
                     <AddNewEvent id={id}/>
                 </React.Fragment>
