@@ -1,15 +1,9 @@
 package com.sbt.test.hl.storage;
 
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.StringValue;
-import com.google.protobuf.TextFormat;
 import com.sbt.test.entities.User;
 import com.sbt.test.hl.HLProvider;
 import lombok.Getter;
@@ -18,7 +12,6 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.hyperledger.fabric.sdk.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
 import javax.persistence.EntityNotFoundException;
@@ -26,10 +19,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@Repository
 @Slf4j
 public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implements HLConstEntityRepository<T> {
 
+    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL, "clazz");
     @Getter
     private final JpaRepository<T, Long> jpaRepository;
     @Getter
@@ -44,11 +37,9 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
         this.entityClass = entityClass;
     }
 
-    protected final ObjectMapper mapper = new ObjectMapper().enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.NON_FINAL,"clazz");
-
-
     @Override
-    public @Nullable T getFromHl(String hlEntityId, User user) throws EntityNotFoundException {
+    public @Nullable
+    T getFromHl(String hlEntityId, User user) throws EntityNotFoundException {
         try {
             HFClient hlClient = hlProvider.getClient(user);
             Channel channel = hlProvider.getChannel(hlClient);
@@ -60,7 +51,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             qpr.setFcn("queryItem");
             qpr.setArgs(hlEntityId);
             // CC function to be called
-            Collection<ProposalResponse> responses=channel.queryByChaincode(qpr);
+            Collection<ProposalResponse> responses = channel.queryByChaincode(qpr);
             for (ProposalResponse response : responses) {
                 if (response.isVerified() && response.getStatus() == ChaincodeResponse.Status.SUCCESS) {
                     String stringResponse = new String(response.getChaincodeActionResponsePayload());
@@ -71,23 +62,23 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
                     JsonNode datanode = rootNode.path("data");
                     Iterator<JsonNode> elements = datanode.elements();
                     List<Byte> data = new ArrayList<>();
-                    while(elements.hasNext()){
-                        data.add((byte)elements.next().intValue());
+                    while (elements.hasNext()) {
+                        data.add((byte) elements.next().intValue());
                     }
-                    byte[] barr  = new byte[data.size()];
-                    for(int i=0;i<data.size();i++){
-                        barr[i]=data.get(i);
+                    byte[] barr = new byte[data.size()];
+                    for (int i = 0; i < data.size(); i++) {
+                        barr[i] = data.get(i);
                     }
 
                     ByteString bufData = ByteString.copyFrom(barr);
                     String out = StringEscapeUtils.unescapeJson(bufData.toStringUtf8());
 
                     // parse response
-                    out = out.substring(1,out.length()-1);
+                    out = out.substring(1, out.length() - 1);
                     try {
                         return mapper.readerFor(getEntityClass()).readValue(out);
-                    }catch(IOException e){
-                        log.error("Type "+getEntityClass().getSimpleName()+":\nError parsing json :" + out,e);
+                    } catch (IOException e) {
+                        log.error("Type " + getEntityClass().getSimpleName() + ":\nError parsing json :" + out, e);
                         throw e;
                     }
 
@@ -97,7 +88,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             }
 
         } catch (Exception e) {
-            log.error("bad tx",e);
+            log.error("bad tx", e);
         }
         return null;
     }
@@ -108,7 +99,7 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
     }
 
     @Override
-    public T addToHl(T entity, User user)   {
+    public T addToHl(T entity, User user) {
 
         try {
             HFClient hlClient = hlProvider.getClient(user);
@@ -122,14 +113,14 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
             //    String txId = hlClient.
             // CC function to be called
             tpr.setFcn("addElement");
-            tpr.setArgs(entity.getHlId(),mapper.writeValueAsString(entity));
+            tpr.setArgs(entity.getHlId(), mapper.writeValueAsString(entity));
             Collection<ProposalResponse> res = channel.sendTransactionProposal(tpr);
 
-            boolean goodProp=false;
+            boolean goodProp = false;
             Collection<ProposalResponse> successful = new LinkedList<>();
             // display response
             for (ProposalResponse pres : res) {
-                if(pres.getStatus()== ProposalResponse.Status.SUCCESS){
+                if (pres.getStatus() == ProposalResponse.Status.SUCCESS) {
                     successful.add(pres);
 
                 }
@@ -137,16 +128,16 @@ public abstract class AbstractHlConstEntityRepository<T extends HLEntity> implem
                 log.info(stringResponse);
             }
 
-            BlockEvent.TransactionEvent event=channel.sendTransaction(successful) //could be a different user context. this is the default.
-            .get(30, TimeUnit.SECONDS);
-            if(event.isValid()){
-                log.info("object "+entity.getClass().getSimpleName()+" succesfully saved!");
-            }else{
-                log.error("object "+entity.getClass().getSimpleName()+" not saved!");
+            BlockEvent.TransactionEvent event = channel.sendTransaction(successful) //could be a different user context. this is the default.
+                    .get(30, TimeUnit.SECONDS);
+            if (event.isValid()) {
+                log.info("object " + entity.getClass().getSimpleName() + " succesfully saved!");
+            } else {
+                log.error("object " + entity.getClass().getSimpleName() + " not saved!");
             }
 
         } catch (Exception e) {
-           log.error("bad tx",e);
+            log.error("bad tx", e);
         }/* catch (ProposalException e) {
             e.printStackTrace();
         } catch (CryptoException e) {

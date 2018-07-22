@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode
 @Table(name = "event_type", indexes = {@Index(name = "eventTypeName", columnList = "name")},
         uniqueConstraints = {@UniqueConstraint(name = "uniqueEventTypeName", columnNames = {"name"})})
 public class EventType {

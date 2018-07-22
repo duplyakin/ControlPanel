@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode
 @Table(name = "event_unit")
 public class EventUnit implements HLEntity {
 
@@ -25,8 +25,7 @@ public class EventUnit implements HLEntity {
     @Column(unique = true)
     private String hlId= UUID.randomUUID().toString();
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "name")
+    @OneToOne
     private EventType type;
 
     private Date operationDateTime;

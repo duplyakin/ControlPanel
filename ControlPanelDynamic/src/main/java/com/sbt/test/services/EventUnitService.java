@@ -3,8 +3,9 @@ package com.sbt.test.services;
 import com.sbt.test.entities.EquipmentUnit;
 import com.sbt.test.entities.EventUnit;
 import com.sbt.test.entities.User;
-import com.sbt.test.repository.SpringDataEquipmentUnitRepository;
+import com.sbt.test.repository.EquipmentUnitRepository;
 import com.sbt.test.repository.EventUnitRepository;
+import com.sbt.test.repository.SpringDataEventTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,20 +16,24 @@ public class EventUnitService extends AbstractUserService {
 
     private final EventUnitRepository repo;
 
-    private final SpringDataEquipmentUnitRepository unitRepository;
+    private final SpringDataEventTypeRepository typeRepo;
 
-    public EventUnitService(EventUnitRepository repo, SpringDataEquipmentUnitRepository unitRepository) {
+    private final EquipmentUnitRepository unitRepository;
+
+    public EventUnitService(EventUnitRepository repo, SpringDataEventTypeRepository typeRepo, EquipmentUnitRepository unitRepository) {
         this.repo = repo;
+        this.typeRepo = typeRepo;
         this.unitRepository = unitRepository;
     }
 
     public EventUnit addEvent(long parentId, EventUnit unit, User user) {
         return supplyUser(() -> {
-            EquipmentUnit equipment = unitRepository.getOne(parentId);
+            EquipmentUnit equipment = unitRepository.getById(parentId);
+            unit.setType(typeRepo.getByName(unit.getType().getName()));
             List<EventUnit> events = new ArrayList<>(equipment.getEvents());
             events.add(unit);
             equipment.setEvents(events);
-            return repo.addToHl(unit,user);
+            return repo.addToHl(unit, user);
         });
     }
 
@@ -37,6 +42,6 @@ public class EventUnitService extends AbstractUserService {
     }
 
     public EventUnit getByhlId(User user, String hlId) {
-        return repo.getFromHl(hlId,user);
+        return repo.getFromHl(hlId, user);
     }
 }
