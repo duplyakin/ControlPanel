@@ -35,6 +35,7 @@ public class EquipmentUnit implements HLEntity {
     private EquipmentType type;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
     private Set<ParameterValue> values = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

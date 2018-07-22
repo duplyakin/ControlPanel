@@ -7,5 +7,7 @@ public interface EquipmentUnitRepository extends HLConstEntityRepository<Equipme
 
     EquipmentUnit saveAndFlush(EquipmentUnit in);
 
-     EquipmentUnit getById(long id);
+    EquipmentUnit getById(long id);
+
+    EquipmentUnit updateUnit(EquipmentUnit unit);
 }

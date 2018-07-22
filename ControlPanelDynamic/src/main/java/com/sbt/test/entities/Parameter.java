@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode
 @Table(name = "parameter")
 public class Parameter {
 

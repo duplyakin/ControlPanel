@@ -35,25 +35,27 @@ public class EquipmentUnitController extends AbstractRestController {
 
     @GetMapping("blockchainGet/{hlId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<EquipmentUnit> blockchainGet(Principal principal,@PathVariable String hlId) {
-        String username =principal.getName();
-        final User user=userService.get(username);
-        return process(() -> service.getByhlId(user,hlId));
+    public ResponseEntity<EquipmentUnit> blockchainGet(Principal principal, @PathVariable String hlId) {
+        String username = principal.getName();
+        final User user = userService.get(username);
+        return process(() -> service.getByhlId(user, hlId));
     }
 
 
     @PutMapping("/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EquipmentUnit> add(Principal principal, @RequestBody EquipmentUnit equip) {
-        String username =principal.getName();
-        final User user=userService.get(username);
-        return process(() -> service.addUnit(equip,user));
+        String username = principal.getName();
+        final User user = userService.get(username);
+        return process(() -> service.addUnit(equip, user));
     }
 
     @PostMapping("/update")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<EquipmentUnit> update(@RequestBody EquipmentUnit equip) {
-        return process(() -> service.updateUnit(equip));
+    public ResponseEntity<EquipmentUnit> update(Principal principal, @RequestBody EquipmentUnit equip) {
+        String username = principal.getName();
+        final User user = userService.get(username);
+        return process(() -> service.updateUnit(equip, user));
     }
 
 }

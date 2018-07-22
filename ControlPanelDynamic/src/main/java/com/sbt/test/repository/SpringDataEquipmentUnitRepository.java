@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 
 @Repository
-@Transactional(Transactional.TxType.REQUIRES_NEW)
+@Transactional
 public interface SpringDataEquipmentUnitRepository extends JpaRepository<EquipmentUnit, Long> {
 
     EquipmentUnit getById(long id);
