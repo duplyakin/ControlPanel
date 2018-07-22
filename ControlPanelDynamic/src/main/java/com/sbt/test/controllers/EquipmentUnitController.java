@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collection;
 
 /**
  * Controller to handle operations on equipment
@@ -31,6 +32,12 @@ public class EquipmentUnitController extends AbstractRestController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<EquipmentUnit> get(@PathVariable long id) {
         return process(() -> service.getById(id));
+    }
+
+    @GetMapping("getAll")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Collection<EquipmentUnit>> getAll() {
+        return process(service::getAll);
     }
 
     @GetMapping("blockchainGet/{hlId}")

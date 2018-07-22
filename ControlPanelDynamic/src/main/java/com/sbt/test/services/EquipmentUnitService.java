@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Set;
 
 @Slf4j
@@ -58,6 +59,10 @@ public class EquipmentUnitService extends AbstractUserService {
 
     public EquipmentUnit getById(long id) {
         return repo.getById(id);
+    }
+
+    public Collection<EquipmentUnit> getAll() {
+        return repo.getAll();
     }
 
     public EquipmentUnit getByhlId(User user, String hlId) {

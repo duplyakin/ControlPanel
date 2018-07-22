@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 @Repository
 @Slf4j
 public class EquipmentUnitRepositoryProxy extends AbstractHlConstEntityRepository<EquipmentUnit> implements EquipmentUnitRepository {
@@ -25,12 +27,17 @@ public class EquipmentUnitRepositoryProxy extends AbstractHlConstEntityRepositor
 
     @Override
     public EquipmentUnit getById(long id) {
-        EquipmentUnit equ =  getJpaRepository().findById(id).get();
+        EquipmentUnit equ = getJpaRepository().findById(id).get();
         return equ;
     }
 
     @Override
     public EquipmentUnit updateUnit(EquipmentUnit unit) {
         return getJpaRepository().saveAndFlush(unit);
+    }
+
+    @Override
+    public Collection<EquipmentUnit> getAll() {
+        return getJpaRepository().findAll();
     }
 }
