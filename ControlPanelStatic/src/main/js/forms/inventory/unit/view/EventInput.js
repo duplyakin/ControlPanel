@@ -16,7 +16,7 @@ export class EventInput extends React.Component {
     transformType = (e) => {
         const {event, eventTypes, onChange} = this.props;
         const newEventTypeName = e.target.value;
-        const correctEventType = eventTypes.find(elem => elem.name = newEventTypeName);
+        const correctEventType = eventTypes.find(elem => elem.name === newEventTypeName);
         if (!_.isEmpty(correctEventType)) {
             event['type'] = correctEventType;
         }
@@ -47,7 +47,7 @@ export class EventInput extends React.Component {
                                      label={"Тип события"}/>
                         : <TextInput label={"Тип события"}
                                      value={_.get(type, "name", "")}
-                                     onChange={this.transformEvent("startDepthInMeters")}/>
+                                     onChange={this.transformEvent("type.name")}/>
                 }
                 {/*<DateTime label={"Дата-время операции"}*/}
                 {/*value={operationDateTime}*/}
