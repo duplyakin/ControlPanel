@@ -27,11 +27,12 @@ public class EquipmentUnitService extends AbstractUserService {
 
     public EquipmentUnit addUnit(EquipmentUnit eq, User user) {
         EquipmentUnit unit = repo.addToHl(eq, user);
+        repo.getFromHl(unit.getHlId(), user);
         return unit;
     }
 
 
-    //ToDo: написать нормально
+    //ToDo: убрал вызов блокчейна. Вернуть после реализации апдейта
     public EquipmentUnit updateUnit(EquipmentUnit eq, User user) {
         if (eq == null) {
             return eq;
@@ -52,7 +53,7 @@ public class EquipmentUnitService extends AbstractUserService {
                 }
             }
         }
-        return repo.addToHl(unit, user);
+        return repo.saveAndFlush(unit);
     }
 
     public EquipmentUnit getById(long id) {
