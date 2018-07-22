@@ -15,20 +15,20 @@ class AddNewType extends React.Component {
         super(props);
         this.state = {
             name: "",
-            //name-value
-            parameters: [],
-            addParameter: false,
+            operatingRatio: 1,
+            // parameters: [],
+            // addParameter: false,
         }
     }
 
     addNewType = () => {
         const {dispatch, endpoint} = this.props;
-        const {parameters, name} = this.state;
+        const {parameters, name, operatingRatio} = this.state;
         executeRequest({
             dispatch,
             method: "PUT",
             endpoint,
-            body: {name, parameters},
+            body: {name, parameters, operatingRatio},
             errorMessage: "Не удалось создать!",
         })
     };
@@ -37,14 +37,17 @@ class AddNewType extends React.Component {
         this.setState({name: e.target.value})
     };
 
-    addParameter = (name, type) => {
-        if (!_.isEmpty(name)) {
-            const newParameters = [...this.state.parameters];
-            newParameters.push({name, type});
-            console.log(newParameters);
-            this.setState({parameters: newParameters, addParameter: false})
-        }
+    handleRatioChange = (e) => {
+        this.setState({operatingRatio: e.target.value})
     };
+
+    // addParameter = (name, type) => {
+    //     if (!_.isEmpty(name)) {
+    //         const newParameters = [...this.state.parameters];
+    //         newParameters.push({name, type});
+    //         this.setState({parameters: newParameters, addParameter: false})
+    //     }
+    // };
 
     rejectNewParameter = () => {
         this.setState({addParameter: false})
@@ -56,16 +59,17 @@ class AddNewType extends React.Component {
     };
 
     render() {
-        const {parameters, addParameter, name} = this.state;
+        const {parameters, addParameter, name, operatingRatio} = this.state;
         const {label} = this.props;
         return <div>
             <UniformGrid>
                 <TextInput label={label} value={name} onChange={this.handleChange}/>
-                {parameters.map(e => <ParameterView name={e.name} type={e.type}
-                                                    key={e.name}/>)}
-                <Button onClick={this.handleAddParameterClick}>Добавить новый параметр</Button>
-                {addParameter && <ParameterInput onSubmit={this.addParameter}
-                                                 onReject={this.rejectNewParameter}/>}
+                <TextInput label={"Коэффициент наработки"} value={operatingRatio} onChange={this.handleRatioChange}/>
+                {/*{parameters.map(e => <ParameterView name={e.name} type={e.type}*/}
+                                                    {/*key={e.name}/>)}*/}
+                {/*<Button onClick={this.handleAddParameterClick}>Добавить новый параметр</Button>*/}
+                {/*{addParameter && <ParameterInput onSubmit={this.addParameter}*/}
+                                                 {/*onReject={this.rejectNewParameter}/>}*/}
             </UniformGrid>
             <UniformGrid>
                 <Button onClick={this.addNewType}>Создать</Button>
