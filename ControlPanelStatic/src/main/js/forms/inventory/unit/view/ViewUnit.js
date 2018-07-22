@@ -1,10 +1,10 @@
 import React from "react";
 import _ from "lodash";
-import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
-import {TextInput} from "../../../components/basic/inputs/TextInput";
-import {ParameterView} from "../parameters/ParameterView";
+import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
+import {TextInput} from "../../../../components/basic/inputs/TextInput";
+import {ParameterView} from "../../parameters/ParameterView";
 import Button from "@material-ui/core/es/Button/Button";
-import {endpoints, executeRequest} from "../../mainActions";
+import {endpoints, executeRequest} from "../../../mainActions";
 import {connect} from "react-redux";
 import {EventInput} from "./EventInput"
 import AddNewEvent from "./AddNewEvent";
@@ -50,8 +50,8 @@ class ViewUnit extends React.Component {
                 <Button onClick={this.getUnit}>Найти</Button>
                 {!_.isEmpty(equipmentUnit) && <React.Fragment>
                     <div>Единица оборудования:</div>
-                    <TextInput label="Id оборудования" value={equipmentUnit.id}/>
-                    <TextInput label="Имя оборудования" value={equipmentUnit.type.name}/>
+                    <TextInput label="Id оборудования" value={_.get(equipmentUnit,"id")}/>
+                    <TextInput label="Имя оборудования" value={_.get(equipmentUnit,"type.name")}/>
                     {
                         _.isNil(equipmentUnit.id)
                             ? null

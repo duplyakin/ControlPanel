@@ -13,12 +13,13 @@ import {ResponseEventsPopUp} from "../components/basic/popups/ResponseEventsPopU
 import ChangePassword from "./changePassword/ChangePassword";
 import HomePage from "./homePage/HomePage";
 import {privileges, roles} from "../components/basic/security/authorities";
-import AddInventory from "./inventory/add/AddInventory";
-import ViewInventory from "./inventory/view/ViewInventory";
-import AddUnit from "./inventory/addUnit/AddUnit";
-import ViewUnit from "./inventory/viewUnit/ViewUnit";
+import AddInventory from "./inventory/type/add/AddInventory";
+import ViewInventory from "./inventory/type/view/ViewInventory";
+import AddUnit from "./inventory/unit/add/AddUnit";
+import ViewUnit from "./inventory/unit/view/ViewUnit";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import AddEventType from "../forms/events/addType/AddEventType";
+import UpdateUnit from "../forms/inventory/unit/update/UpdateUnit";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -74,7 +75,7 @@ export const MainForm = () =>
                                 </MenuItem>
                                 <MenuItem eventKey={3.2}>
                                     <UserValidator>
-                                        <Link to="/viewInventory">Посмотреть оборудование</Link>
+                                        <Link to="/viewInventory">Посмотреть тип оборудование</Link>
                                     </UserValidator>
                                 </MenuItem>
                                 <MenuItem eventKey={3.3}>
@@ -85,6 +86,11 @@ export const MainForm = () =>
                                 <MenuItem eventKey={3.4}>
                                     <UserValidator>
                                         <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
+                                    </UserValidator>
+                                </MenuItem>
+                                <MenuItem eventKey={3.5}>
+                                    <UserValidator>
+                                        <Link to="/updateUnit">Изменить единицу оборудования</Link>
                                     </UserValidator>
                                 </MenuItem>
                             </NavDropdown>
@@ -112,6 +118,7 @@ export const MainForm = () =>
                         <Route path="/addInventory" component={AddInventory}/>
                         <Route path="/viewInventory" component={ViewInventory}/>
                         <Route path="/addUnit" component={AddUnit}/>
+                        <Route path="/updateUnit" component={UpdateUnit}/>
                         <Route path="/viewUnit" component={ViewUnit}/>
                         <Route path="/addEventType" component={AddEventType}/>
                     </Switch>

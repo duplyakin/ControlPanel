@@ -1,11 +1,11 @@
 import React from "react";
 import _ from "lodash";
-import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
-import {TextInput} from "../../../components/basic/inputs/TextInput";
+import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
+import {TextInput} from "../../../../components/basic/inputs/TextInput";
 import Button from "@material-ui/core/es/Button/Button";
-import {ParameterInput} from "../parameters/ParameterInput";
-import {ParameterView} from "../parameters/ParameterView";
-import {endpoints, executeRequest} from "../../mainActions";
+import {ParameterInput} from "../../parameters/ParameterInput";
+import {ParameterView} from "../../parameters/ParameterView";
+import {endpoints, executeRequest} from "../../../mainActions";
 import {connect} from "react-redux";
 
 class AddInventory extends React.Component {

@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
-import {SelectBox} from "../../../components/basic/inputs/SelectBox";
-import {TextInput} from "../../../components/basic/inputs/TextInput";
+import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
+import {SelectBox} from "../../../../components/basic/inputs/SelectBox";
+import {TextInput} from "../../../../components/basic/inputs/TextInput";
 
 export class EventInput extends React.Component {
 

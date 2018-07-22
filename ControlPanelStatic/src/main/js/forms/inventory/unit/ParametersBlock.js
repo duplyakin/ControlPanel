@@ -29,8 +29,6 @@ export class ParametersBlock extends React.Component {
     render() {
         const {parameters, onChange} = this.props;
         const {values} = this.state;
-        console.log(values)
-        console.log(parameters)
         return <UniformGrid>
             <div>Параметры оборудования</div>
             {parameters.map((e, index) =>

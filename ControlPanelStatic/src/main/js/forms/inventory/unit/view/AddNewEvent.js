@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {endpoints, executeRequest} from "../../../forms/mainActions";
-import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
+import {endpoints, executeRequest} from "../../../mainActions";
+import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
 import Button from "@material-ui/core/es/Button/Button";
 import {EventInput} from "./EventInput"
 

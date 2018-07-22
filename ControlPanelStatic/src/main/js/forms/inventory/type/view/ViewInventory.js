@@ -1,10 +1,10 @@
 import React from "react";
 import _ from "lodash";
-import {UniformGrid} from "../../../components/basic/formatters/UniformGrid";
-import {TextInput} from "../../../components/basic/inputs/TextInput";
-import {ParameterView} from "../parameters/ParameterView";
+import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
+import {TextInput} from "../../../../components/basic/inputs/TextInput";
+import {ParameterView} from "../../parameters/ParameterView";
 import Button from "@material-ui/core/es/Button/Button";
-import {endpoints, executeRequest} from "../../mainActions";
+import {endpoints, executeRequest} from "../../../mainActions";
 import {connect} from "react-redux";
 
 class ViewInventory extends React.Component {
