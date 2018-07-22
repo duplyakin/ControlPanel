@@ -21,4 +21,6 @@ public class EventType {
 
     private String name;
 
+    long operatingRatio;
+
 }
