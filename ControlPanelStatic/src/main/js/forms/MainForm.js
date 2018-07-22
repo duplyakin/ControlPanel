@@ -20,6 +20,7 @@ import ViewUnit from "./inventory/unit/view/ViewUnit";
 import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from "react-bootstrap";
 import AddEventType from "../forms/events/addType/AddEventType";
 import UpdateUnit from "../forms/inventory/unit/update/UpdateUnit";
+import ViewAllUnits from "../forms/inventory/unit/viewAll/ViewAllUnits";
 
 const store = createStore(mainReducer, applyMiddleware(thunk));
 /**
@@ -93,6 +94,11 @@ export const MainForm = () =>
                                         <Link to="/updateUnit">Изменить единицу оборудования</Link>
                                     </UserValidator>
                                 </MenuItem>
+                                <MenuItem eventKey={3.5}>
+                                    <UserValidator>
+                                        <Link to="/viewAllUnits">Посмотреть всё оборудование</Link>
+                                    </UserValidator>
+                                </MenuItem>
                             </NavDropdown>
 
                             <NavDropdown eventKey={4} title="События" id="events-nav-dropdown">
@@ -120,6 +126,7 @@ export const MainForm = () =>
                         <Route path="/addUnit" component={AddUnit}/>
                         <Route path="/updateUnit" component={UpdateUnit}/>
                         <Route path="/viewUnit" component={ViewUnit}/>
+                        <Route path="/viewAllUnits" component={ViewAllUnits}/>
                         <Route path="/addEventType" component={AddEventType}/>
                     </Switch>
                 </div>

@@ -15,6 +15,7 @@ export const endpoints = {
     EQUIPMENT_GET: "equipmentTypes/get",
     EQUIPMENT_GET_ALL: "equipmentTypes/getAll",
     EQUIPMENT_UNIT_GET: "equipmentUnits/get",
+    EQUIPMENT_UNIT_GET_ALL: "equipmentUnits/getAll",
     EQUIPMENT_UNIT_ADD: "equipmentUnits/add",
     EQUIPMENT_UNIT_UPDATE: "equipmentUnits/update",
     EVENT_TYPE_ADD: "eventTypes/add",
