@@ -1,6 +1,7 @@
 package com.sbt.test.controllers;
 
 import com.sbt.test.entities.EquipmentType;
+import com.sbt.test.entities.Parameter;
 import com.sbt.test.services.EquipmentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 /**
  * Controller to handle operations on equipment
  */
@@ -42,5 +48,36 @@ public class EquipmentTypeController extends AbstractRestController {
         return process(() -> service.addType(equip));
     }
 
+    @PostConstruct
+    public void addEventType(){
+        Parameter p1 = new Parameter();
+        Parameter p2 = new Parameter();
+        Parameter p3 = new Parameter();
+        Parameter p4 = new Parameter();
+        Parameter p5 = new Parameter();
+        Parameter p6 = new Parameter();
+
+        EquipmentType et = new EquipmentType();
+
+        p1.setName("Вес талевого блока, т");
+        p2.setName("Длина свечи, м");
+        p3.setName("Предыдущая наработка, т*км");
+        p4.setName("№ бухты/сертификата");
+        p5.setName("D каната, мм");
+        p6.setName("Каната в бухте, м");
+
+        Set<Parameter> parSet = new HashSet<Parameter>();
+        parSet.add(p1);
+        parSet.add(p2);
+        parSet.add(p3);
+        parSet.add(p4);
+        parSet.add(p5);
+        parSet.add(p6);
+
+
+        et.setParameters(parSet);
+        et.setName("Талевый канат");
+        service.addType(et);
+    }
 
 }

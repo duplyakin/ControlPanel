@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import {endpoints, executeRequest} from "../../../mainActions";
 import Grid from "react-bootstrap/es/Grid";
 import {Col, Row} from "react-bootstrap";
-
+import {Link} from "react-router";
+import {browserHistory} from "react-router";
 
 class ViewAllUnits extends React.Component {
 
@@ -48,24 +49,19 @@ class ViewAllUnits extends React.Component {
     render() {
         const {units, unit} = this.state;
         return <Grid>
-            <Col xs={8}>
+            <Col xs={6}>
                 <Row>
-                    <Col xs={3}><b>id</b></Col>
-                    <Col xs={5}><b>Тип</b></Col>
-                    <Col xs={4}><b>Связанных событий</b></Col>
+                    <Col xs={2}><b>id</b></Col>
+                    <Col xs={4}><b>Тип</b></Col>
+                    <Col xs={2}><b>Связанных событий</b></Col>
                 </Row>
                 {units.map(unit =>
                     <Row id={_.get(unit, "id", "")} onClick={this.setUnit(unit)}>
-                        <Col xs={3}>{_.get(unit, "id")}</Col>
-                        <Col xs={5}>{_.get(unit, "type.name")}</Col>
-                        <Col xs={4}>{_.get(unit, "events", []).length}</Col>
+                        <Col xs={2}>{_.get(unit, "id")}</Col>
+                        <Col xs={4}>{_.get(unit, "type.name")}</Col>
+                        <Col xs={2}>{_.get(unit, "events", []).length}</Col>
                     </Row>
                 )}
-            </Col>
-            <Col xs={4}>
-                <Row>
-                    {this.representSelectedUnit()}
-                </Row>
             </Col>
         </Grid>
     }

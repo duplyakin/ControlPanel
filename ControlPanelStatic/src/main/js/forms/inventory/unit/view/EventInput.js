@@ -28,6 +28,7 @@ export class EventInput extends React.Component {
         const {
             type,
             operationDateTime,
+            endDateTime,
             startDepthInMeters,
             endDepthInMeters,
             startMaxWeightKilos,
@@ -44,32 +45,34 @@ export class EventInput extends React.Component {
                         ? <SelectBox options={options}
                                      value={_.get(type, "name", "")}
                                      onChange={this.transformType}
-                                     label={"Тип события"}/>
-                        : <TextInput label={"Тип события"}
+                                     label={"Тип"}/>
+                        : <TextInput label={"Тип"}
                                      value={_.get(type, "name", "")}
                                      onChange={this.transformEvent("type.name")}/>
                 }
-                {/*<DateTime label={"Дата-время операции"}*/}
-                {/*value={operationDateTime}*/}
-                {/*onChange={this.handleInputChange("operationDateTime")}/>*/}
-                <TextInput label={"Глубина начала операции, м"}
+                <TextInput label={"Начало операции"}
+                           type="datetime-local"
+                           value={operationDateTime}
+                           onChange={this.transformEvent("operationDateTime")}/>
+                <TextInput label={"Конец операции"}
+                           type="datetime-local"
+                           value={endDateTime}
+                           onChange={this.transformEvent("endDateTime")}/>
+                <TextInput label={"Глубина начала, м"}
                            value={startDepthInMeters}
                            onChange={this.transformEvent("startDepthInMeters")}/>
-                <TextInput label={"Глубина в конце операции, м"}
+                <TextInput label={"Глубина в конце, м"}
                            value={endDepthInMeters}
                            onChange={this.transformEvent("endDepthInMeters")}/>
-                <TextInput label={"Вес на крюке макс в начале операции, кг"}
+                <TextInput label={"Вес нач макс, т"}
                            value={startMaxWeightKilos}
                            onChange={this.transformEvent("startMaxWeightKilos")}/>
-                <TextInput label={"Вес на крюке макс в конце операции, кг"}
+                <TextInput label={"Вес кон макс, т"}
                            value={endMaxWeightKilos}
                            onChange={this.transformEvent("endMaxWeightKilos")}/>
                 <TextInput label={"Переспуск-перетяжка, м"}
                            value={perespuskInMeters}
                            onChange={this.transformEvent("perespuskInMeters")}/>
-                <TextInput label={"Место события"}
-                           value={place}
-                           onChange={this.transformEvent("place")}/>
             </UniformGrid>
         </React.Fragment>
     };
@@ -78,6 +81,7 @@ export class EventInput extends React.Component {
 EventInput.propTypes = {
     event: PropTypes.shape({
         operationDateTime: PropTypes.date,
+        endDateTime: PropTypes.date,
         startDepthInMeters: PropTypes.string,
         endDepthInMeters: PropTypes.string,
         startMaxWeightKilos: PropTypes.string,

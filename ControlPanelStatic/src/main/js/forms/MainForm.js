@@ -76,7 +76,7 @@ export const MainForm = () =>
                                 </MenuItem>
                                 <MenuItem eventKey={3.2}>
                                     <UserValidator>
-                                        <Link to="/viewInventory">Посмотреть тип оборудование</Link>
+                                        <Link to="/viewInventory">Посмотреть тип оборудования</Link>
                                     </UserValidator>
                                 </MenuItem>
                                 <MenuItem eventKey={3.3}>
@@ -126,6 +126,7 @@ export const MainForm = () =>
                         <Route path="/addUnit" component={AddUnit}/>
                         <Route path="/updateUnit" component={UpdateUnit}/>
                         <Route path="/viewUnit" component={ViewUnit}/>
+                        <Route path="/viewUnit/:id" component={ViewUnit}/>
                         <Route path="/viewAllUnits" component={ViewAllUnits}/>
                         <Route path="/addEventType" component={AddEventType}/>
                     </Switch>

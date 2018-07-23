@@ -30,6 +30,8 @@ public class EventUnit implements HLEntity {
 
     private Date operationDateTime;
 
+    private Date endDateTime;
+
     private int startDepthInMeters;
 
     private int endDepthInMeters;
@@ -41,6 +43,4 @@ public class EventUnit implements HLEntity {
     private int perespuskInMeters;
 
     private String place;
-
-
 }

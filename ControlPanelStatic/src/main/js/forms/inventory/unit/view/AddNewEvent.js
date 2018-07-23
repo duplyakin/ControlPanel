@@ -17,6 +17,7 @@ class AddNewEvent extends React.Component {
             event: {
                 type: {},
                 operationDateTime: new Date(),
+                endDateTime: new Date(),
                 startDepthInMeters: "",
                 endDepthInMeters: "",
                 startMaxWeightKilos: "",
@@ -56,10 +57,9 @@ class AddNewEvent extends React.Component {
     render() {
         const {eventTypes, event} = this.state;
         return <React.Fragment>
-            <div style={{marginTop:"20px"}}><b>Новое событие</b></div>
             <UniformGrid>
                 <EventInput event={event} eventTypes={eventTypes} onChange={this.updateEvent}/>
-                <Button onClick={this.addUnit}>Добавить событие</Button>
+                <Button onClick={this.addUnit}>Добавить операцию</Button>
             </UniformGrid>
         </React.Fragment>
     }
