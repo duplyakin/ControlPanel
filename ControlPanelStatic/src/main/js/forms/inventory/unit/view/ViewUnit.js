@@ -49,14 +49,17 @@ class ViewUnit extends React.Component {
                 <TextInput label="Id оборудования" value={id} onChange={this.handleChange}/>
                 <Button onClick={this.getUnit}>Найти</Button>
                 {!_.isEmpty(equipmentUnit) && <React.Fragment>
-                    <div>Единица оборудования:</div>
-                    <TextInput label="Id оборудования" value={_.get(equipmentUnit,"id")}/>
-                    <TextInput label="Имя оборудования" value={_.get(equipmentUnit,"type.name")}/>
+                    <div style={{marginTop: "20px", marginBottom: "20px"}}><b>Единица оборудования:</b></div>
+                    <TextInput label="Id оборудования" value={_.get(equipmentUnit, "id")}/>
+                    <TextInput label="Имя оборудования" value={_.get(equipmentUnit, "type.name")}/>
                     {
                         _.isNil(equipmentUnit.id)
                             ? null
                             : <Button
-                                onClick={() => executeRequest({dispatch, endpoint: `equipmentUnits/blockchainGet/${equipmentUnit.hlId}`,})}>Валидировать
+                                onClick={() => executeRequest({
+                                    dispatch,
+                                    endpoint: `equipmentUnits/blockchainGet/${equipmentUnit.hlId}`,
+                                })}>Валидировать
                                 в блокчейне</Button>
                     }
                     {_.get(equipmentUnit, "type.parameters", [])
@@ -65,7 +68,7 @@ class ViewUnit extends React.Component {
                                                  type={e.type}
                                                  key={`${e.name}_${e.value}`}/>
                         )}
-                    <div>События</div>
+                    <div style={{marginTop: "20px"}}><b>События</b></div>
                     {
                         _.get(equipmentUnit, "events", [])
                             .map(e => <React.Fragment key={e.id}><EventInput event={e}/>
@@ -73,7 +76,10 @@ class ViewUnit extends React.Component {
                                     _.isNil(e.id)
                                         ? null
                                         : <Button
-                                            onClick={() => executeRequest({dispatch, endpoint: `events/blockchainGet/${e.hlId}`,})}>Валидировать
+                                            onClick={() => executeRequest({
+                                                dispatch,
+                                                endpoint: `events/blockchainGet/${e.hlId}`,
+                                            })}>Валидировать
                                             в блокчейне</Button>
                                 }</React.Fragment>)
                     }

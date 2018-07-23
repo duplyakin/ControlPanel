@@ -56,7 +56,7 @@ class AddNewEvent extends React.Component {
     render() {
         const {eventTypes, event} = this.state;
         return <React.Fragment>
-            <div>Добавить событие</div>
+            <div style={{marginTop:"20px"}}><b>Новое событие</b></div>
             <UniformGrid>
                 <EventInput event={event} eventTypes={eventTypes} onChange={this.updateEvent}/>
                 <Button onClick={this.addUnit}>Добавить событие</Button>

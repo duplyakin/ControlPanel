@@ -64,7 +64,7 @@ class InventoryUnitInput extends React.Component {
                              onChange={this.handleChange("selected")}
                              label={"Тип оборудования"}/>
             }
-            <ParametersBlock parameters={params} onChange={(e) => !readonly && this.setState({values: e})}/>
+            <ParametersBlock values={_.get(inventory, "values", [])} parameters={params} onChange={(e) => !readonly && this.setState({values: e})}/>
             {!readonly && <Button onClick={this.wrappedOnSubmit}>{buttonLabel}</Button>}
         </UniformGrid>
     }

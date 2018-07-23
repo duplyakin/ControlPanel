@@ -4,10 +4,22 @@ import {TextInput} from "../../../components/basic/inputs/TextInput";
 
 export class ParametersBlock extends React.Component {
 
+    constructValues(values) {
+        const result = {};
+        if (_.isEmpty(values)) {
+            return result;
+        }
+        values.forEach(v => {
+            result[_.get(v, "parameter.name", "")] = v.value
+        });
+        return result;
+    }
+
     constructor(props) {
         super(props);
+        const {values} = props;
         this.state = {
-            values: {}
+            values: this.constructValues(values)
         }
     }
 
@@ -30,7 +42,7 @@ export class ParametersBlock extends React.Component {
         const {parameters, onChange} = this.props;
         const {values} = this.state;
         return <UniformGrid>
-            <div>Параметры оборудования</div>
+            <div><b>Параметры:</b></div>
             {parameters.map((e, index) =>
                 <TextInput key={index}
                            label={e.name}

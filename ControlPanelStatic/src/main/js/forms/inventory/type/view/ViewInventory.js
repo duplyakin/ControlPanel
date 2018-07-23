@@ -39,7 +39,7 @@ class ViewInventory extends React.Component {
                 <TextInput label="Название оборудования" value={name} onChange={this.handleChange}/>
                 <Button onClick={this.getInventory}>Найти</Button>
                 {!_.isEmpty(equipmentUnit) && <React.Fragment>
-                    <div>Параметры:</div>
+                    <div><b>Параметры:</b></div>
                     <TextInput label="Название оборудования" value={equipmentUnit.name}/>
                     {!_.isEmpty(equipmentUnit.parameters) && equipmentUnit.parameters.map(e =>
                         <ParameterView name={e.name}
