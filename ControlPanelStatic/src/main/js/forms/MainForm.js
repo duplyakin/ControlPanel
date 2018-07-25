@@ -71,36 +71,15 @@ export const MainForm = () =>
                             <NavDropdown eventKey={3} title="Оборудование" id="inventory-nav-dropdown">
                                 <MenuItem eventKey={3.1}>
                                     <UserValidator>
-                                        <Link to="/addInventory">Добавить тип оборудования</Link>
+                                        <Link to="/viewAllUnits">Реестр оборудования</Link>
                                     </UserValidator>
                                 </MenuItem>
                                 <MenuItem eventKey={3.2}>
                                     <UserValidator>
-                                        <Link to="/viewInventory">Посмотреть тип оборудование</Link>
-                                    </UserValidator>
-                                </MenuItem>
-                                <MenuItem eventKey={3.3}>
-                                    <UserValidator>
-                                        <Link to="/addUnit">Добавить единицу оборудования</Link>
-                                    </UserValidator>
-                                </MenuItem>
-                                <MenuItem eventKey={3.4}>
-                                    <UserValidator>
-                                        <Link to="/viewUnit">Посмотреть единицу оборудования</Link>
-                                    </UserValidator>
-                                </MenuItem>
-                                <MenuItem eventKey={3.5}>
-                                    <UserValidator>
-                                        <Link to="/updateUnit">Изменить единицу оборудования</Link>
-                                    </UserValidator>
-                                </MenuItem>
-                                <MenuItem eventKey={3.5}>
-                                    <UserValidator>
-                                        <Link to="/viewAllUnits">Посмотреть всё оборудование</Link>
+                                        <Link to="/addInventory">Добавить тип оборудования</Link>
                                     </UserValidator>
                                 </MenuItem>
                             </NavDropdown>
-
                             <NavDropdown eventKey={4} title="События" id="events-nav-dropdown">
                                 <MenuItem eventKey={4.1}>
                                     <UserValidator>
@@ -124,8 +103,8 @@ export const MainForm = () =>
                         <Route path="/addInventory" component={AddInventory}/>
                         <Route path="/viewInventory" component={ViewInventory}/>
                         <Route path="/addUnit" component={AddUnit}/>
-                        <Route path="/updateUnit" component={UpdateUnit}/>
-                        <Route path="/viewUnit" component={ViewUnit}/>
+                        <Route path="/updateUnit/:id1" component={UpdateUnit}/>
+                        <Route path="/viewUnit/:id1" component={ViewUnit}/>
                         <Route path="/viewAllUnits" component={ViewAllUnits}/>
                         <Route path="/addEventType" component={AddEventType}/>
                     </Switch>

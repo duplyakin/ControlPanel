@@ -17,11 +17,13 @@ class AddNewEvent extends React.Component {
             event: {
                 type: {},
                 operationDateTime: new Date(),
+                endDateTime: new Date(),
                 startDepthInMeters: "",
                 endDepthInMeters: "",
                 startMaxWeightKilos: "",
                 endMaxWeightKilos: "",
                 perespuskInMeters: "",
+                workout: "",
                 place: "",
             }
 
@@ -39,8 +41,19 @@ class AddNewEvent extends React.Component {
     }
 
     addUnit = () => {
-        const {dispatch, id} = this.props;
-        const {event} = this.state;
+        const {dispatch, id} = this.props
+        var {event} = this.state;
+       /* var distance = Math.abs(event.endDepthInMeters - event.startDepthInMeters)/1000;
+        var weight = event].endMaxWeightKilos;
+        var mul = event.type.operatingRatio;
+
+        if(event.type.name == "Переспуск-перетяжка"){
+            event.workout = 0;
+        }else
+        {
+            event.workout = (distance + CL)*weight+4*distance*BW
+        }*/
+
         executeRequest({
             dispatch,
             method: "PUT",
@@ -56,10 +69,9 @@ class AddNewEvent extends React.Component {
     render() {
         const {eventTypes, event} = this.state;
         return <React.Fragment>
-            <div style={{marginTop:"20px"}}><b>Новое событие</b></div>
             <UniformGrid>
                 <EventInput event={event} eventTypes={eventTypes} onChange={this.updateEvent}/>
-                <Button onClick={this.addUnit}>Добавить событие</Button>
+                <Button onClick={this.addUnit}>Добавить операцию</Button>
             </UniformGrid>
         </React.Fragment>
     }

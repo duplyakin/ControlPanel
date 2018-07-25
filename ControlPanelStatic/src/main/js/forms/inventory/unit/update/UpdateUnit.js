@@ -6,18 +6,20 @@ import InventoryUnitInput from "./../InventoryUnitInput";
 import {UniformGrid} from "../../../../components/basic/formatters/UniformGrid";
 import Button from "@material-ui/core/es/Button/Button";
 import {TextInput} from "../../../../components/basic/inputs/TextInput";
+import {withRouter} from 'react-router';
 
 class UpdateUnit extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            id: "",
+            id: this.props.match.params.id1,
             equipmentUnit: {},
         }
     }
 
-    getUnit = () => {
+    //getUnit = () => {
+    componentDidMount(){
         const {id} = this.state;
         const {dispatch} = this.props;
         executeRequest({
@@ -62,8 +64,8 @@ class UpdateUnit extends React.Component {
     render() {
         const {equipmentUnit, id} = this.state;
         return <UniformGrid>
-            <TextInput label="Id оборудования" value={id} onChange={this.handleChange}/>
-            <Button onClick={this.getUnit}>Найти</Button>
+            <h3>Редактирование оборудования</h3>
+            <TextInput label="Id оборудования" value={id}/>
             {!_.isEmpty(equipmentUnit) && <InventoryUnitInput readonly={false}
                                                               onSubmit={this.updateUnit}
                                                               buttonLabel={"Обновить оборудование"}
