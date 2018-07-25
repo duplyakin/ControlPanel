@@ -56,15 +56,18 @@ public class EquipmentTypeController extends AbstractRestController {
         Parameter p4 = new Parameter();
         Parameter p5 = new Parameter();
         Parameter p6 = new Parameter();
+        Parameter p7 = new Parameter();
 
         EquipmentType et = new EquipmentType();
 
         p1.setName("Вес талевого блока, т");
         p2.setName("Длина свечи, м");
         p3.setName("Предыдущая наработка, т*км");
-        p4.setName("№ бухты/сертификата");
-        p5.setName("D каната, мм");
-        p6.setName("Каната в бухте, м");
+        p4.setName("Допустимая наработка, т*км");
+        p5.setName("№ бухты/сертификата");
+        p6.setName("D каната, мм");
+        p7.setName("Каната в бухте, м");
+
 
         Set<Parameter> parSet = new HashSet<Parameter>();
         parSet.add(p1);
@@ -73,6 +76,7 @@ public class EquipmentTypeController extends AbstractRestController {
         parSet.add(p4);
         parSet.add(p5);
         parSet.add(p6);
+        parSet.add(p7);
 
 
         et.setParameters(parSet);

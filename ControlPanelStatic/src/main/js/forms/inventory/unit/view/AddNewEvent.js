@@ -23,6 +23,7 @@ class AddNewEvent extends React.Component {
                 startMaxWeightKilos: "",
                 endMaxWeightKilos: "",
                 perespuskInMeters: "",
+                workout: "",
                 place: "",
             }
 
@@ -40,8 +41,19 @@ class AddNewEvent extends React.Component {
     }
 
     addUnit = () => {
-        const {dispatch, id} = this.props;
-        const {event} = this.state;
+        const {dispatch, id} = this.props
+        var {event} = this.state;
+       /* var distance = Math.abs(event.endDepthInMeters - event.startDepthInMeters)/1000;
+        var weight = event].endMaxWeightKilos;
+        var mul = event.type.operatingRatio;
+
+        if(event.type.name == "Переспуск-перетяжка"){
+            event.workout = 0;
+        }else
+        {
+            event.workout = (distance + CL)*weight+4*distance*BW
+        }*/
+
         executeRequest({
             dispatch,
             method: "PUT",

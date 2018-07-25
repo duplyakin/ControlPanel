@@ -10,6 +10,7 @@ export class EventInput extends React.Component {
     transformEvent = (field) => (e) => {
         const {event, onChange} = this.props;
         event[field] = e.target.value;
+
         onChange(event)
     };
 
@@ -33,6 +34,7 @@ export class EventInput extends React.Component {
             endDepthInMeters,
             startMaxWeightKilos,
             endMaxWeightKilos,
+            workout,
             perespuskInMeters,
             place
         } = event;
@@ -87,6 +89,7 @@ EventInput.propTypes = {
         startMaxWeightKilos: PropTypes.string,
         endMaxWeightKilos: PropTypes.string,
         perespuskInMeters: PropTypes.string,
+        workout: PropTypes.string,
         place: PropTypes.string,
     }),
     eventTypes: PropTypes.array,

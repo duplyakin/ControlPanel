@@ -42,5 +42,7 @@ public class EventUnit implements HLEntity {
 
     private int perespuskInMeters;
 
+    private long workout;
+
     private String place;
 }
